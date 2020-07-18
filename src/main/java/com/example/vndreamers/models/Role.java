@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -21,7 +22,7 @@ public class Role {
 
     @Basic
     @Column(name = "created_date", nullable = false)
-    private Timestamp createdDate;
+    private Timestamp createdDate = Timestamp.valueOf(LocalDateTime.now());
 
     @ManyToMany
     @JoinTable(

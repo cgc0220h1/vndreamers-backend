@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
@@ -37,11 +38,11 @@ public class User {
 
     @Basic
     @Column(name = "created_date", nullable = false)
-    private Timestamp createdDate;
+    private Timestamp createdDate = Timestamp.valueOf(LocalDateTime.now());
 
     @Basic
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
 
     @Basic
     @Column(name = "status", nullable = false)

@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -28,11 +29,11 @@ public class Post {
 
     @Basic
     @Column(name = "create_date", nullable = false)
-    private Timestamp createDate;
+    private Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
 
     @Basic
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
 
     @Basic
     @Column(name = "status", nullable = false)
