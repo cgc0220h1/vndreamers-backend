@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "like_post", schema = "vndreamers")
 @Data
-public class LikePost {
+public class PostReaction {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

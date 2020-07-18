@@ -43,9 +43,9 @@ public class Post {
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "post")
-    private Set<LikePost> likes;
+    private Set<PostReaction> likes;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private User userByUserId;
+    private User user;
 }

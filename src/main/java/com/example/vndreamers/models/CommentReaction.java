@@ -6,9 +6,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "like_comment", schema = "vndreamers")
+@Table(name = "comment_reaction", schema = "vndreamers")
 @Data
-public class LikeComment {
+public class CommentReaction {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

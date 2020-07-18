@@ -56,13 +56,19 @@ public class User {
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user")
-    private Set<Post> postsLiked;
+    private Set<Post> posts;
 
     @OneToMany(mappedBy = "user")
-    private Set<Post> postsSubmitted;
+    private Set<PostReaction> postLikes;
 
     @OneToMany(mappedBy = "user")
-    private Set<User> friends;
+    private Set<CommentReaction> commentLikes;
+
+    @OneToMany(mappedBy = "userSend")
+    private Set<FriendRequest> requestsThisUserSent;
+
+    @OneToMany(mappedBy = "userReceive")
+    private Set<FriendRequest> requestsThisUserReceived;
 
     @ManyToMany
     @JoinTable(
