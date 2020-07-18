@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "like_post", schema = "vndreamers")
+@Table(name = "post_reaction", schema = "vndreamers")
 @Data
 public class PostReaction {
     @Id
