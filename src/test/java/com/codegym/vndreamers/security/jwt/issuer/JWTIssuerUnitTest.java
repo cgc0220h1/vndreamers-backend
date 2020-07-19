@@ -8,10 +8,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -26,11 +27,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 public class JWTIssuerUnitTest {
     private static final String API_AUTH_LOGIN = "/auth/login";
-    private static final String DUMMY_USERNAME = "dummy_username";
-    private static final String DUMMY_PASSWORD = "dummy_password";
-    private static final String DUMMY_TOKEN = "dummy_token";
+    private static final String VALID_USERNAME = "dummy_username";
+    private static final String VALID_PASSWORD = "dummy_password";
+    private static final String VALID_TOKEN = "dummy_token";
+    public static final String FAIL_PASSWORD = "some_fail_password";
+    public static final String FAIL_USERNAME = "some_fail_username";
     private static JSONObject payload;
-    private static JWTResponse jwtLoginResponse;
+    private static JWTResponse jwtResponse;
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,49 +44,95 @@ public class JWTIssuerUnitTest {
     @BeforeAll
     static void mockData() {
         payload = new JSONObject();
-        jwtLoginResponse = new JWTResponse();
+        jwtResponse = new JWTResponse();
         User user = new User();
-        user.setUsername(DUMMY_USERNAME);
-        user.setPassword(DUMMY_PASSWORD);
-        jwtLoginResponse.setUser(user);
-        jwtLoginResponse.setAccess_token(DUMMY_TOKEN);
-    }
-
-    @Test
-    @DisplayName("Đăng nhập với body trống")
-    void giveEmptyBody_whenLoginPostRequest_thenBadRequest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN))
-                .andExpect(status().isBadRequest());
+        user.setUsername(VALID_USERNAME);
+        user.setPassword(VALID_PASSWORD);
+        jwtResponse.setUser(user);
+        jwtResponse.setAccess_token(VALID_TOKEN);
     }
 
     @Test
     @DisplayName("Đăng nhập với trường hợp valid credential")
-    void givenNoTokenAndValidCredential_whenLoginPostRequest_thenOkAndReturnUserWithToken() throws Exception {
-        when(authService.authenticate(any())).thenReturn(jwtLoginResponse);
+    void givenValidCredential_whenLoginPostRequest_thenOkAndReturnJWTResponse() throws Exception {
+        when(authService.authenticate(any())).thenReturn(jwtResponse);
 
-        payload.put("username", DUMMY_USERNAME);
-        payload.put("password", DUMMY_PASSWORD);
+        payload.put("username", VALID_USERNAME);
+        payload.put("password", VALID_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(payload.toString())
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.access_token", is(notNullValue())))
-                .andExpect(jsonPath("$.user.username", is(DUMMY_USERNAME)))
+                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
                 .andExpect(jsonPath("$.user.password", is(null)));
     }
 
     @Test
-    @DisplayName("Đăng nhập với trường hợp invalid credential")
-    void givenNoTokenAndInvalidCredential_whenLoginPostRequest_thenUnauthorized() throws Exception {
-        when(authService.authenticate(any())).thenThrow(UsernameNotFoundException.class);
+    @DisplayName("Đăng nhập với body trống")
+    void givenEmptyBody_whenLoginPostRequest_thenBadRequest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN))
+                .andExpect(status().isBadRequest());
+    }
 
-        payload.put("username", DUMMY_USERNAME);
-        payload.put("password", DUMMY_PASSWORD);
+    @Test
+    @DisplayName("Đăng nhập với trường hợp để trống credential")
+    void givenEmptyCredential_whenLoginPostRequest_thenBadRequest() throws Exception {
+        payload.put("username", "");
+        payload.put("password", "");
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Đăng nhập với trường hợp để trống username")
+    void givenEmptyUsername_whenLoginPostRequest_thenBadRequest() throws Exception {
+        payload.put("username", "");
+        payload.put("password", VALID_PASSWORD);
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Đăng nhập với trường hợp để trống password")
+    void givenEmptyPassword_whenLoginPostRequest_thenBadRequest() throws Exception {
+        payload.put("username", VALID_USERNAME);
+        payload.put("password", "");
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Đăng nhập với trường hợp sai password")
+    void givenWrongPassword_whenLoginPostRequest_thenUnauthorized() throws Exception {
+        payload.put("username", VALID_USERNAME);
+        payload.put("password", FAIL_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(payload.toString())
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("Đăng nhập với trường hợp sai username")
+    void givenWrongUsername_whenLoginPostRequest_thenNotFound() throws Exception {
+        payload.put("username", FAIL_USERNAME);
+        payload.put("password", FAIL_PASSWORD);
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound());
     }
 }
