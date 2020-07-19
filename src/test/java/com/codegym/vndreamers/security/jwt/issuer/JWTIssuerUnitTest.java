@@ -24,7 +24,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.postgresql.util.PSQLState.INVALID_PASSWORD;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -190,7 +189,7 @@ public class JWTIssuerUnitTest {
     void givenInvalidEmail_whenRegisterPostRequest_thenBadRequest() throws Exception {
         when(authService.register(any())).thenThrow(ValidationException.class);
         payload.put("username", FAIL_USERNAME);
-        payload.put("password", INVALID_PASSWORD);
+        payload.put("password", FAIL_PASSWORD);
         payload.put("email", FAIL_EMAIL);
         payload.put("birthDate", FAIL_BIRTH_DATE);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
