@@ -30,6 +30,7 @@ public class JWTIssuerUnitTest {
     private static final String VALID_TOKEN = "dummy_token";
     public static final String FAIL_PASSWORD = "some_fail_password";
     public static final String FAIL_USERNAME = "some_fail_username";
+    private static final String VALID_EMAIL = "dummy@example.com";
     private static JSONObject payload;
     private static JWTResponse jwtResponse;
 
@@ -63,8 +64,11 @@ public class JWTIssuerUnitTest {
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.access_token", is(notNullValue())))
+                .andExpect(jsonPath("$.access_token", is(VALID_TOKEN)))
                 .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
-                .andExpect(jsonPath("$.user.password", is(null)));
+                .andExpect(jsonPath("$.user.password").doesNotExist())
+                .andExpect(jsonPath("$.user.email", is(VALID_EMAIL)))
+                .andExpect(jsonPath("$.user.birthDay").exists());
     }
 
     @Test
