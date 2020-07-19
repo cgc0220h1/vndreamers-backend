@@ -5,4 +5,6 @@ import com.codegym.vndreamers.models.User;
 
 public interface AuthService {
     JWTResponse authenticate(User user);
+
+    JWTResponse register(User user);
 }

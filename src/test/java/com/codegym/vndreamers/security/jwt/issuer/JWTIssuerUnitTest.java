@@ -5,19 +5,26 @@ import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import javax.validation.ValidationException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.postgresql.util.PSQLState.INVALID_PASSWORD;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,13 +32,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 public class JWTIssuerUnitTest {
     private static final String API_AUTH_LOGIN = "/auth/login";
+    private static final String API_AUTH_REGISTER = "/auth/register";
     private static final String VALID_USERNAME = "dummy_username";
     private static final String VALID_PASSWORD = "dummy_password";
     private static final String VALID_TOKEN = "dummy_token";
+    private static final String VALID_EMAIL = "dummy@example.com";
+    private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
     public static final String FAIL_PASSWORD = "some_fail_password";
     public static final String FAIL_USERNAME = "some_fail_username";
-    private static final String VALID_EMAIL = "dummy@example.com";
-    private static JSONObject payload;
+    private static final String FAIL_EMAIL = "some_fail_email";
+    private static final String FAIL_BIRTH_DATE = "some_fail_date";
+
+    private JSONObject payload;
     private static JWTResponse jwtResponse;
 
     @Autowired
@@ -42,13 +54,19 @@ public class JWTIssuerUnitTest {
 
     @BeforeAll
     static void mockData() {
-        payload = new JSONObject();
         jwtResponse = new JWTResponse();
         User user = new User();
         user.setUsername(VALID_USERNAME);
         user.setPassword(VALID_PASSWORD);
+        user.setEmail(VALID_EMAIL);
+        user.setBirthDate(VALID_BIRTH_DATE);
         jwtResponse.setUser(user);
         jwtResponse.setAccess_token(VALID_TOKEN);
+    }
+
+    @BeforeEach
+    void emptyPayload() {
+        payload = new JSONObject();
     }
 
     @Test
@@ -136,5 +154,83 @@ public class JWTIssuerUnitTest {
                 .content(payload.toString())
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Đăng ký với thông tin hợp lệ")
+    void givenValidBody_whenRegisterPostRequest_thenReturnOKAndJWTResponse() throws Exception {
+        when(authService.register(any())).thenReturn(jwtResponse);
+
+        payload.put("username", VALID_USERNAME);
+        payload.put("password", VALID_PASSWORD);
+        payload.put("email", VALID_EMAIL);
+        payload.put("birthDate", VALID_BIRTH_DATE);
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isCreated()).andDo(print())
+                .andExpect(jsonPath("$.access_token", is(notNullValue())))
+                .andExpect(jsonPath("$.access_token", is(VALID_TOKEN)))
+                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
+                .andExpect(jsonPath("$.user.password").doesNotExist())
+                .andExpect(jsonPath("$.user.email", is(VALID_EMAIL)))
+                .andExpect(jsonPath("$.user.birthDay").exists());
+    }
+
+    @Test
+    @DisplayName("Đăng ký với body trống")
+    void givenEmptyBody_whenRegisterPostRequest_thenBadRequest() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("Đăng ký với thông tin không hợp lệ")
+    void givenInvalidEmail_whenRegisterPostRequest_thenBadRequest() throws Exception {
+        when(authService.register(any())).thenThrow(ValidationException.class);
+        payload.put("username", FAIL_USERNAME);
+        payload.put("password", INVALID_PASSWORD);
+        payload.put("email", FAIL_EMAIL);
+        payload.put("birthDate", FAIL_BIRTH_DATE);
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    @DisplayName("Đăng ký với tài khoản trùng email")
+    void givenDuplicateEmail_whenRegisterPostRequest_thenConflict() throws Exception {
+        when(authService.register(any())).thenThrow(DataIntegrityViolationException.class);
+
+        payload.put("username", VALID_USERNAME);
+        payload.put("password", VALID_PASSWORD);
+        payload.put("email", FAIL_EMAIL);
+        payload.put("birthDate", VALID_BIRTH_DATE);
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isConflict());
+    }
+
+
+    @Test
+    @DisplayName("Đăng ký với tài khoản trùng username")
+    void givenDuplicateUsername_whenRegisterPostRequest_thenConflict() throws Exception {
+        when(authService.register(any())).thenThrow(DataIntegrityViolationException.class);
+
+        payload.put("username", FAIL_USERNAME);
+        payload.put("password", VALID_PASSWORD);
+        payload.put("email", VALID_EMAIL);
+        payload.put("birthDate", VALID_BIRTH_DATE);
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isConflict());
     }
 }
