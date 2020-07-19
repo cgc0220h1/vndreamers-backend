@@ -1,4 +1,4 @@
-package com.example.vndreamers.models;
+package com.codegym.vndreamers.models;
 
 import lombok.Data;
 

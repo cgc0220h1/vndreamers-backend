@@ -1,4 +1,4 @@
-package com.example.vndreamers;
+package com.codegym.vndreamers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
