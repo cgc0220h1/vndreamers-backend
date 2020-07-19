@@ -33,10 +33,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class JWTIssuerUnitTest {
     private static final String API_AUTH_LOGIN = "/auth/login";
     private static final String API_AUTH_REGISTER = "/auth/register";
-    private static final String VALID_USERNAME = "dummy_username";
-    private static final String VALID_PASSWORD = "dummy_password";
-    private static final String VALID_TOKEN = "dummy_token";
-    private static final String VALID_EMAIL = "dummy@example.com";
+    private static final String VALID_USERNAME = "some_valid_username";
+    private static final String VALID_PASSWORD = "some_valid_password";
+    private static final String VALID_TOKEN = "some_valid_token";
+    private static final String VALID_EMAIL = "some_valid_email@example.com";
     private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
     public static final String FAIL_PASSWORD = "some_fail_password";
     public static final String FAIL_USERNAME = "some_fail_username";
