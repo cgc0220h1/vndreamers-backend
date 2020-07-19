@@ -30,7 +30,7 @@ public class JWTIssuerUnitTest {
     private static final String DUMMY_PASSWORD = "dummy_password";
     private static final String DUMMY_TOKEN = "dummy_token";
     private static JSONObject payload;
-    private static JWTResponse jwtResponse;
+    private static JWTResponse jwtLoginResponse;
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,14 +41,12 @@ public class JWTIssuerUnitTest {
     @BeforeAll
     static void mockData() {
         payload = new JSONObject();
-        User userLogin = new User();
-        jwtResponse = new JWTResponse();
-        payload.put("username", DUMMY_USERNAME);
-        payload.put("password", DUMMY_PASSWORD);
-        userLogin.setUsername(payload.get("username").toString());
-        userLogin.setPassword(payload.get("password").toString());
-        jwtResponse.setUser(userLogin);
-        jwtResponse.setAccess_token(DUMMY_TOKEN);
+        jwtLoginResponse = new JWTResponse();
+        User user = new User();
+        user.setUsername(DUMMY_USERNAME);
+        user.setPassword(DUMMY_PASSWORD);
+        jwtLoginResponse.setUser(user);
+        jwtLoginResponse.setAccess_token(DUMMY_TOKEN);
     }
 
     @Test
@@ -61,8 +59,10 @@ public class JWTIssuerUnitTest {
     @Test
     @DisplayName("Đăng nhập với trường hợp valid credential")
     void givenNoTokenAndValidCredential_whenLoginPostRequest_thenOkAndReturnUserWithToken() throws Exception {
-        when(authService.authenticate(any())).thenReturn(jwtResponse);
+        when(authService.authenticate(any())).thenReturn(jwtLoginResponse);
 
+        payload.put("username", DUMMY_USERNAME);
+        payload.put("password", DUMMY_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(payload.toString())
@@ -78,6 +78,8 @@ public class JWTIssuerUnitTest {
     void givenNoTokenAndInvalidCredential_whenLoginPostRequest_thenUnauthorized() throws Exception {
         when(authService.authenticate(any())).thenThrow(UsernameNotFoundException.class);
 
+        payload.put("username", DUMMY_USERNAME);
+        payload.put("password", DUMMY_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(payload.toString())
