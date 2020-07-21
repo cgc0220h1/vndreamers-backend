@@ -60,10 +60,15 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Transient
+    @Size(max = 50, min = 8)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY, value = "confirm_password")
+    private String confirmPassword;
+
     @Basic
     @Column(name = "birth_date", nullable = false)
     @JsonProperty(value = "birth_date")
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Timestamp birthDate;
 
     @Basic

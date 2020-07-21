@@ -211,6 +211,24 @@ public class JWTIssuerUnitTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    @DisplayName("Đăng ký với mật khẩu không trùng nhau")
+    void givenPasswordNotMatch_whenRegisterPostRequest_thenBadRequest() throws Exception {
+        payload.put("email", VALID_EMAIL);
+        payload.put("password", VALID_PASSWORD);
+        payload.put("confirm_password", FAIL_PASSWORD);
+        payload.put("phone", VALID_PHONE);
+        payload.put("birth_date", VALID_BIRTH_DATE);
+        payload.put("status", STATUS_ACTIVE);
+        payload.put("avatar", VALID_AVATAR);
+
+        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(payload.toString())
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest());
+    }
+
 
     @Test
     @DisplayName("Đăng ký với tài khoản trùng email")

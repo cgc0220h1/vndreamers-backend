@@ -27,7 +27,10 @@ public class AuthAPI {
     }
 
     @PostMapping(value = "/register")
-    public JWTResponse registerUser(@RequestBody @Valid User user) {
+    public JWTResponse registerUser(@RequestBody @Valid User user) throws ValidationException {
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            throw new ValidationException("password not match");
+        }
         return authService.register(user);
     }
 
