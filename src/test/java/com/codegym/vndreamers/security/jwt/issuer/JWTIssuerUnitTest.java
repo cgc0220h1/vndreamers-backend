@@ -144,14 +144,14 @@ public class JWTIssuerUnitTest {
 
     @Test
     @DisplayName("Đăng nhập với trường hợp sai username")
-    void givenWrongUsername_whenLoginPostRequest_thenNotFound() throws Exception {
+    void givenWrongUsername_whenLoginPostRequest_thenUnauthorized() throws Exception {
         payload.put("username", FAIL_USERNAME);
         payload.put("password", FAIL_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(payload.toString())
                 .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
