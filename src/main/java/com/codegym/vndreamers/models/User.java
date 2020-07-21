@@ -2,7 +2,11 @@ package com.codegym.vndreamers.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -16,7 +20,7 @@ import java.util.Set;
 @Entity
 @Table(name = "user", schema = "vndreamers")
 @Data
-public class User {
+public class User implements UserDetails {
     @Id
     @Column(name = "id", nullable = false)
     private int id;
@@ -49,6 +53,7 @@ public class User {
     @Basic
     @Column(name = "username", nullable = false, length = 50)
     @Size(min = 6, max = 50)
+    @Getter(AccessLevel.NONE)
     private String username;
 
     @Basic
@@ -120,4 +125,36 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Collection<Role> roles;
+
+    public String getUsername() {
+        if (username == null) {
+            return email;
+        }
+        return username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
