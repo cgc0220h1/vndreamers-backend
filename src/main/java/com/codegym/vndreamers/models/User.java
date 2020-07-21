@@ -17,6 +17,22 @@ public class User {
     private int id;
 
     @Basic
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Basic
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Basic
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Basic
+    @Column(name = "address")
+    private String address;
+
+    @Basic
     @Column(name = "username", nullable = false, length = 50)
     private String username;
 
