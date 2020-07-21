@@ -3,6 +3,9 @@ package com.codegym.vndreamers.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,31 +20,39 @@ public class User {
     private int id;
 
     @Basic
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false, length = 50)
+    @Pattern(regexp = "\\w+")
+    @Size(max = 50, min = 3)
     private String firstName;
 
     @Basic
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = false, length = 50)
+    @Pattern(regexp = "\\w+")
+    @Size(max = 50, min = 3)
     private String lastName;
 
     @Basic
     @Column(name = "phone_number")
+    @Size(min = 10, max = 11)
+    @Pattern(regexp = "((0|\\+[1-9]{1,3})+([0-9]{9,10})\b)")
     private String phoneNumber;
 
     @Basic
     @Column(name = "address")
     private String address;
 
-    @Basic
-    @Column(name = "username", nullable = false, length = 50)
-    private String username;
+//    @Basic
+//    @Column(name = "username", nullable = false, length = 50)
+//    private String username;
 
     @Basic
     @Column(name = "email", nullable = false, length = 100)
+    @Email
     private String email;
 
     @Basic
     @Column(name = "password", nullable = false, length = 50)
+    @Size(max = 50, min = 8)
     private String password;
 
     @Basic
