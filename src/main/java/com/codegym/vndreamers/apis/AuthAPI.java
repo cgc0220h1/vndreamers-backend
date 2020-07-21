@@ -4,6 +4,7 @@ import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,11 @@ public class AuthAPI {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleValidationException() {
         return "{\"error\":\"Invalid Request Body\"}";
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleConflictException() {
+        return "{\"error\":\"Email Existed!\"}";
     }
 }
