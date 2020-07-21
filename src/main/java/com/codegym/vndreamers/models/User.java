@@ -25,12 +25,14 @@ public class User {
     @Column(name = "first_name", nullable = false, length = 50)
     @Pattern(regexp = "\\w+")
     @Size(max = 50, min = 3)
+    @JsonProperty(value = "first_name")
     private String firstName;
 
     @Basic
     @Column(name = "last_name", nullable = false, length = 50)
     @Pattern(regexp = "\\w+")
     @Size(max = 50, min = 3)
+    @JsonProperty(value = "last_name")
     private String lastName;
 
     @Basic
@@ -80,8 +82,9 @@ public class User {
     private Timestamp createdDate = Timestamp.valueOf(LocalDateTime.now());
 
     @Basic
-    @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
+    @Column(name = "modified_date", nullable = false)
+    @JsonProperty(value = "modified_date")
+    private Timestamp modifiedDate = Timestamp.valueOf(LocalDateTime.now());
 
     @Basic
     @Column(name = "status", nullable = false)
