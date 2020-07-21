@@ -36,7 +36,7 @@ public class JWTVerifierUnitTest {
         user.setEmail(VALID_EMAIL);
         user.setBirthDate(VALID_BIRTH_DATE);
         jwtResponse.setUser(user);
-        jwtResponse.setAccess_token(VALID_TOKEN);
+        jwtResponse.setAccessToken(VALID_TOKEN);
     }
 
     @Test

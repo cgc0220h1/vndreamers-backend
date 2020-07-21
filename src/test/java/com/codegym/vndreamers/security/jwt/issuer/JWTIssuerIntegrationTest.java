@@ -47,7 +47,7 @@ public class JWTIssuerIntegrationTest {
     @DisplayName("Đăng ký trả về access_token")
     void shouldReturnAccessToken() {
         JWTResponse jwtResponse = authService.register(userMock);
-        assertNotNull(jwtResponse.getAccess_token());
+        assertNotNull(jwtResponse.getAccessToken());
     }
 
 

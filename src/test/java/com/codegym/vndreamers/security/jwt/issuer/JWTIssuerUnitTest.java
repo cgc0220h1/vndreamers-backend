@@ -65,7 +65,7 @@ public class JWTIssuerUnitTest {
         user.setStatus(STATUS_ACTIVE);
         user.setImage(VALID_AVATAR);
         jwtResponse.setUser(user);
-        jwtResponse.setAccess_token(VALID_TOKEN);
+        jwtResponse.setAccessToken(VALID_TOKEN);
     }
 
     @BeforeEach
