@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import javax.validation.ValidationException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -201,7 +200,6 @@ public class JWTIssuerUnitTest {
     @Test
     @DisplayName("Đăng ký với thông tin không hợp lệ")
     void givenInvalidEmail_whenRegisterPostRequest_thenBadRequest() throws Exception {
-        when(authService.register(any())).thenThrow(ValidationException.class);
         payload.put("username", FAIL_USERNAME);
         payload.put("password", FAIL_PASSWORD);
         payload.put("email", FAIL_EMAIL);

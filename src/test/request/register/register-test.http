@@ -16,3 +16,6 @@ Content-Type: application/json
         client.assert(response.status === 200, "Status code trả về 200");
     });
 %}
+
+###
+POST http://localhost:8080/auth/register
