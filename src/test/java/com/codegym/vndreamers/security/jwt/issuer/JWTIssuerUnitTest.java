@@ -55,7 +55,6 @@ public class JWTIssuerUnitTest {
     static void mockData() {
         jwtResponse = new JWTResponse();
         User user = new User();
-        user.setUsername(VALID_USERNAME);
         user.setPassword(VALID_PASSWORD);
         user.setEmail(VALID_EMAIL);
         user.setBirthDate(VALID_BIRTH_DATE);
