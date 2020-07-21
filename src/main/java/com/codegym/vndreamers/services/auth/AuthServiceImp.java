@@ -13,6 +13,8 @@ public class AuthServiceImp implements AuthService {
 
     @Override
     public JWTResponse register(User user) {
-        return null;
+        JWTResponse jwtResponse = new JWTResponse();
+        jwtResponse.setAccess_token("token_from_username");
+        return jwtResponse;
     }
 }
