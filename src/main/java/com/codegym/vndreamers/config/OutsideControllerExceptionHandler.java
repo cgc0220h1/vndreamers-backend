@@ -1,4 +1,4 @@
-package com.codegym.vndreamers.exceptions;
+package com.codegym.vndreamers.config;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
