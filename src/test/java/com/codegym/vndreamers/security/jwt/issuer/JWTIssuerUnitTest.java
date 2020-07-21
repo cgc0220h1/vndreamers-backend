@@ -61,6 +61,7 @@ public class JWTIssuerUnitTest {
         user.setPassword(VALID_PASSWORD);
         user.setEmail(VALID_EMAIL);
         user.setBirthDate(VALID_BIRTH_DATE);
+        user.setUsername(VALID_USERNAME);
         jwtResponse.setUser(user);
         jwtResponse.setAccess_token(VALID_TOKEN);
     }
