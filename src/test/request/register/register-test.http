@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 > {%
-    client.test("Request executed successfully", function() {
-        client.assert(response.status === 200, "Response status is not 200");
+    client.test("Request thực hiện thành công", function() {
+        client.assert(response.status === 200, "Status code trả về 200");
     });
 %}
