@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class JWTIssuerUnitTest {
     private static final String API_AUTH_LOGIN = "/auth/login";
     private static final String API_AUTH_REGISTER = "/auth/register";
-    //    private static final String VALID_USERNAME = "some_valid_username";
+    private static final String VALID_USERNAME = "some_valid_username";
     private static final String VALID_PASSWORD = "some_valid_password";
     private static final String VALID_TOKEN = "some_valid_token";
     private static final String VALID_EMAIL = "some_valid_email@example.com";
@@ -75,7 +75,7 @@ public class JWTIssuerUnitTest {
     void givenValidCredential_whenLoginPostRequest_thenOkAndReturnJWTResponse() throws Exception {
         when(authService.authenticate(any())).thenReturn(jwtResponse);
 
-//        payload.put("username", VALID_USERNAME);
+        payload.put("username", VALID_USERNAME);
         payload.put("password", VALID_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -84,7 +84,7 @@ public class JWTIssuerUnitTest {
                 .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.access_token", is(notNullValue())))
                 .andExpect(jsonPath("$.access_token", is(VALID_TOKEN)))
-//                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
+                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
                 .andExpect(jsonPath("$.user.password").doesNotExist())
                 .andExpect(jsonPath("$.user.email", is(VALID_EMAIL)))
                 .andExpect(jsonPath("$.user.birthDay").exists());
@@ -177,7 +177,7 @@ public class JWTIssuerUnitTest {
                 .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.access_token", is(notNullValue())))
                 .andExpect(jsonPath("$.access_token", is(VALID_TOKEN)))
-//                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
+                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
                 .andExpect(jsonPath("$.user.password").doesNotExist())
                 .andExpect(jsonPath("$.user.email", is(VALID_EMAIL)))
                 .andExpect(jsonPath("$.user.birth_date").exists())

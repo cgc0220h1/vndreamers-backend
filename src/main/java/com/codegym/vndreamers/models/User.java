@@ -41,9 +41,10 @@ public class User {
     @Column(name = "address")
     private String address;
 
-//    @Basic
-//    @Column(name = "username", nullable = false, length = 50)
-//    private String username;
+    @Basic
+    @Column(name = "username", nullable = false, length = 50)
+    @Size(min = 6, max = 50)
+    private String username;
 
     @Basic
     @Column(name = "email", nullable = false, length = 100)
