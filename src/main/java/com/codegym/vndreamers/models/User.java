@@ -1,5 +1,7 @@
 package com.codegym.vndreamers.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -35,6 +37,7 @@ public class User {
     @Column(name = "phone_number")
     @Size(min = 10, max = 11)
     @Pattern(regexp = "((0|\\+[1-9]{1,3})+([0-9]{9,10})\b)")
+    @JsonProperty(value = "phone")
     private String phoneNumber;
 
     @Basic
@@ -54,10 +57,13 @@ public class User {
     @Basic
     @Column(name = "password", nullable = false, length = 50)
     @Size(max = 50, min = 8)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Basic
     @Column(name = "birth_date", nullable = false)
+    @JsonProperty(value = "birth_date")
+    @JsonFormat(pattern="dd-MM-yyyy")
     private Timestamp birthDate;
 
     @Basic
@@ -78,6 +84,7 @@ public class User {
 
     @Basic
     @Column(name = "image")
+    @JsonProperty(value = "avatar")
     private String image;
 
     @OneToMany(mappedBy = "user")

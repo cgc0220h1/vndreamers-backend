@@ -38,11 +38,11 @@ public class JWTIssuerUnitTest {
     private static final String VALID_EMAIL = "some_valid_email@example.com";
     private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
     private static final String VALID_PHONE = "0912345678";
+    public static final String VALID_AVATAR = "https://giaitri.vn/wp-content/uploads/2019/07/avatar-la-gi-01.jpg";
     public static final String FAIL_PASSWORD = "some_fail_password";
     public static final String FAIL_USERNAME = "some_fail_username";
     private static final String FAIL_EMAIL = "some_fail_email";
     private static final String FAIL_BIRTH_DATE = "some_fail_date";
-    public static final String VALID_AVATAR = "https://giaitri.vn/wp-content/uploads/2019/07/avatar-la-gi-01.jpg";
     public static final int STATUS_ACTIVE = 1;
 
     private JSONObject payload;
@@ -62,6 +62,9 @@ public class JWTIssuerUnitTest {
         user.setEmail(VALID_EMAIL);
         user.setBirthDate(VALID_BIRTH_DATE);
         user.setUsername(VALID_USERNAME);
+        user.setPhoneNumber(VALID_PHONE);
+        user.setStatus(STATUS_ACTIVE);
+        user.setImage(VALID_AVATAR);
         jwtResponse.setUser(user);
         jwtResponse.setAccess_token(VALID_TOKEN);
     }
@@ -184,6 +187,7 @@ public class JWTIssuerUnitTest {
                 .andExpect(jsonPath("$.user.birth_date").exists())
                 .andExpect(jsonPath("$.user.phone").exists())
                 .andExpect(jsonPath("$.user.status").exists())
+                .andExpect(jsonPath("$.user.status", is(1)))
                 .andExpect(jsonPath("$.user.avatar").exists());
     }
 
