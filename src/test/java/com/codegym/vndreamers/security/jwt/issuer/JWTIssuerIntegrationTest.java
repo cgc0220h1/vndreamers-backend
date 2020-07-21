@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -56,5 +57,24 @@ public class JWTIssuerIntegrationTest {
     void shouldReturnUserRegistered() {
         JWTResponse jwtResponse = authService.register(userMock);
         assertNotNull(jwtResponse.getUser());
+    }
+
+    @Test
+    @DisplayName("Mỗi User có access Token khác nhau")
+    void shouldReturnDifferentAccessTokenEachNewUser() {
+        User firstRegisterUser = userMock;
+        User secondRegisterUser = new User();
+        secondRegisterUser.setEmail("second_user@example.com");
+        secondRegisterUser.setFirstName("second_user_firstName");
+        secondRegisterUser.setLastName("second_user_lastName");
+        secondRegisterUser.setAddress("second_user_address");
+        secondRegisterUser.setPassword("second_user_password");
+        secondRegisterUser.setConfirmPassword("second_user_password");
+        secondRegisterUser.setBirthDate(Timestamp.valueOf(LocalDateTime.now()));
+        JWTResponse jwtResponseOfFirstRegisterUser = authService.register(firstRegisterUser);
+        JWTResponse jwtResponseOfSecondRegisterUser = authService.register(secondRegisterUser);
+        String tokenFirstUser = jwtResponseOfFirstRegisterUser.getAccessToken();
+        String tokenSecondUser = jwtResponseOfSecondRegisterUser.getAccessToken();
+        assertNotEquals(tokenFirstUser, tokenSecondUser);
     }
 }
