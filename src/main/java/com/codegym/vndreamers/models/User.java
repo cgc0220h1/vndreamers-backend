@@ -36,7 +36,7 @@ public class User {
     @Basic
     @Column(name = "phone_number")
     @Size(min = 10, max = 11)
-    @Pattern(regexp = "((0|\\+[1-9]{1,3})+([0-9]{9,10})\b)")
+    @Pattern(regexp = "((0|\\+[1-9]{1,3})+([0-9]{9,10}))")
     @JsonProperty(value = "phone")
     private String phoneNumber;
 
