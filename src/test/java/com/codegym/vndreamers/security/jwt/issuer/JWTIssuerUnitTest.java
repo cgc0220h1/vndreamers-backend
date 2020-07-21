@@ -235,27 +235,13 @@ public class JWTIssuerUnitTest {
     void givenDuplicateEmail_whenRegisterPostRequest_thenConflict() throws Exception {
         when(authService.register(any())).thenThrow(DataIntegrityViolationException.class);
 
-//        payload.put("username", VALID_USERNAME);
-        payload.put("password", VALID_PASSWORD);
-        payload.put("email", FAIL_EMAIL);
-        payload.put("birthDate", VALID_BIRTH_DATE);
-        mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(payload.toString())
-                .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isConflict());
-    }
-
-
-    @Test
-    @DisplayName("Đăng ký với tài khoản trùng username")
-    void givenDuplicateUsername_whenRegisterPostRequest_thenConflict() throws Exception {
-        when(authService.register(any())).thenThrow(DataIntegrityViolationException.class);
-
-        payload.put("username", FAIL_USERNAME);
-        payload.put("password", VALID_PASSWORD);
         payload.put("email", VALID_EMAIL);
-        payload.put("birthDate", VALID_BIRTH_DATE);
+        payload.put("password", VALID_PASSWORD);
+        payload.put("confirm_password", VALID_PASSWORD);
+        payload.put("phone", VALID_PHONE);
+        payload.put("birth_date", VALID_BIRTH_DATE);
+        payload.put("status", STATUS_ACTIVE);
+        payload.put("avatar", VALID_AVATAR);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(payload.toString())
