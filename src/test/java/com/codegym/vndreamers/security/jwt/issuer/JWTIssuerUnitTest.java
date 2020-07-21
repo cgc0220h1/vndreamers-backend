@@ -174,7 +174,7 @@ public class JWTIssuerUnitTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(payload.toString())
                 .accept(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isCreated()).andDo(print())
+                .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.access_token", is(notNullValue())))
                 .andExpect(jsonPath("$.access_token", is(VALID_TOKEN)))
 //                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
