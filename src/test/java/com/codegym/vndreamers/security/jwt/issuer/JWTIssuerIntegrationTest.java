@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -50,5 +51,10 @@ public class JWTIssuerIntegrationTest {
         assertNotNull(jwtResponse.getAccessToken());
     }
 
-
+    @Test
+    @DisplayName("Đăng ký trả về user")
+    void shouldReturnUserRegistered() {
+        JWTResponse jwtResponse = authService.register(userMock);
+        assertNotNull(jwtResponse.getUser());
+    }
 }

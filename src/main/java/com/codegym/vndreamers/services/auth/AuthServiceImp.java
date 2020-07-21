@@ -15,6 +15,7 @@ public class AuthServiceImp implements AuthService {
     public JWTResponse register(User user) {
         JWTResponse jwtResponse = new JWTResponse();
         jwtResponse.setAccessToken("token_from_username");
+        jwtResponse.setUser(user);
         return jwtResponse;
     }
 }
