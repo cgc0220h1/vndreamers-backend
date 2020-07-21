@@ -229,7 +229,6 @@ public class JWTIssuerUnitTest {
                 .andExpect(status().isBadRequest());
     }
 
-
     @Test
     @DisplayName("Đăng ký với tài khoản trùng email")
     void givenDuplicateEmail_whenRegisterPostRequest_thenConflict() throws Exception {
