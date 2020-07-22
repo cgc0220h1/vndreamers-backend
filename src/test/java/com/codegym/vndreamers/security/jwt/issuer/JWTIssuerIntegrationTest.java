@@ -89,7 +89,7 @@ public class JWTIssuerIntegrationTest {
     }
 
     @Test
-    @DisplayName("user đăng ký lưu vào DB")
+    @DisplayName("user đăng ký gọi hàm lưu vào DB")
     void shouldCallSaveUserMethod() {
         authService.register(userMock);
         verify(userService, times(1)).save(userMock);
