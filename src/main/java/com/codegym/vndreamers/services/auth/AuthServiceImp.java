@@ -2,8 +2,8 @@ package com.codegym.vndreamers.services.auth;
 
 import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.models.User;
+import com.codegym.vndreamers.services.GenericService;
 import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
-import com.codegym.vndreamers.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImp implements AuthService {
     private JWTIssuer jwtIssuer;
 
-    private UserService userService;
+    private GenericService<User> userService;
 
     @Autowired
     public void setJwtIssuer(JWTIssuer jwtIssuer) {
@@ -19,7 +19,7 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public void setUserService(GenericService<User> userService) {
         this.userService = userService;
     }
 
@@ -32,9 +32,14 @@ public class AuthServiceImp implements AuthService {
     public JWTResponse register(User user) {
         JWTResponse jwtResponse = new JWTResponse();
         String accessToken = jwtIssuer.generateToken(user);
-        User userRegistered = userService.save(user);
+        User userRegistered = saveUserToDB(user);
+
         jwtResponse.setAccessToken(accessToken);
         jwtResponse.setUser(userRegistered);
         return jwtResponse;
+    }
+
+    private User saveUserToDB(User user) {
+        return userService.save(user);
     }
 }
