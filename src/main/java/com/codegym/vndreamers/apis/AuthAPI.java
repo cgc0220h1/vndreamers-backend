@@ -1,6 +1,7 @@
 package com.codegym.vndreamers.apis;
 
 import com.codegym.vndreamers.dtos.JWTResponse;
+import com.codegym.vndreamers.exceptions.DatabaseException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class AuthAPI {
     }
 
     @PostMapping(value = "/register")
-    public JWTResponse registerUser(@RequestBody @Valid User user) throws ValidationException {
+    public JWTResponse registerUser(@RequestBody @Valid User user) throws ValidationException, DatabaseException {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             throw new ValidationException("password not match");
         }

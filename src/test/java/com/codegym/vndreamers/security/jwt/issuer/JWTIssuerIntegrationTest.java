@@ -1,9 +1,10 @@
 package com.codegym.vndreamers.security.jwt.issuer;
 
 import com.codegym.vndreamers.dtos.JWTResponse;
+import com.codegym.vndreamers.exceptions.DatabaseException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
-import com.codegym.vndreamers.services.user.UserService;
+import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -34,7 +36,7 @@ public class JWTIssuerIntegrationTest {
     AuthService authService;
 
     @MockBean
-    UserService userService;
+    UserCRUDService userService;
 
     @BeforeAll
     static void mockUser() {
@@ -50,21 +52,21 @@ public class JWTIssuerIntegrationTest {
 
     @Test
     @DisplayName("Đăng ký trả về access_token")
-    void shouldReturnAccessToken() {
+    void shouldReturnAccessToken() throws DatabaseException {
         JWTResponse jwtResponse = authService.register(userMock);
         assertNotNull(jwtResponse.getAccessToken());
     }
 
     @Test
     @DisplayName("Đăng ký trả về user")
-    void shouldReturnUserRegistered() {
+    void shouldReturnUserRegistered() throws DatabaseException {
         JWTResponse jwtResponse = authService.register(userMock);
         assertNotNull(jwtResponse.getUser());
     }
 
     @Test
     @DisplayName("Mỗi User có access Token khác nhau")
-    void shouldReturnDifferentAccessTokenEachNewUser() {
+    void shouldReturnDifferentAccessTokenEachNewUser() throws DatabaseException {
         User firstRegisterUser = userMock;
         User secondRegisterUser = new User();
         secondRegisterUser.setEmail("second_user@example.com");
@@ -83,14 +85,14 @@ public class JWTIssuerIntegrationTest {
 
     @Test
     @DisplayName("user đăng ký gọi hàm lưu vào DB")
-    void shouldCallSaveUserMethod() {
+    void shouldCallSaveUserMethod() throws DatabaseException, SQLIntegrityConstraintViolationException {
         authService.register(userMock);
         verify(userService, times(1)).save(userMock);
     }
 
     @Test
     @DisplayName("User đăng ký với email trùng")
-    void shouldThrowDataViolationException() {
+    void shouldThrowDataViolationException() throws DatabaseException {
         authService.register(userMock);
         authService.register(userMock);
         assertThrows(DataIntegrityViolationException.class, () -> authService.register(userMock));

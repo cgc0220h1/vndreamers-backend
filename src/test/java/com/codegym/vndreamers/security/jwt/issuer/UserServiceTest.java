@@ -2,7 +2,7 @@ package com.codegym.vndreamers.security.jwt.issuer;
 
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.repositories.UserRepository;
-import com.codegym.vndreamers.services.user.UserService;
+import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,12 +32,12 @@ public class UserServiceTest {
 
     private static User userMock;
 
-    private UserService userService;
+    private UserCRUDService userService;
 
     private UserRepository userRepository;
 
     @Autowired
-    public UserServiceTest(UserService userService, UserRepository userRepository) {
+    public UserServiceTest(UserCRUDService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
     }

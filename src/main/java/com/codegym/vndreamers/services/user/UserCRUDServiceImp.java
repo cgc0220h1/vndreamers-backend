@@ -8,15 +8,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImp implements UserService {
+public class UserCRUDServiceImp implements UserCRUDService {
     private UserRepository userRepository;
 
     @Autowired
-    public UserServiceImp(UserRepository userRepository) {
+    public UserCRUDServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -42,7 +43,10 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User save(User user) {
+    public User save(User user) throws SQLIntegrityConstraintViolationException {
+        if (user.getUsername() == null) {
+            throw new SQLIntegrityConstraintViolationException();
+        }
         return userRepository.save(user);
     }
 

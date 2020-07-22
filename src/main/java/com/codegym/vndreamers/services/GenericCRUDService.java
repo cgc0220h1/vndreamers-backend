@@ -4,9 +4,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-public interface GenericService<T> {
+public interface GenericCRUDService<T> {
     List<T> findAll();
 
     List<T> findAll(Sort sort);
@@ -15,7 +16,7 @@ public interface GenericService<T> {
 
     T findById(int id);
 
-    T save(T model);
+    T save(T model) throws SQLIntegrityConstraintViolationException;
 
     T update(T model);
 
