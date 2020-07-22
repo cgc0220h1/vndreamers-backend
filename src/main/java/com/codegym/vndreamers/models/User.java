@@ -55,12 +55,12 @@ public class User implements UserDetails {
     private String address;
 
     @Basic
-    @Column(name = "username", length = 50)
+    @Column(name = "username", length = 50, unique = true)
     @Getter(AccessLevel.NONE)
     private String username;
 
     @Basic
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 100, unique = true)
     @Email
     @NotNull
     private String email;
