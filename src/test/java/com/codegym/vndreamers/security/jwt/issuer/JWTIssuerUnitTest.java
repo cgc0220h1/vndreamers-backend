@@ -166,12 +166,11 @@ public class JWTIssuerUnitTest {
         when(authService.register(any())).thenReturn(jwtResponse);
 
         payload.put("email", VALID_EMAIL);
+        payload.put("first_name", "valid_first_name");
+        payload.put("last_name", "valid_last_name");
         payload.put("password", VALID_PASSWORD);
         payload.put("confirm_password", VALID_PASSWORD);
-        payload.put("phone", VALID_PHONE);
-        payload.put("birth_date", VALID_BIRTH_DATE);
-        payload.put("status", STATUS_ACTIVE);
-        payload.put("avatar", VALID_AVATAR);
+        payload.put("birth_date", "20-04-1992");
 
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
