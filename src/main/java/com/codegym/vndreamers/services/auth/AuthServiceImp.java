@@ -49,7 +49,7 @@ public class AuthServiceImp implements AuthService {
         return jwtResponse;
     }
 
-    private User saveUserToDB(User user) throws DatabaseException, SQLIntegrityConstraintViolationException {
+    private User saveUserToDB(User user) throws SQLIntegrityConstraintViolationException, UserExistException {
         String username;
         User userSaved;
         username = getUsernameFromEmail(user.getEmail());
