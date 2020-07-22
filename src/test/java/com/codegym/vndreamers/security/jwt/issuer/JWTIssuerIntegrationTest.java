@@ -3,17 +3,20 @@ package com.codegym.vndreamers.security.jwt.issuer;
 import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
+import com.codegym.vndreamers.services.user.UserService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class JWTIssuerIntegrationTest {
@@ -32,6 +35,9 @@ public class JWTIssuerIntegrationTest {
 
     @Autowired
     AuthService authService;
+
+    @MockBean
+    UserService userService;
 
     @BeforeAll
     static void mockUser() {
@@ -77,4 +83,15 @@ public class JWTIssuerIntegrationTest {
         String tokenSecondUser = jwtResponseOfSecondRegisterUser.getAccessToken();
         assertNotEquals(tokenFirstUser, tokenSecondUser);
     }
+
+    @Test
+    @DisplayName("User đăng ký được lưu vào DB")
+    void shouldSaveUserRegisteredInDB() {
+        when(userService.save(any())).thenReturn(userMock);
+        JWTResponse jwtResponse = authService.register(userMock);
+        User userRegistered = jwtResponse.getUser();
+        assertEquals(userMock.getEmail(), userRegistered.getEmail());
+    }
+
+
 }

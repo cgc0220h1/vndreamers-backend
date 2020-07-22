@@ -2,21 +2,18 @@ package com.codegym.vndreamers.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 public interface GenericService<T> {
-    List<T> findAllExist();
+    List<T> findAll();
 
-    Page<T> findAllExist(Pageable pageable);
+    List<T> findAll(Sort sort);
 
-    List<T> findAllDeleted();
+    Page<T> findAll(Pageable pageable);
 
-    Page<T> findAllDeleted(Pageable pageable);
-
-    T findExistById(int id);
-
-    T findDeletedById(int id);
+    T findById(int id);
 
     T save(T model);
 
