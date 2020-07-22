@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -36,12 +37,13 @@ public class UserServiceImp implements UserService {
 
     @Override
     public User findById(int id) {
-        return null;
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser.orElse(null);
     }
 
     @Override
-    public User save(User model) {
-        return null;
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     @Override
