@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
@@ -23,12 +24,14 @@ import java.util.Set;
 public class User implements UserDetails {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Basic
     @Column(name = "first_name", nullable = false, length = 50)
     @Pattern(regexp = "\\w+")
     @Size(max = 50, min = 3)
+    @NotNull
     @JsonProperty(value = "first_name")
     private String firstName;
 
@@ -36,6 +39,7 @@ public class User implements UserDetails {
     @Column(name = "last_name", nullable = false, length = 50)
     @Pattern(regexp = "\\w+")
     @Size(max = 50, min = 3)
+    @NotNull
     @JsonProperty(value = "last_name")
     private String lastName;
 
@@ -51,36 +55,40 @@ public class User implements UserDetails {
     private String address;
 
     @Basic
-    @Column(name = "username", nullable = false, length = 50)
-    @Size(min = 6, max = 50)
+    @Column(name = "username", length = 50)
     @Getter(AccessLevel.NONE)
     private String username;
 
     @Basic
     @Column(name = "email", nullable = false, length = 100)
     @Email
+    @NotNull
     private String email;
 
     @Basic
     @Column(name = "password", nullable = false, length = 50)
     @Size(max = 50, min = 8)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotNull
     private String password;
 
     @Transient
     @Size(max = 50, min = 8)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY, value = "confirm_password")
+    @NotNull
     private String confirmPassword;
 
     @Basic
     @Column(name = "birth_date", nullable = false)
+    @NotNull
     @JsonProperty(value = "birth_date")
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Timestamp birthDate;
 
     @Basic
     @Column(name = "gender", nullable = false)
-    private int gender;
+    @NotNull
+    private int gender = 1;
 
     @Basic
     @Column(name = "created_date", nullable = false)
@@ -93,7 +101,7 @@ public class User implements UserDetails {
 
     @Basic
     @Column(name = "status", nullable = false)
-    private int status;
+    private int status = 1;
 
     @Basic
     @Column(name = "image")
