@@ -15,11 +15,12 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 public class JWTIssuerIntegrationTest {
+
     private static final String VALID_USERNAME = "some_valid_username";
     private static final String VALID_PASSWORD = "some_valid_password";
     private static final String VALID_EMAIL = "some_valid_email@example.com";
@@ -31,6 +32,8 @@ public class JWTIssuerIntegrationTest {
     public static final String FAIL_USERNAME = "some_fail_username";
     private static final String FAIL_EMAIL = "some_fail_email";
     private static final String FAIL_BIRTH_DATE = "some_fail_date";
+    public static final String VALID_FIRST_NAME = "valid_first_name";
+    public static final String VALID_LAST_NAME = "valid_last_name";
     public static User userMock;
 
     @Autowired
@@ -42,12 +45,13 @@ public class JWTIssuerIntegrationTest {
     @BeforeAll
     static void mockUser() {
         userMock = new User();
-        userMock.setPassword(VALID_PASSWORD);
         userMock.setEmail(VALID_EMAIL);
+        userMock.setFirstName(VALID_FIRST_NAME);
+        userMock.setLastName(VALID_LAST_NAME);
+        userMock.setPassword(VALID_PASSWORD);
+        userMock.setConfirmPassword(VALID_PASSWORD);
+        userMock.setGender(1);
         userMock.setBirthDate(VALID_BIRTH_DATE);
-        userMock.setUsername(VALID_USERNAME);
-        userMock.setPhoneNumber(VALID_PHONE);
-        userMock.setStatus(STATUS_ACTIVE);
         userMock.setImage(VALID_AVATAR);
     }
 
@@ -85,13 +89,9 @@ public class JWTIssuerIntegrationTest {
     }
 
     @Test
-    @DisplayName("User đăng ký được lưu vào DB")
-    void shouldSaveUserRegisteredInDB() {
-        when(userService.save(any())).thenReturn(userMock);
-        JWTResponse jwtResponse = authService.register(userMock);
-        User userRegistered = jwtResponse.getUser();
-        assertEquals(userMock.getEmail(), userRegistered.getEmail());
+    @DisplayName("user đăng ký lưu vào DB")
+    void shouldCallSaveUserMethod() {
+        authService.register(userMock);
+        verify(userService, times(1)).save(userMock);
     }
-
-
 }
