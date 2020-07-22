@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -21,17 +22,10 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 public class JWTIssuerIntegrationTest {
 
-    private static final String VALID_USERNAME = "some_valid_username";
     private static final String VALID_PASSWORD = "some_valid_password";
     private static final String VALID_EMAIL = "some_valid_email@example.com";
     private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
-    private static final String VALID_PHONE = "0912345678";
     public static final String VALID_AVATAR = "https://giaitri.vn/wp-content/uploads/2019/07/avatar-la-gi-01.jpg";
-    public static final int STATUS_ACTIVE = 1;
-    public static final String FAIL_PASSWORD = "some_fail_password";
-    public static final String FAIL_USERNAME = "some_fail_username";
-    private static final String FAIL_EMAIL = "some_fail_email";
-    private static final String FAIL_BIRTH_DATE = "some_fail_date";
     public static final String VALID_FIRST_NAME = "valid_first_name";
     public static final String VALID_LAST_NAME = "valid_last_name";
     public static User userMock;
@@ -52,7 +46,6 @@ public class JWTIssuerIntegrationTest {
         userMock.setConfirmPassword(VALID_PASSWORD);
         userMock.setGender(1);
         userMock.setBirthDate(VALID_BIRTH_DATE);
-        userMock.setImage(VALID_AVATAR);
     }
 
     @Test
@@ -93,5 +86,13 @@ public class JWTIssuerIntegrationTest {
     void shouldCallSaveUserMethod() {
         authService.register(userMock);
         verify(userService, times(1)).save(userMock);
+    }
+
+    @Test
+    @DisplayName("User đăng ký với email trùng")
+    void shouldThrowDataViolationException() {
+        authService.register(userMock);
+        authService.register(userMock);
+        assertThrows(DataIntegrityViolationException.class, () -> authService.register(userMock));
     }
 }

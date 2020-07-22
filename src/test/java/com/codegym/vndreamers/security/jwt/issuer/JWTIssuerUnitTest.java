@@ -31,18 +31,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class JWTIssuerUnitTest {
     private static final String API_AUTH_LOGIN = "/auth/login";
     private static final String API_AUTH_REGISTER = "/auth/register";
-    private static final String VALID_USERNAME = "some_valid_username";
+    public static final String VALID_FIRST_NAME = "valid_first_name";
+    public static final String VALID_LAST_NAME = "valid_last_name";
     private static final String VALID_PASSWORD = "some_valid_password";
     private static final String VALID_TOKEN = "some_valid_token";
     private static final String VALID_EMAIL = "some_valid_email@example.com";
     private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
-    private static final String VALID_PHONE = "0912345678";
-    public static final String VALID_AVATAR = "https://giaitri.vn/wp-content/uploads/2019/07/avatar-la-gi-01.jpg";
     public static final String FAIL_PASSWORD = "some_fail_password";
     public static final String FAIL_USERNAME = "some_fail_username";
     private static final String FAIL_EMAIL = "some_fail_email";
     private static final String FAIL_BIRTH_DATE = "some_fail_date";
-    public static final int STATUS_ACTIVE = 1;
 
     private JSONObject payload;
     private static JWTResponse jwtResponse;
@@ -57,13 +55,14 @@ public class JWTIssuerUnitTest {
     static void mockData() {
         jwtResponse = new JWTResponse();
         User user = new User();
-        user.setPassword(VALID_PASSWORD);
         user.setEmail(VALID_EMAIL);
+        user.setFirstName(VALID_FIRST_NAME);
+        user.setLastName(VALID_LAST_NAME);
+        user.setPassword(VALID_PASSWORD);
         user.setBirthDate(VALID_BIRTH_DATE);
-        user.setUsername(VALID_USERNAME);
-        user.setPhoneNumber(VALID_PHONE);
-        user.setStatus(STATUS_ACTIVE);
-        user.setImage(VALID_AVATAR);
+        user.setConfirmPassword(VALID_PASSWORD);
+        user.setGender(1);
+        user.setBirthDate(VALID_BIRTH_DATE);
         jwtResponse.setUser(user);
         jwtResponse.setAccessToken(VALID_TOKEN);
     }
@@ -78,7 +77,7 @@ public class JWTIssuerUnitTest {
     void givenValidCredential_whenLoginPostRequest_thenOkAndReturnJWTResponse() throws Exception {
         when(authService.authenticate(any())).thenReturn(jwtResponse);
 
-        payload.put("username", VALID_USERNAME);
+        payload.put("email", VALID_EMAIL);
         payload.put("password", VALID_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -87,7 +86,7 @@ public class JWTIssuerUnitTest {
                 .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.access_token", is(notNullValue())))
                 .andExpect(jsonPath("$.access_token", is(VALID_TOKEN)))
-                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
+                .andExpect(jsonPath("$.user.username").exists())
                 .andExpect(jsonPath("$.user.password").doesNotExist())
                 .andExpect(jsonPath("$.user.email", is(VALID_EMAIL)))
                 .andExpect(jsonPath("$.user.birthDay").exists());
@@ -103,7 +102,7 @@ public class JWTIssuerUnitTest {
     @Test
     @DisplayName("Đăng nhập với trường hợp để trống credential")
     void givenEmptyCredential_whenLoginPostRequest_thenBadRequest() throws Exception {
-        payload.put("username", "");
+        payload.put("email", "");
         payload.put("password", "");
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -113,9 +112,9 @@ public class JWTIssuerUnitTest {
     }
 
     @Test
-    @DisplayName("Đăng nhập với trường hợp để trống username")
+    @DisplayName("Đăng nhập với trường hợp để trống email")
     void givenEmptyUsername_whenLoginPostRequest_thenBadRequest() throws Exception {
-        payload.put("username", "");
+        payload.put("email", "");
         payload.put("password", VALID_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -127,7 +126,7 @@ public class JWTIssuerUnitTest {
     @Test
     @DisplayName("Đăng nhập với trường hợp để trống password")
     void givenEmptyPassword_whenLoginPostRequest_thenBadRequest() throws Exception {
-//        payload.put("username", VALID_USERNAME);
+        payload.put("email", VALID_EMAIL);
         payload.put("password", "");
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -139,7 +138,7 @@ public class JWTIssuerUnitTest {
     @Test
     @DisplayName("Đăng nhập với trường hợp sai password")
     void givenWrongPassword_whenLoginPostRequest_thenUnauthorized() throws Exception {
-//        payload.put("username", VALID_USERNAME);
+        payload.put("email", VALID_EMAIL);
         payload.put("password", FAIL_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -149,9 +148,9 @@ public class JWTIssuerUnitTest {
     }
 
     @Test
-    @DisplayName("Đăng nhập với trường hợp sai username")
+    @DisplayName("Đăng nhập với trường hợp sai email")
     void givenWrongUsername_whenLoginPostRequest_thenUnauthorized() throws Exception {
-        payload.put("username", FAIL_USERNAME);
+        payload.put("email", FAIL_EMAIL);
         payload.put("password", FAIL_PASSWORD);
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_LOGIN)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -179,14 +178,15 @@ public class JWTIssuerUnitTest {
                 .andExpect(status().isOk()).andDo(print())
                 .andExpect(jsonPath("$.access_token", is(notNullValue())))
                 .andExpect(jsonPath("$.access_token", is(VALID_TOKEN)))
-                .andExpect(jsonPath("$.user.username", is(VALID_USERNAME)))
+                .andExpect(jsonPath("$.user.username").exists())
                 .andExpect(jsonPath("$.user.password").doesNotExist())
                 .andExpect(jsonPath("$.user.email", is(VALID_EMAIL)))
                 .andExpect(jsonPath("$.user.birth_date").exists())
                 .andExpect(jsonPath("$.user.phone").exists())
                 .andExpect(jsonPath("$.user.status").exists())
                 .andExpect(jsonPath("$.user.status", is(1)))
-                .andExpect(jsonPath("$.user.avatar").exists());
+                .andExpect(jsonPath("$.user.avatar").exists())
+                .andExpect(jsonPath("$.user.username").exists());
     }
 
     @Test
@@ -214,12 +214,11 @@ public class JWTIssuerUnitTest {
     @DisplayName("Đăng ký với mật khẩu không trùng nhau")
     void givenPasswordNotMatch_whenRegisterPostRequest_thenBadRequest() throws Exception {
         payload.put("email", VALID_EMAIL);
+        payload.put("first_name", "valid_first_name");
+        payload.put("last_name", "valid_last_name");
         payload.put("password", VALID_PASSWORD);
         payload.put("confirm_password", FAIL_PASSWORD);
-        payload.put("phone", VALID_PHONE);
-        payload.put("birth_date", VALID_BIRTH_DATE);
-        payload.put("status", STATUS_ACTIVE);
-        payload.put("avatar", VALID_AVATAR);
+        payload.put("birth_date", "20-04-1992");
 
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -234,12 +233,12 @@ public class JWTIssuerUnitTest {
         when(authService.register(any())).thenThrow(DataIntegrityViolationException.class);
 
         payload.put("email", VALID_EMAIL);
+        payload.put("first_name", "valid_first_name");
+        payload.put("last_name", "valid_last_name");
         payload.put("password", VALID_PASSWORD);
         payload.put("confirm_password", VALID_PASSWORD);
-        payload.put("phone", VALID_PHONE);
-        payload.put("birth_date", VALID_BIRTH_DATE);
-        payload.put("status", STATUS_ACTIVE);
-        payload.put("avatar", VALID_AVATAR);
+        payload.put("birth_date", "20-04-1992");
+
         mockMvc.perform(MockMvcRequestBuilders.post(API_AUTH_REGISTER)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(payload.toString())
