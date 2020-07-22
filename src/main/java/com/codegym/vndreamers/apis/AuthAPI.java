@@ -44,6 +44,6 @@ public class AuthAPI {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleConflictException() {
-        return "{\"error\":\"Email Existed!\"}";
+        return "{\"error\":\"Data Integrity Violation!\"}";
     }
 }
