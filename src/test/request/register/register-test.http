@@ -3,12 +3,12 @@ Content-Type: application/json
 
 {
   "email": "dummy_email@example.com",
+  "first_name": "dummy_first_name",
+  "last_name" : "dummy_last_name",
   "password": "dummy_password",
   "confirm_password": "dummy_password",
-  "phone": "0912345678",
   "birth_date": "20-04-2020",
-  "status": 1,
-  "avatar": "https://giaitri.vn/wp-content/uploads/2019/07/avatar-la-gi-01.jpg"
+  "status": 1
 }
 
 > {%
