@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserCRUDServiceImp implements UserCRUDService {
+public class UserServiceImp implements UserCRUDService {
     private UserRepository userRepository;
 
     @Autowired
-    public UserCRUDServiceImp(UserRepository userRepository) {
+    public UserServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

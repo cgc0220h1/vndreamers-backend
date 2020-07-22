@@ -12,6 +12,7 @@ public class JWTIssuerImp implements JWTIssuer {
 
     @Override
     public String generateToken(UserDetails userLogin) {
+
         Date loginTime = new Date();
         Date expiryTime = new Date();
         expiryTime.setTime(loginTime.getTime() + 24 * 60 * 60);
