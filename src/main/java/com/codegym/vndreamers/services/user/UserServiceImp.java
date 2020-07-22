@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -13,8 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImp implements UserCRUDService {
-    private UserRepository userRepository;
+public class UserServiceImp implements UserCRUDService, UserDetailsService {
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImp(UserRepository userRepository) {
@@ -58,5 +61,10 @@ public class UserServiceImp implements UserCRUDService {
     @Override
     public boolean delete(int id) {
         return false;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("user not found"));
     }
 }

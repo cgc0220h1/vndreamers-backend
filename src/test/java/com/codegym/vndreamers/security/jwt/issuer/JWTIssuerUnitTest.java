@@ -2,6 +2,7 @@ package com.codegym.vndreamers.security.jwt.issuer;
 
 import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.exceptions.DatabaseException;
+import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
 import org.json.JSONObject;
@@ -164,7 +165,7 @@ public class JWTIssuerUnitTest {
 
     @Test
     @DisplayName("Đăng ký với thông tin hợp lệ")
-    void givenValidBody_whenRegisterPostRequest_thenReturnOKAndJWTResponse() throws Exception, DatabaseException {
+    void givenValidBody_whenRegisterPostRequest_thenReturnOKAndJWTResponse() throws Exception, DatabaseException, UserExistException {
         when(authService.register(any())).thenReturn(jwtResponse);
 
         payload.put("email", VALID_EMAIL);
@@ -232,7 +233,7 @@ public class JWTIssuerUnitTest {
 
     @Test
     @DisplayName("Đăng ký với tài khoản trùng email")
-    void givenDuplicateEmail_whenRegisterPostRequest_thenConflict() throws Exception, DatabaseException {
+    void givenDuplicateEmail_whenRegisterPostRequest_thenConflict() throws Exception, DatabaseException, UserExistException {
         when(authService.register(any())).thenThrow(DataIntegrityViolationException.class);
 
         payload.put("email", VALID_EMAIL);

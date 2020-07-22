@@ -2,6 +2,7 @@ package com.codegym.vndreamers.services.auth;
 
 import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.exceptions.DatabaseException;
+import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.GenericCRUDService;
 import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
@@ -34,26 +35,26 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public JWTResponse register(User user) throws DatabaseException {
+    public JWTResponse register(User user) throws DatabaseException, UserExistException {
         JWTResponse jwtResponse = new JWTResponse();
-        String accessToken = jwtIssuer.generateToken(user);
-        User userRegistered = saveUserToDB(user);
-
+        User userRegistered;
+        try {
+            userRegistered = saveUserToDB(user);
+        } catch (SQLIntegrityConstraintViolationException exception) {
+            throw new DatabaseException();
+        }
+        String accessToken = jwtIssuer.generateToken(userRegistered);
         jwtResponse.setAccessToken(accessToken);
         jwtResponse.setUser(userRegistered);
         return jwtResponse;
     }
 
-    private User saveUserToDB(User user) throws DatabaseException {
+    private User saveUserToDB(User user) throws DatabaseException, SQLIntegrityConstraintViolationException {
         String username;
         User userSaved;
-        try {
-            username = getUsernameFromEmail(user.getEmail());
-            user.setUsername(username);
-            userSaved = userService.save(user);
-        } catch (SQLIntegrityConstraintViolationException | IndexOutOfBoundsException throwable) {
-            throw new DatabaseException();
-        }
+        username = getUsernameFromEmail(user.getEmail());
+        user.setUsername(username);
+        userSaved = userService.save(user);
         return userSaved;
     }
 

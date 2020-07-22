@@ -19,3 +19,10 @@ Content-Type: application/json
 
 ###
 POST http://localhost:8080/auth/register
+
+### Không trả về danh sách posts
+GET http://localhost:8080/posts
+
+###Gửi trả về danh sách posts với 1 Token
+GET http://localhost:8080/posts
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdW1teV9lbWFpbEBleGFtcGxlLmNvbSIsImlhdCI6MTU5NTQwNDQ2NSwiZXhwIjoxNTk1NDA0NTUxfQ.f1lY5uhr0V1d4n899HaRo04Js1jYoWR6q1a0dwTma5bEAqzeMlYqHe5Kyx5YsSy4-MRgNWpMMqWeJ2Wm5VpXfQ
