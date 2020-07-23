@@ -71,4 +71,9 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElse(null);
     }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).get();
+    }
 }
