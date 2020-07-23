@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.exceptions.PostNotFoundException;
 import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
@@ -7,17 +8,20 @@ import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,22 +50,22 @@ public class PostAPI {
             User user = userCRUDService.findByUsername(username);
             post.setUser(user);
             postCRUDService.save(post);
-            return new ResponseEntity<>("ok", HttpStatus.OK);
+            return new ResponseEntity<>("Create post successfully", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Token Invalid", HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<List<Post>> getAllPostsUser(HttpServletRequest request) {
+    public List<Post> getAllPostsUser(HttpServletRequest request) throws PostNotFoundException {
         String jwt = request.getHeader("Authorization");
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             String username = tokenProvider.getUsernameFromJWT(jwt);
             User user = userCRUDService.findByUsername(username);
             List<Post> posts = postCRUDService.getAllByUserIdAndStatus(Integer.valueOf(user.getId()), 1);
-            return new ResponseEntity<>(posts, HttpStatus.OK);
+           return posts;
         } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            throw new PostNotFoundException();
         }
     }
 
@@ -75,9 +79,15 @@ public class PostAPI {
             if (!isRemoved){
                 return new ResponseEntity<>("Delete Error", HttpStatus.NOT_FOUND);
             }
-            return new ResponseEntity<>("ok", HttpStatus.OK);
+            return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("JWT Error", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handlePostNotFoundException() {
+        return "{\"error\":\"Post not found!\"}";
     }
 }
