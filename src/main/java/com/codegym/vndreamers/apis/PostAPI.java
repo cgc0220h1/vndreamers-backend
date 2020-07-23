@@ -10,6 +10,7 @@ import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,19 +41,29 @@ public class PostAPI {
     @Autowired
     private PostCRUDService postCRUDService;
 
+//    @PostMapping("/posts")
+//    public ResponseEntity<String> savePosts(@RequestBody Post post, HttpServletRequest request) throws SQLIntegrityConstraintViolationException, EntityExistException {
+//        String jwt = request.getHeader("Authorization");
+//        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+//            String username = tokenProvider.getUsernameFromJWT(jwt);
+//            User user = userCRUDService.findByUsername(username);
+//            post.setUser(user);
+//            postCRUDService.save(post);
+//            return new ResponseEntity<>("Create post successfully", HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Token Invalid", HttpStatus.NOT_FOUND);
+//        }
+//    }
+
     @PostMapping("/posts")
-    public ResponseEntity<String> savePosts(@RequestBody Post post, HttpServletRequest request) throws SQLIntegrityConstraintViolationException, EntityExistException {
-        String jwt = request.getHeader("Authorization");
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            String username = tokenProvider.getUsernameFromJWT(jwt);
-            User user = userCRUDService.findByUsername(username);
-            post.setUser(user);
-            postCRUDService.save(post);
-            return new ResponseEntity<>("Create post successfully", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Token Invalid", HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<String> savePosts(@RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        post.setUser(user);
+        postCRUDService.save(post);
+        return new ResponseEntity<>("Create post successfully", HttpStatus.OK);
+
     }
+
 
     @GetMapping("/posts")
     public List<Post> getAllPostsUser(HttpServletRequest request) throws PostNotFoundException {
@@ -61,7 +72,7 @@ public class PostAPI {
             String username = tokenProvider.getUsernameFromJWT(jwt);
             User user = userCRUDService.findByUsername(username);
             List<Post> posts = postCRUDService.getAllByUserIdAndStatus(Integer.valueOf(user.getId()), 1);
-           return posts;
+            return posts;
         } else {
             throw new PostNotFoundException();
         }
@@ -74,7 +85,7 @@ public class PostAPI {
             String username = tokenProvider.getUsernameFromJWT(jwt);
             User user = userCRUDService.findByUsername(username);
             boolean isRemoved = postCRUDService.deletePostByIdAndUserId(Integer.valueOf(id), Integer.valueOf(user.getId()));
-            if (!isRemoved){
+            if (!isRemoved) {
                 return new ResponseEntity<>("Delete Error", HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
