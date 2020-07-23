@@ -7,5 +7,6 @@ import com.codegym.vndreamers.services.GenericCRUDService;
 import java.util.List;
 
 public interface PostCRUDService extends GenericCRUDService<Post> {
-    List<Post> getAllByUserId(Integer id);
+    List<Post> getAllByUserIdAndStatus(Integer id, Integer status);
+    boolean deletePostByIdAndUserId(Integer postId, Integer userId);
 }

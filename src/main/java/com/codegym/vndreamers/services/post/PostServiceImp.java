@@ -4,6 +4,7 @@ import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.repositories.PostRepository;
+import com.codegym.vndreamers.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,9 @@ public class PostServiceImp implements PostCRUDService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Post> findAll() {
@@ -40,7 +44,7 @@ public class PostServiceImp implements PostCRUDService {
     }
 
     @Override
-    public Post save(Post model) throws SQLIntegrityConstraintViolationException, UserExistException {
+    public Post save(Post model){
         return postRepository.save(model);
     }
 
@@ -55,7 +59,21 @@ public class PostServiceImp implements PostCRUDService {
     }
 
     @Override
-    public List<Post> getAllByUserId(Integer id) {
-        return postRepository.findAllByUserId(id);
+    public List<Post> getAllByUserIdAndStatus(Integer id, Integer status) {
+        return postRepository.findAllByUserIdAndStatus(id, status);
+    }
+
+    @Override
+    public boolean deletePostByIdAndUserId(Integer postId, Integer userId) {
+        Post post = postRepository.findById(postId).get();
+        User user = userRepository.findById(userId).get();
+        if (post != null && user != null){
+           Post post1 =  postRepository.findById(postId).get();
+           post1.setStatus(0);
+           postRepository.save(post1);
+           return true;
+        }else {
+            return false;
+        }
     }
 }

@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,14 +55,29 @@ public class PostAPI {
     @GetMapping("/posts")
     public ResponseEntity<List<Post>> getAllPostsUser(HttpServletRequest request) {
         String jwt = request.getHeader("Authorization");
-        System.out.println(jwt);
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             String username = tokenProvider.getUsernameFromJWT(jwt);
             User user = userCRUDService.findByUsername(username);
-            List<Post> posts = postCRUDService.getAllByUserId(Integer.valueOf(user.getId()));
+            List<Post> posts = postCRUDService.getAllByUserIdAndStatus(Integer.valueOf(user.getId()), 1);
             return new ResponseEntity<>(posts, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<String> deletePostsUser(HttpServletRequest request, @PathVariable("id") int id) {
+        String jwt = request.getHeader("Authorization");
+        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+            String username = tokenProvider.getUsernameFromJWT(jwt);
+            User user = userCRUDService.findByUsername(username);
+            boolean isRemoved = postCRUDService.deletePostByIdAndUserId(Integer.valueOf(id), Integer.valueOf(user.getId()));
+            if (!isRemoved){
+                return new ResponseEntity<>("Delete Error", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>("ok", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("JWT Error", HttpStatus.NOT_FOUND);
         }
     }
 }
