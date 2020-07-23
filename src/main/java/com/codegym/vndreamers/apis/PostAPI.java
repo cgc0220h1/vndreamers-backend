@@ -1,17 +1,14 @@
 package com.codegym.vndreamers.apis;
 
 import com.codegym.vndreamers.exceptions.EntityExistException;
+import com.codegym.vndreamers.exceptions.PostDeleteException;
 import com.codegym.vndreamers.exceptions.PostNotFoundException;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
-import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
 import com.codegym.vndreamers.services.post.PostCRUDService;
-import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
@@ -33,45 +30,21 @@ import java.util.List;
 public class PostAPI {
 
     @Autowired
-    private JWTIssuer tokenProvider;
-
-    @Autowired
-    private UserCRUDService userCRUDService;
-
-    @Autowired
     private PostCRUDService postCRUDService;
 
-//    @PostMapping("/posts")
-//    public ResponseEntity<String> savePosts(@RequestBody Post post, HttpServletRequest request) throws SQLIntegrityConstraintViolationException, EntityExistException {
-//        String jwt = request.getHeader("Authorization");
-//        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-//            String username = tokenProvider.getUsernameFromJWT(jwt);
-//            User user = userCRUDService.findByUsername(username);
-//            post.setUser(user);
-//            postCRUDService.save(post);
-//            return new ResponseEntity<>("Create post successfully", HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Token Invalid", HttpStatus.NOT_FOUND);
-//        }
-//    }
-
     @PostMapping("/posts")
-    public ResponseEntity<String> savePosts(@RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public Post savePost(@RequestBody @Valid Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         post.setUser(user);
-        postCRUDService.save(post);
-        return new ResponseEntity<>("Create post successfully", HttpStatus.OK);
-
+        Post post1 = postCRUDService.save(post);
+        return post1;
     }
 
-
     @GetMapping("/posts")
-    public List<Post> getAllPostsUser(HttpServletRequest request) throws PostNotFoundException {
-        String jwt = request.getHeader("Authorization");
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            String username = tokenProvider.getUsernameFromJWT(jwt);
-            User user = userCRUDService.findByUsername(username);
-            List<Post> posts = postCRUDService.getAllByUserIdAndStatus(Integer.valueOf(user.getId()), 1);
+    public List<Post> getAllPostsUser() throws PostNotFoundException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Post> posts = postCRUDService.getAllByUserIdAndStatus(Integer.valueOf(user.getId()), 1);
+        if (posts != null) {
             return posts;
         } else {
             throw new PostNotFoundException();
@@ -79,18 +52,21 @@ public class PostAPI {
     }
 
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<String> deletePostsUser(HttpServletRequest request, @PathVariable("id") int id) {
-        String jwt = request.getHeader("Authorization");
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            String username = tokenProvider.getUsernameFromJWT(jwt);
-            User user = userCRUDService.findByUsername(username);
-            boolean isRemoved = postCRUDService.deletePostByIdAndUserId(Integer.valueOf(id), Integer.valueOf(user.getId()));
-            if (!isRemoved) {
-                return new ResponseEntity<>("Delete Error", HttpStatus.NOT_FOUND);
+    public String deletePostsUser(@PathVariable("id") int id) throws PostDeleteException {
+        try {
+            Post post = postCRUDService.findById(id);
+            if (post.getStatus() == 0) {
+                throw new PostDeleteException();
             }
-            return new ResponseEntity<>("Delete successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            throw new PostDeleteException();
+        }
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean isRemoved = postCRUDService.deletePostByIdAndUserId(Integer.valueOf(id), Integer.valueOf(user.getId()));
+        if (isRemoved) {
+            return "Delete successfully";
         } else {
-            return new ResponseEntity<>("JWT Error", HttpStatus.NOT_FOUND);
+            throw new PostDeleteException();
         }
     }
 
@@ -98,5 +74,23 @@ public class PostAPI {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handlePostNotFoundException() {
         return "{\"error\":\"Post not found!\"}";
+    }
+
+    @ExceptionHandler(EntityExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleExistPostException() {
+        return "{\"error\":\"Post Existed!\"}";
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleConstraintException() {
+        return "{\"error\":\"Post have constrain exception!\"}";
+    }
+
+    @ExceptionHandler(PostDeleteException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleDeleteException() {
+        return "{\"error\":\"Post delete exception!\"}";
     }
 }
