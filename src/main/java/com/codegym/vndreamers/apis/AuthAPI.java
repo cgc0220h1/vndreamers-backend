@@ -3,7 +3,7 @@ package com.codegym.vndreamers.apis;
 import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.dtos.LoginRequest;
 import com.codegym.vndreamers.exceptions.DatabaseException;
-import com.codegym.vndreamers.exceptions.UserExistException;
+import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.AccountLockedException;
 import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
 
@@ -32,7 +33,7 @@ public class AuthAPI {
     }
 
     @PostMapping(value = "/register")
-    public User registerUser(@RequestBody @Valid User user) throws ValidationException, DatabaseException, UserExistException {
+    public User registerUser(@RequestBody @Valid User user) throws ValidationException, DatabaseException, EntityExistException {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             throw new ValidationException("password not match");
         }
@@ -40,7 +41,7 @@ public class AuthAPI {
     }
 
     @PostMapping(value = "/login")
-    public JWTResponse doLogin(@RequestBody @Valid LoginRequest loginRequest) throws UserExistException {
+    public JWTResponse doLogin(@RequestBody @Valid LoginRequest loginRequest) throws EntityExistException {
         return authService.authenticate(loginRequest);
     }
 
@@ -56,7 +57,7 @@ public class AuthAPI {
         return "{\"error\":\"Data Integrity Violation!\"}";
     }
 
-    @ExceptionHandler(UserExistException.class)
+    @ExceptionHandler(EntityExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleExistUserException() {
         return "{\"error\":\"User Existed!\"}";

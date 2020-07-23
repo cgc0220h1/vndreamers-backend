@@ -3,7 +3,7 @@ package com.codegym.vndreamers.services.auth;
 import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.dtos.LoginRequest;
 import com.codegym.vndreamers.exceptions.DatabaseException;
-import com.codegym.vndreamers.exceptions.UserExistException;
+import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.GenericCRUDService;
 import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
@@ -43,7 +43,7 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public JWTResponse authenticate(LoginRequest loginRequest) throws UserExistException {
+    public JWTResponse authenticate(LoginRequest loginRequest) {
         JWTResponse jwtResponse = new JWTResponse();
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -62,7 +62,7 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public User register(User user) throws DatabaseException, UserExistException {
+    public User register(User user) throws DatabaseException, EntityExistException {
         User userRegistered;
         try {
             userRegistered = saveUserToDB(user);
@@ -72,7 +72,7 @@ public class AuthServiceImp implements AuthService {
         return userRegistered;
     }
 
-    private User saveUserToDB(User user) throws SQLIntegrityConstraintViolationException, UserExistException {
+    private User saveUserToDB(User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
         String username;
         User userSaved;
         username = getUsernameFromEmail(user.getEmail());

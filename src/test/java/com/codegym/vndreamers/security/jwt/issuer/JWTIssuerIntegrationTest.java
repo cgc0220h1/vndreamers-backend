@@ -1,7 +1,7 @@
 package com.codegym.vndreamers.security.jwt.issuer;
 
 import com.codegym.vndreamers.exceptions.DatabaseException;
-import com.codegym.vndreamers.exceptions.UserExistException;
+import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
@@ -51,23 +51,23 @@ public class JWTIssuerIntegrationTest {
 
     @Test
     @DisplayName("Đăng ký trả về user")
-    void shouldReturnUserRegistered() throws DatabaseException, UserExistException {
+    void shouldReturnUserRegistered() throws DatabaseException, EntityExistException {
         User userRegistered = authService.register(userMock);
         assertNotNull(userRegistered);
     }
 
     @Test
     @DisplayName("user đăng ký gọi hàm lưu vào DB")
-    void shouldCallSaveUserMethod() throws DatabaseException, SQLIntegrityConstraintViolationException, UserExistException {
+    void shouldCallSaveUserMethod() throws DatabaseException, SQLIntegrityConstraintViolationException, EntityExistException {
         authService.register(userMock);
         verify(userService, times(1)).save(userMock);
     }
 
     @Test
     @DisplayName("User đăng ký với email trùng")
-    void shouldThrowDataViolationException() throws DatabaseException, UserExistException {
+    void shouldThrowDataViolationException() throws DatabaseException, EntityExistException {
         authService.register(userMock);
         authService.register(userMock);
-        assertThrows(UserExistException.class, () -> authService.register(userMock));
+        assertThrows(EntityExistException.class, () -> authService.register(userMock));
     }
 }

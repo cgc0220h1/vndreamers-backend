@@ -1,6 +1,6 @@
 package com.codegym.vndreamers.services.user;
 
-import com.codegym.vndreamers.exceptions.UserExistException;
+import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +47,9 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
     }
 
     @Override
-    public User save(User user) throws SQLIntegrityConstraintViolationException, UserExistException {
+    public User save(User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
         if (loadUserByUsername(user.getUsername()) != null) {
-            throw new UserExistException();
+            throw new EntityExistException();
         }
         if (user.getUsername() == null) {
             throw new SQLIntegrityConstraintViolationException();
@@ -69,6 +69,6 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElse(null);
+        return userRepository.findByEmail(username).orElseThrow(null);
     }
 }
