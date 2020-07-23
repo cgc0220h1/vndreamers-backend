@@ -46,6 +46,7 @@ public class JWTIssuerUnitTest {
 
     private JSONObject payload;
     private static JWTResponse jwtResponse;
+    private static User userMock;
 
     @Autowired
     private MockMvc mockMvc;
@@ -56,18 +57,18 @@ public class JWTIssuerUnitTest {
     @BeforeAll
     static void mockData() {
         jwtResponse = new JWTResponse();
-        User user = new User();
-        user.setEmail(VALID_EMAIL);
-        user.setFirstName(VALID_FIRST_NAME);
-        user.setLastName(VALID_LAST_NAME);
-        user.setPassword(VALID_PASSWORD);
-        user.setBirthDate(VALID_BIRTH_DATE);
-        user.setConfirmPassword(VALID_PASSWORD);
-        user.setPhoneNumber("0912345678");
-        user.setImage("random_Image_link");
-        user.setGender(1);
-        user.setBirthDate(VALID_BIRTH_DATE);
-        jwtResponse.setUser(user);
+        userMock = new User();
+        userMock.setEmail(VALID_EMAIL);
+        userMock.setFirstName(VALID_FIRST_NAME);
+        userMock.setLastName(VALID_LAST_NAME);
+        userMock.setPassword(VALID_PASSWORD);
+        userMock.setBirthDate(VALID_BIRTH_DATE);
+        userMock.setConfirmPassword(VALID_PASSWORD);
+        userMock.setPhoneNumber("0912345678");
+        userMock.setImage("random_Image_link");
+        userMock.setGender(1);
+        userMock.setBirthDate(VALID_BIRTH_DATE);
+        jwtResponse.setUser(userMock);
         jwtResponse.setAccessToken(VALID_TOKEN);
     }
 
@@ -78,7 +79,7 @@ public class JWTIssuerUnitTest {
 
     @Test
     @DisplayName("Đăng nhập với trường hợp valid credential")
-    void givenValidCredential_whenLoginPostRequest_thenOkAndReturnJWTResponse() throws Exception {
+    void givenValidCredential_whenLoginPostRequest_thenOkAndReturnJWTResponse() throws Exception, UserExistException {
         when(authService.authenticate(any())).thenReturn(jwtResponse);
 
         payload.put("email", VALID_EMAIL);
@@ -166,7 +167,7 @@ public class JWTIssuerUnitTest {
     @Test
     @DisplayName("Đăng ký với thông tin hợp lệ")
     void givenValidBody_whenRegisterPostRequest_thenReturnOKAndJWTResponse() throws Exception, DatabaseException, UserExistException {
-        when(authService.register(any())).thenReturn(jwtResponse);
+        when(authService.register(any())).thenReturn(userMock);
 
         payload.put("email", VALID_EMAIL);
         payload.put("first_name", "valid_first_name");
@@ -180,8 +181,6 @@ public class JWTIssuerUnitTest {
                 .content(payload.toString())
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk()).andDo(print())
-                .andExpect(jsonPath("$.access_token", is(notNullValue())))
-                .andExpect(jsonPath("$.access_token", is(VALID_TOKEN)))
                 .andExpect(jsonPath("$.user.username").exists())
                 .andExpect(jsonPath("$.user.password").doesNotExist())
                 .andExpect(jsonPath("$.user.email", is(VALID_EMAIL)))
