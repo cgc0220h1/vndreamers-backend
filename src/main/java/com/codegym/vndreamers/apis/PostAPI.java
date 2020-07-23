@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -36,7 +37,7 @@ public class PostAPI {
     private PostCRUDService postCRUDService;
 
     @PostMapping("/posts")
-    public ResponseEntity<String> getAllPosts(@RequestBody Post post, HttpServletRequest request) throws SQLIntegrityConstraintViolationException, UserExistException {
+    public ResponseEntity<String> savePosts(@RequestBody Post post, HttpServletRequest request) throws SQLIntegrityConstraintViolationException, UserExistException {
         String jwt = request.getHeader("Authorization");
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             String username = tokenProvider.getUsernameFromJWT(jwt);
@@ -46,6 +47,20 @@ public class PostAPI {
             return new ResponseEntity<>("ok", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Token Invalid", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<List<Post>> getAllPostsUser(HttpServletRequest request) {
+        String jwt = request.getHeader("Authorization");
+        System.out.println(jwt);
+        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+            String username = tokenProvider.getUsernameFromJWT(jwt);
+            User user = userCRUDService.findByUsername(username);
+            List<Post> posts = postCRUDService.getAllByUserId(Integer.valueOf(user.getId()));
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 }
