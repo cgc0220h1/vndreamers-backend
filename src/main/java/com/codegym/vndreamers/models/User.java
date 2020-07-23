@@ -29,16 +29,16 @@ public class User implements UserDetails {
 
     @Basic
     @Column(name = "first_name", nullable = false, length = 50)
-    @Pattern(regexp = "\\w+")
-    @Size(max = 50, min = 3)
+    @Pattern(regexp = "\\p{L}{3,32}", flags = Pattern.Flag.CASE_INSENSITIVE)
+    @Size(max = 32, min = 3)
     @NotNull
     @JsonProperty(value = "first_name")
     private String firstName;
 
     @Basic
     @Column(name = "last_name", nullable = false, length = 50)
-    @Pattern(regexp = "\\w+")
-    @Size(max = 50, min = 3)
+    @Pattern(regexp = "\\p{L}{3,32}", flags = Pattern.Flag.CASE_INSENSITIVE)
+    @Size(max = 32, min = 3)
     @NotNull
     @JsonProperty(value = "last_name")
     private String lastName;
@@ -66,16 +66,18 @@ public class User implements UserDetails {
     private String email;
 
     @Basic
-    @Column(name = "password", nullable = false, length = 50)
-    @Size(max = 50, min = 8)
+    @Column(name = "password", nullable = false, length = 32)
+    @Size(max = 32, min = 6)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,32}$")
     private String password;
 
     @Transient
-    @Size(max = 50, min = 8)
+    @Size(max = 32, min = 6)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY, value = "confirm_password")
     @NotNull
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,32}$")
     private String confirmPassword;
 
     @Basic
