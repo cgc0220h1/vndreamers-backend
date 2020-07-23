@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import javax.security.auth.login.AccountLockedException;
 import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
 
@@ -61,5 +61,11 @@ public class AuthAPI {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleExistUserException() {
         return "{\"error\":\"User Existed!\"}";
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleUserNotFoundException() {
+        return "{\"error\":\"User Not found!\"}";
     }
 }
