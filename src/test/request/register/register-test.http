@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "email": "dummy_email@example.com",
   "first_name": "dummy_first_name",
-  "last_name" : "dummy_last_name",
+  "last_name": "dummy_last_name",
   "password": "dummy_password",
   "confirm_password": "dummy_password",
   "birth_date": "20-04-2020",
@@ -16,6 +16,24 @@ Content-Type: application/json
         client.assert(response.status === 200, "Status code trả về 200");
     });
 %}
+
+
+###
+POST http://localhost:8080/api/posts
+Content-Type: application/json
+
+{
+  "image": "",
+  "content": "dummy_first_name",
+  "status": 1
+}
+
+> {%
+    client.test("Request thực hiện thành công", function() {
+        client.assert(response.status === 200, "Status code trả về 200");
+    });
+%}
+
 
 ###
 POST http://localhost:8080/auth/register
