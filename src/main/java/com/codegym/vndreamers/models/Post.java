@@ -12,20 +12,17 @@ import java.util.Set;
 @Data
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
 
     @Basic
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private String image;
 
     @Basic
     @Column(name = "content", nullable = false, length = 100)
     private String content;
-
-    @Basic
-    @Column(name = "share_link", nullable = false)
-    private String shareLink;
 
     @Basic
     @Column(name = "create_date", nullable = false)
