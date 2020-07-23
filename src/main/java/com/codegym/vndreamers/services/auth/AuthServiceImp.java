@@ -1,12 +1,18 @@
 package com.codegym.vndreamers.services.auth;
 
 import com.codegym.vndreamers.dtos.JWTResponse;
+import com.codegym.vndreamers.dtos.LoginRequest;
 import com.codegym.vndreamers.exceptions.DatabaseException;
 import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.GenericCRUDService;
 import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -19,6 +25,13 @@ public class AuthServiceImp implements AuthService {
 
     private GenericCRUDService<User> userService;
 
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
     @Autowired
     public void setJwtIssuer(JWTIssuer jwtIssuer) {
         this.jwtIssuer = jwtIssuer;
@@ -30,23 +43,33 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public JWTResponse authenticate(User user) {
-        return null;
+    public JWTResponse authenticate(LoginRequest loginRequest) throws UserExistException {
+        JWTResponse jwtResponse = new JWTResponse();
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
+        if (authentication.isAuthenticated()) {
+            UserDetails userVerified = (UserDetails) authentication.getPrincipal();
+            String token = jwtIssuer.generateToken(userVerified);
+            jwtResponse.setAccessToken(token);
+            jwtResponse.setUser((User) userVerified);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        return jwtResponse;
     }
 
     @Override
-    public JWTResponse register(User user) throws DatabaseException, UserExistException {
-        JWTResponse jwtResponse = new JWTResponse();
+    public User register(User user) throws DatabaseException, UserExistException {
         User userRegistered;
         try {
             userRegistered = saveUserToDB(user);
         } catch (SQLIntegrityConstraintViolationException exception) {
             throw new DatabaseException();
         }
-        String accessToken = jwtIssuer.generateToken(userRegistered);
-        jwtResponse.setAccessToken(accessToken);
-        jwtResponse.setUser(userRegistered);
-        return jwtResponse;
+        return userRegistered;
     }
 
     private User saveUserToDB(User user) throws SQLIntegrityConstraintViolationException, UserExistException {

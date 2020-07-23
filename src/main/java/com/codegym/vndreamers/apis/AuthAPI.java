@@ -1,6 +1,7 @@
 package com.codegym.vndreamers.apis;
 
 import com.codegym.vndreamers.dtos.JWTResponse;
+import com.codegym.vndreamers.dtos.LoginRequest;
 import com.codegym.vndreamers.exceptions.DatabaseException;
 import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.User;
@@ -31,11 +32,16 @@ public class AuthAPI {
     }
 
     @PostMapping(value = "/register")
-    public JWTResponse registerUser(@RequestBody @Valid User user) throws ValidationException, DatabaseException, UserExistException {
+    public User registerUser(@RequestBody @Valid User user) throws ValidationException, DatabaseException, UserExistException {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             throw new ValidationException("password not match");
         }
         return authService.register(user);
+    }
+
+    @PostMapping(value = "/login")
+    public JWTResponse doLogin(@RequestBody @Valid LoginRequest loginRequest) throws UserExistException {
+        return authService.authenticate(loginRequest);
     }
 
     @ExceptionHandler(ValidationException.class)
