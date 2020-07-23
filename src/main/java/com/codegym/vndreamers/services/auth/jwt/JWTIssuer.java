@@ -5,4 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public interface JWTIssuer {
     String generateToken(UserDetails userDetails) throws UserExistException;
+    String getUsernameFromJWT(String token);
+    boolean validateToken(String authToken);
 }
