@@ -1,6 +1,5 @@
 package com.codegym.vndreamers.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -13,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -82,8 +82,7 @@ public class User implements UserDetails {
     @Column(name = "birth_date", nullable = false)
     @NotNull
     @JsonProperty(value = "birth_date")
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    private Timestamp birthDate;
+    private Date birthDate;
 
     @Basic
     @Column(name = "gender", nullable = false)
