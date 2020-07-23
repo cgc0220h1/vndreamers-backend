@@ -1,7 +1,49 @@
+###Init Test, Register a user
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "email": "dummy_email@example.com",
+  "first_name": "dummy_first_name",
+  "last_name" : "dummy_last_name",
+  "password": "dummy_password",
+  "confirm_password": "dummy_password",
+  "birth_date": "20-04-2020",
+  "status": 1
+}
+
+###Login to that user
 POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
   "email": "dummy_email@example.com",
   "password": "dummy_password"
+}
+
+###Login with invalid password
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "dummy_email@example.com",
+  "password": "dummy_19191"
+}
+
+###Login with non exist user
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "vanduc@example.com",
+  "password": "dummy_19191"
+}
+
+###Login with invalid email
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "vanduc@.com",
+  "password": "dummy_19191"
 }

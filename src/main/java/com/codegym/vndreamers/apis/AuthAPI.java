@@ -10,11 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 @CrossOrigin("*")
 @RestController
@@ -41,11 +46,19 @@ public class AuthAPI {
     }
 
     @PostMapping(value = "/login")
-    public JWTResponse doLogin(@RequestBody @Valid LoginRequest loginRequest) throws EntityExistException {
-        return authService.authenticate(loginRequest);
+    public JWTResponse doLogin(@RequestBody @Valid LoginRequest loginRequest) throws UserPrincipalNotFoundException {
+        JWTResponse jwtResponse;
+        try {
+            jwtResponse = authService.authenticate(loginRequest);
+        } catch (InternalAuthenticationServiceException e) {
+            throw new UsernameNotFoundException(loginRequest.getEmail());
+        }
+        return jwtResponse;
     }
 
-    @ExceptionHandler(ValidationException.class)
+    @ExceptionHandler({ValidationException.class,
+            MethodArgumentNotValidException.class,
+            MethodArgumentTypeMismatchException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleValidationException() {
         return "{\"error\":\"Invalid Request Body\"}";
@@ -63,9 +76,16 @@ public class AuthAPI {
         return "{\"error\":\"User Existed!\"}";
     }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler({UsernameNotFoundException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleUserNotFoundException() {
         return "{\"error\":\"User Not found!\"}";
     }
+
+    @ExceptionHandler({BadCredentialsException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleWrongPasswordException() {
+        return "{\"error\":\"Wrong Password!\"}";
+    }
 }
+
