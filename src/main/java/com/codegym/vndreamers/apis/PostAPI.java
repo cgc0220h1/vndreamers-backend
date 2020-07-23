@@ -1,15 +1,13 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.exceptions.PostNotFoundException;
-import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -43,7 +41,7 @@ public class PostAPI {
     private PostCRUDService postCRUDService;
 
     @PostMapping("/posts")
-    public ResponseEntity<String> savePosts(@RequestBody Post post, HttpServletRequest request) throws SQLIntegrityConstraintViolationException, UserExistException {
+    public ResponseEntity<String> savePosts(@RequestBody Post post, HttpServletRequest request) throws SQLIntegrityConstraintViolationException, EntityExistException {
         String jwt = request.getHeader("Authorization");
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
             String username = tokenProvider.getUsernameFromJWT(jwt);

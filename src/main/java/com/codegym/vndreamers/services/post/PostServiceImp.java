@@ -1,6 +1,5 @@
 package com.codegym.vndreamers.services.post;
 
-import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.repositories.PostRepository;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Service
