@@ -48,7 +48,8 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public User save(User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
-        if (loadUserByUsername(user.getEmail()) != null) {
+        User userFound = (User) loadUserByUsername(user.getEmail());
+        if (userFound.getEmail() != null) {
             throw new EntityExistException();
         }
         if (user.getUsername() == null) {
@@ -69,7 +70,7 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow(null);
+        return userRepository.findByEmail(username).orElse(new User());
     }
 
     @Override
