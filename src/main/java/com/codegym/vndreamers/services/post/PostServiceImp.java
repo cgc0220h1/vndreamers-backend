@@ -2,6 +2,7 @@ package com.codegym.vndreamers.services.post;
 
 import com.codegym.vndreamers.exceptions.UserExistException;
 import com.codegym.vndreamers.models.Post;
+import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,5 +52,10 @@ public class PostServiceImp implements PostCRUDService {
     @Override
     public boolean delete(int id) {
         return false;
+    }
+
+    @Override
+    public List<Post> getAllByUserId(Integer id) {
+        return postRepository.findAllByUserId(id);
     }
 }
