@@ -48,7 +48,7 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public User save(User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
-        if (loadUserByUsername(user.getUsername()) != null) {
+        if (loadUserByUsername(user.getEmail()) != null) {
             throw new EntityExistException();
         }
         if (user.getUsername() == null) {

@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -62,7 +63,7 @@ public class AuthServiceImp implements AuthService {
     }
 
     @Override
-    public User register(User user) throws DatabaseException, EntityExistException {
+    public User register(@Valid User user) throws DatabaseException, EntityExistException {
         User userRegistered;
         try {
             userRegistered = saveUserToDB(user);
@@ -73,9 +74,8 @@ public class AuthServiceImp implements AuthService {
     }
 
     private User saveUserToDB(User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
-        String username;
         User userSaved;
-        username = getUsernameFromEmail(user.getEmail());
+        String username = getUsernameFromEmail(user.getEmail());
         user.setUsername(username);
         userSaved = userService.save(user);
         return userSaved;
