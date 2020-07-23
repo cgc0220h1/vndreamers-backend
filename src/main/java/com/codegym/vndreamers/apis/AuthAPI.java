@@ -19,7 +19,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 @CrossOrigin("*")
 @RestController
@@ -46,7 +45,7 @@ public class AuthAPI {
     }
 
     @PostMapping(value = "/login")
-    public JWTResponse doLogin(@RequestBody @Valid LoginRequest loginRequest) throws UserPrincipalNotFoundException {
+    public JWTResponse doLogin(@RequestBody @Valid LoginRequest loginRequest) throws UsernameNotFoundException {
         JWTResponse jwtResponse;
         try {
             jwtResponse = authService.authenticate(loginRequest);
