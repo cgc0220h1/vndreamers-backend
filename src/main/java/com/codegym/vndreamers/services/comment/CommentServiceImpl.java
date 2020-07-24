@@ -17,13 +17,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@PropertySource("classpath:config/status.properties")
+//@PropertySource("classpath:config/status.properties")
 public class CommentServiceImpl implements CommentService {
     @Value("${entity.exist}")
     private int statusExist;
 
     @Value("${entity.deleted}")
     private int statusDelete;
+
 
     private final CommentRepository commentRepository;
 
@@ -34,12 +35,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> findAllExistByPost(Post post) {
-        return commentRepository.findAllByPostAndStatus(post, statusExist);
+        return commentRepository.findAllByPost(post);
     }
 
     @Override
     public Page<Comment> findAllExistByPost(Post post, Pageable pageable) {
-        return commentRepository.findAllByPostAndStatus(post, statusExist, pageable);
+        return commentRepository.findAllByPost(post, pageable);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public boolean delete(int id) {
-        Optional <Comment>optionalComment = commentRepository.findById(id);
+        Optional <Comment>optionalComment = Optional.ofNullable(commentRepository.findById(id));
         if (optionalComment.isPresent()) {
             Comment comment = optionalComment.get();
             commentRepository.save(comment);

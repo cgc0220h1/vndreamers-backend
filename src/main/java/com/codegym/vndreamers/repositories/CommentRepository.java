@@ -10,11 +10,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
 public interface CommentRepository extends PagingAndSortingRepository<Comment, Integer> {
-    List<Comment> findAllByPostAndStatus(Post post, int status);
+    List<Comment> findAllByPost(Post post);
 
-    Page<Comment> findAllByPostAndStatus(Post post, int statusExits, Pageable pageable);
+    Page<Comment> findAllByPost(Post post, Pageable pageable);
 
-    Comment findByIdAndStatus(int id, int status);
+    Comment findById(int id);
 }
