@@ -23,5 +23,4 @@ public interface GenericCRUDService<T> {
 
     boolean delete(int id);
 
-    T findExistById(int id);
 }
