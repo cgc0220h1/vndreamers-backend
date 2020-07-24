@@ -42,6 +42,7 @@ public class CommentAPI {
         System.out.println(post.getContent());
         User user = userCRUDService.findById(id);
         model.setPost(post);
+//        model.setUser(user);
         model.setUser(user);
         commentService.save(model);
         HttpHeaders headers = new HttpHeaders();
