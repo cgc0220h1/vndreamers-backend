@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -19,7 +21,7 @@ public class UserServiceTest {
     private static final String VALID_USERNAME = "some_valid_username";
     private static final String VALID_PASSWORD = "some_valid_password";
     private static final String VALID_EMAIL = "some_valid_email@example.com";
-    private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
+    private static final Date VALID_BIRTH_DATE = Date.valueOf(LocalDate.now());
     private static final String VALID_PHONE = "0912345678";
     public static final String VALID_AVATAR = "https://giaitri.vn/wp-content/uploads/2019/07/avatar-la-gi-01.jpg";
     public static final int STATUS_ACTIVE = 1;

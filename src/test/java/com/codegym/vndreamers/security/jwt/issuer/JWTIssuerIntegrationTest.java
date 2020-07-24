@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.sql.Date;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +27,7 @@ public class JWTIssuerIntegrationTest {
 
     private static final String VALID_PASSWORD = "some_valid_password";
     private static final String VALID_EMAIL = "some_valid_email@example.com";
-    private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
+    private static final Date VALID_BIRTH_DATE = Date.valueOf(LocalDate.now());
     public static final String VALID_AVATAR = "https://giaitri.vn/wp-content/uploads/2019/07/avatar-la-gi-01.jpg";
     public static final String VALID_FIRST_NAME = "valid_first_name";
     public static final String VALID_LAST_NAME = "valid_last_name";
