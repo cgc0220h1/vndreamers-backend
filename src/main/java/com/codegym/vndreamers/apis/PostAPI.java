@@ -3,8 +3,10 @@ package com.codegym.vndreamers.apis;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.exceptions.PostDeleteException;
 import com.codegym.vndreamers.exceptions.PostNotFoundException;
+import com.codegym.vndreamers.models.Comment;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
+import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,9 +30,19 @@ import java.util.List;
 @RequestMapping("/api")
 @CrossOrigin("*")
 public class PostAPI {
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private PostCRUDService postCRUDService;
+
+
+    @GetMapping("/posts/{id}/comments")
+    public List<Comment> listAllComments (@PathVariable("id") int id) {
+        Post post = postCRUDService.findById(id);
+        Iterable<Comment> comments = commentService.findAllByPost(post);
+        return (List<Comment>) comments;
+    }
 
     @PostMapping("/posts")
     public Post savePost(@RequestBody @Valid Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {

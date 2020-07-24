@@ -8,16 +8,13 @@ import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -45,4 +42,11 @@ public class CommentAPI {
         model.setUser(user);
         return commentService.save(model);
     }
+//    @GetMapping (value = "/posts/{id}/comments")
+//    public Optional<Comment> getAllComments(@PathVariable ("id") int id) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        Post post = postCRUDService.findById(id);
+//        Optional<Comment> commentList = commentService.findAllExistByPost(id);
+//        return commentList;
+//    }
 }

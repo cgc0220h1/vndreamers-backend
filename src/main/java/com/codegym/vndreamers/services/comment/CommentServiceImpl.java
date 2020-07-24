@@ -6,7 +6,6 @@ import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.repositories.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -33,15 +32,16 @@ public class CommentServiceImpl implements CommentService {
         this.commentRepository = commentRepository;
     }
 
+
     @Override
-    public List<Comment> findAllExistByPost(Post post) {
+    public Iterable<Comment> findAllByPost(Post post) {
         return commentRepository.findAllByPost(post);
     }
 
-    @Override
-    public Page<Comment> findAllExistByPost(Post post, Pageable pageable) {
-        return commentRepository.findAllByPost(post, pageable);
-    }
+//    @Override
+//    public Page<Comment> findAllExistByPost(Post post, Pageable pageable) {
+//        return commentRepository.findAllByPost(post, pageable);
+//    }
 
     @Override
     public List<Comment> findAll() {
