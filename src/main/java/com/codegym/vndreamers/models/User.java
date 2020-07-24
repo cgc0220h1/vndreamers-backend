@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -110,21 +111,27 @@ public class User implements UserDetails {
     private String image;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<PostReaction> postLikes;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private Set<CommentReaction> commentLikes;
 
     @OneToMany(mappedBy = "userSend")
+    @JsonIgnore
     private Set<FriendRequest> requestsThisUserSent;
 
     @OneToMany(mappedBy = "userReceive")
+    @JsonIgnore
     private Set<FriendRequest> requestsThisUserReceived;
 
     @ManyToMany
@@ -133,6 +140,7 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
+    @JsonIgnore
     private Collection<Role> roles;
 
     public String getUsername() {
