@@ -11,7 +11,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @WebMvcTest
@@ -21,7 +23,7 @@ public class JWTVerifierUnitTest {
     private static final String VALID_PASSWORD = "some_valid_password";
     private static final String VALID_TOKEN = "some_valid_token";
     private static final String VALID_EMAIL = "some_valid_email@example.com";
-    private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
+    private static final Date VALID_BIRTH_DATE = Date.valueOf(LocalDate.now());
     private static JWTResponse jwtResponse;
 
     @Autowired

@@ -18,7 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.is;
@@ -38,7 +40,7 @@ public class JWTIssuerUnitTest {
     private static final String VALID_PASSWORD = "some_valid_password";
     private static final String VALID_TOKEN = "some_valid_token";
     private static final String VALID_EMAIL = "some_valid_email@example.com";
-    private static final Timestamp VALID_BIRTH_DATE = Timestamp.valueOf(LocalDateTime.now());
+    private static final Date VALID_BIRTH_DATE = Date.valueOf(LocalDate.now());
     public static final String FAIL_PASSWORD = "some_fail_password";
     public static final String FAIL_USERNAME = "some_fail_username";
     private static final String FAIL_EMAIL = "some_fail_email";
