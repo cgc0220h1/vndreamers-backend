@@ -8,7 +8,6 @@ import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,22 +37,19 @@ public class CommentAPI {
     private UserCRUDService userCRUDService;
 
     @PostMapping (value = "/{id}/comments")
-    public ResponseEntity<Comment> createComment(@RequestBody Comment model, @PathVariable("id") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public Comment createComment(@RequestBody Comment model, @PathVariable("id") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
         Post post = postCRUDService.findById(id);
-        System.out.println(post.getContent());
         User user = userCRUDService.findById(id);
         model.setPost(post);
         model.setUser(user);
-        commentService.save(model);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/{id}/comments").buildAndExpand(model.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+         return commentService.save(model);
     }
-    @GetMapping (value = "/{id}/comments")
-    public ResponseEntity<List<Comment>> listAllComments(@PathVariable("id")int id) {
-        Post post = postCRUDService.findById(id);
-        User user = userCRUDService.findById(id);
-        List<Comment> comments = commentService.findAllExistByPost(post);
-        return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
-    }
+//    @GetMapping (value = "/{id}/comments")
+//    public List<Comment> listAllComments(@PathVariable("id") int id) {
+//        Post post = postCRUDService.findById(id);
+//        return commentService.findAllExistByPost(post);
+//
+////        List<Comment> comments = commentService.findAllExistByPost(post, id);
+////        return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
+//    }
 }
