@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -42,11 +43,17 @@ public class CommentAPI {
         System.out.println(post.getContent());
         User user = userCRUDService.findById(id);
         model.setPost(post);
-//        model.setUser(user);
         model.setUser(user);
         commentService.save(model);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/{id}/comments").buildAndExpand(model.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+    @GetMapping (value = "/{id}/comments")
+    public ResponseEntity<List<Comment>> listAllComments(@PathVariable("id")int id) {
+        Post post = postCRUDService.findById(id);
+        User user = userCRUDService.findById(id);
+        List<Comment> comments = commentService.findAllExistByPost(post);
+        return new ResponseEntity<List<Comment>>(comments, HttpStatus.OK);
     }
 }
