@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -34,5 +35,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private Post post;
 }
