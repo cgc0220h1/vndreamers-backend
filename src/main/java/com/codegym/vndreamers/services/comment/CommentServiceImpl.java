@@ -66,4 +66,9 @@ public class CommentServiceImpl implements CommentService {
     public boolean delete(int id) {
         return false;
     }
+
+    @Override
+    public Comment findExistById(int id) {
+        return commentRepository.findByIdAndStatus(id, statusExist);
+    }
 }

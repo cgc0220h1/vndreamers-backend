@@ -22,4 +22,6 @@ public interface GenericCRUDService<T> {
     T update(T model);
 
     boolean delete(int id);
+
+    T findExistById(int id);
 }
