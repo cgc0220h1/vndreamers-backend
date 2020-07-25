@@ -63,6 +63,18 @@ public class PostAPI {
         }
     }
 
+    @GetMapping("/posts/{id}")
+    public List<Post> getAllPostsOtherUser(@PathVariable int id) throws PostNotFoundException {
+        List<Post> posts = postCRUDService.getAllByUserIdAndStatus(id, 1);
+        if (posts != null) {
+            return posts;
+        } else {
+            throw new PostNotFoundException();
+        }
+    }
+
+
+
     @DeleteMapping("/posts/{id}")
     public String deletePostsUser(@PathVariable("id") int id) throws PostDeleteException {
         try {
