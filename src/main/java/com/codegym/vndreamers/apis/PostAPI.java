@@ -63,6 +63,8 @@ public class PostAPI {
         }
     }
 
+
+
     @DeleteMapping("/posts/{id}")
     public String deletePostsUser(@PathVariable("id") int id) throws PostDeleteException {
         try {
