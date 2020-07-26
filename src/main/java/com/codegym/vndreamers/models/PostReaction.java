@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "post_reaction", schema = "vndreamers")
@@ -20,11 +21,11 @@ public class PostReaction {
 
     @Basic
     @Column(name = "created_date", nullable = false)
-    private Timestamp createdDate;
+    private Timestamp createdDate = Timestamp.valueOf(LocalDateTime.now());
 
     @Basic
     @Column(name = "modify_date", nullable = false)
-    private Timestamp modifyDate;
+    private Timestamp modifyDate = Timestamp.valueOf(LocalDateTime.now());
 
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "id")

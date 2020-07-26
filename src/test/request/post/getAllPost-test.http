@@ -5,7 +5,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwaGkxIiwiaWF0IjoxNTk1NzYzN
 ###
 POST http://localhost:8080/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1NzcwNTkwLCJleHAiOjE1OTU3NzA2Nzd9.THLIc_xxsnTZ2avv6jfwjB-OpVszWsFcF_d3pc8pMttWud2eCsljCSf7n2Anc4iA9rOG4aYotLhplQAphOw-FA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1Nzg4MTczLCJleHAiOjE1OTU4NzQ1NzN9.z2mJ-wP_eqqlbpPrVimEQqwcrR6JsPeyKWnqUeWLhtZC_dI06htmzSp9GfwhIUsVv75NULMUbOTGzawbL0wuoA
 
 {
   "status": 1,
