@@ -8,7 +8,7 @@ Content-Type: application/json
   "last_name" : "dummy_last_name",
   "password": "dummy_password",
   "confirm_password": "dummy_password",
-  "birth_date": "20-04-2020",
+  "birth_date": "2020-04-20",
   "status": 1
 }
 
@@ -17,8 +17,8 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "email": "phi2@gmail.com",
-  "password": "@dev1234"
+  "email": "dummy_email@example.com",
+  "password": "dummy_password"
 }
 
 ###Login with invalid password
