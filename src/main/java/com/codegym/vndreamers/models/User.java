@@ -108,7 +108,7 @@ public class User implements UserDetails {
     @Basic
     @Column(name = "image")
     @JsonProperty(value = "avatar")
-    private String image;
+    private String image = "https://images.unsplash.com/photo-1569428034239-f9565e32e224?ixlib=rb-1.2.1&auto=format&fit=crop&w=1958&q=80";
 
     @Basic
     @Column(name = "about_me")
