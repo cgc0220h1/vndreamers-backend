@@ -56,16 +56,16 @@ public class ReactionAPI {
     }
 
     @DeleteMapping("/posts/{postId}/reactions")
-    public String deleteReactionsPost(@PathVariable int postId) {
+    public PostReaction deleteReactionsPost(@PathVariable int postId) {
         Post post = postCRUDService.findById(postId);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         PostReaction postReaction = reactionService.findByPostAndUser(post, user);
         if (post != null) {
             reactionService.delete(postReaction.getId());
 //            reactionService.deleteByPostAndUser(post, user);
-            return "deleted";
+            return postReaction ;
         } else {
-            return "error";
+            return null;
         }
     }
 
