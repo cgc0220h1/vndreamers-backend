@@ -40,11 +40,22 @@ public class ReactionAPI {
     }
 
     @GetMapping("/posts/{postId}/reactions")
-    public List<PostReaction> getReactionsPost(@PathVariable int postId){
+    public List<PostReaction> getReactionsPost(@PathVariable int postId) {
         Post post = postCRUDService.findById(postId);
-        if (post != null){
+        if (post != null) {
             return reactionService.getAllReactionByPostId(postId);
-        }else {
+        } else {
+            return null;
+        }
+    }
+
+    @DeleteMapping("/posts/{postId}/reactions")
+    public PostReaction deleteReactionsPost(@PathVariable int postId) {
+        Post post = postCRUDService.findById(postId);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (post != null) {
+            return reactionService.deleteByPostIdAndUserId(postId, user.getId());
+        } else {
             return null;
         }
     }

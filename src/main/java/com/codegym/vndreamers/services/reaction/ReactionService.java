@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ReactionService extends GenericCRUDService<PostReaction> {
     List<PostReaction> getAllReactionByPostId(Integer id);
+    PostReaction deleteByPostIdAndUserId(Integer postId, Integer userId);
 }

@@ -1,0 +1,3 @@
+DELETE  http://localhost:8080/api/posts/1/reactions
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1Nzk4MzcyLCJleHAiOjE1OTU4ODQ3NzJ9.sX3FKoCowapX-wHkG0vdodf2V6OOL4tRkMuIlMUMvacCiBVO1T96hyu3nRW32uVWc_Z6r040qtjyAbQ60s7euA

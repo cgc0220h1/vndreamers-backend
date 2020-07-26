@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface ReactionRepository extends JpaRepository<PostReaction, Integer> {
     List<PostReaction> findAllByPostId(Integer id);
+    PostReaction deleteByPostIdAndUserId(Integer postId, Integer userId);
 }
