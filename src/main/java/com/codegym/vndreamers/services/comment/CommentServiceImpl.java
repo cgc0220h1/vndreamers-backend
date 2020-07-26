@@ -38,6 +38,11 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.findAllByPost(post);
     }
 
+    @Override
+    public List<Comment> findAllByPostId(Integer postId) {
+        return commentRepository.findAllByPostId(postId);
+    }
+
 //    @Override
 //    public Page<Comment> findAllExistByPost(Post post, Pageable pageable) {
 //        return commentRepository.findAllByPost(post, pageable);

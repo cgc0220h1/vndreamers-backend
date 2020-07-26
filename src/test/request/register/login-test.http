@@ -17,8 +17,8 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "email": "dummy_email@example.com",
-  "password": "dummy_password"
+  "email": "phi2@gmail.com",
+  "password": "@dev1234"
 }
 
 ###Login with invalid password

@@ -1,0 +1,8 @@
+POST  http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwaGkyIiwiaWF0IjoxNTk1NzY1NDcyLCJleHAiOjE1OTU3NjU1NTh9.sHHExFxOoymij1ruJWW0AcypTJ45CY-RRKQZOj7TQwo6N-8h9f4mYvhLuHzY-wOzC2czG6Wb1IuHYkyWZjR-XQ
+
+{
+  "content": "phi2  comment lan 1"
+}
+

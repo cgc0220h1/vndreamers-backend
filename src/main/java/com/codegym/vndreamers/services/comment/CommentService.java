@@ -11,6 +11,8 @@ import java.util.List;
 public interface CommentService extends GenericCRUDService<Comment> {
 //    List<Comment> findAllExistByPost(Post post);
     Iterable<Comment> findAllByPost(Post post);
+    List<Comment> findAllByPostId(Integer postId);
+
 
 //    Page<Comment> findAllExistByPost(Post post, Pageable pageable);
 }
