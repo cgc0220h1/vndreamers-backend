@@ -1,6 +1,6 @@
 POST  http://localhost:8080/api/posts/1/reactions
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1Nzg5NTQxLCJleHAiOjE1OTU4NzU5NDF9.SRnUE6Qk1MdAOOMuLC33RQ7NiMP5eZUJlX_ggtDurDgVFTBrwSKjVH1olrjs2B_DOCToNBhXKJgTKUVuaWboew
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1NzkwMjYzLCJleHAiOjE1OTU4NzY2NjN9.Tyj6bj9tZ7797Yh-fb1AtWJFnPqDq4DGI0Xbh28g0OrSOL6uqvzwfH4FzLH4cwaDyY96ClbghINZ7NopVkSQJg
 
 {
   "status": 1
