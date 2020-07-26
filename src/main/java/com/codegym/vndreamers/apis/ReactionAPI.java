@@ -1,12 +1,14 @@
 package com.codegym.vndreamers.apis;
 
 import com.codegym.vndreamers.exceptions.EntityExistException;
+import com.codegym.vndreamers.exceptions.ReactionExistException;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.PostReaction;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.reaction.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +32,13 @@ public class ReactionAPI {
     private ReactionService reactionService;
 
     @PostMapping("/posts/{postId}/reactions")
-    public PostReaction createReactionPost(@PathVariable int postId, @RequestBody PostReaction postReaction) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public PostReaction createReactionPost(@PathVariable int postId, @RequestBody PostReaction postReaction) throws SQLIntegrityConstraintViolationException, EntityExistException, ReactionExistException {
         Post post = postCRUDService.findById(postId);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PostReaction postReaction1 = reactionService.findByPostAndUser(post, user);
+        if (postReaction1 != null) {
+            throw new ReactionExistException();
+        }
         postReaction.setPost(post);
         postReaction.setUser(user);
         reactionService.save(postReaction);
@@ -40,12 +46,32 @@ public class ReactionAPI {
     }
 
     @GetMapping("/posts/{postId}/reactions")
-    public List<PostReaction> getReactionsPost(@PathVariable int postId){
+    public List<PostReaction> getReactionsPost(@PathVariable int postId) {
         Post post = postCRUDService.findById(postId);
-        if (post != null){
+        if (post != null) {
             return reactionService.getAllReactionByPostId(postId);
-        }else {
+        } else {
             return null;
         }
+    }
+
+    @DeleteMapping("/posts/{postId}/reactions")
+    public String deleteReactionsPost(@PathVariable int postId) {
+        Post post = postCRUDService.findById(postId);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        PostReaction postReaction = reactionService.findByPostAndUser(post, user);
+        if (post != null) {
+            reactionService.delete(postReaction.getId());
+//            reactionService.deleteByPostAndUser(post, user);
+            return "deleted";
+        } else {
+            return "error";
+        }
+    }
+
+    @ExceptionHandler(ReactionExistException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleException() {
+        return "{\"error\":\"reaction exist\"}";
     }
 }
