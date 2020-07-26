@@ -76,7 +76,7 @@ public class PostAPI {
 
 
     @DeleteMapping("/posts/{id}")
-    public String deletePostsUser(@PathVariable("id") int id) throws PostDeleteException {
+    public Post deletePostsUser(@PathVariable("id") int id) throws PostDeleteException {
         try {
             Post post = postCRUDService.findById(id);
             if (post.getStatus() == 0) {
@@ -86,11 +86,11 @@ public class PostAPI {
             throw new PostDeleteException();
         }
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        boolean isRemoved = postCRUDService.deletePostByIdAndUserId(Integer.valueOf(id), Integer.valueOf(user.getId()));
-        if (isRemoved) {
-            return "Delete successfully";
+        Post post = postCRUDService.deletePostByIdAndUserId(Integer.valueOf(id), Integer.valueOf(user.getId()));
+        if (post != null) {
+            return post;
         } else {
-            throw new PostDeleteException();
+            return null;
         }
     }
 

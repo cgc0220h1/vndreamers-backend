@@ -63,16 +63,15 @@ public class PostServiceImp implements PostCRUDService {
     }
 
     @Override
-    public boolean deletePostByIdAndUserId(Integer postId, Integer userId) {
+    public Post deletePostByIdAndUserId(Integer postId, Integer userId) {
         Post post = postRepository.findById(postId).get();
         User user = userRepository.findById(userId).get();
         if (post != null && user != null){
            Post post1 =  postRepository.findById(postId).get();
            post1.setStatus(0);
-           postRepository.save(post1);
-           return true;
+            return postRepository.save(post1);
         }else {
-            return false;
+            return null;
         }
     }
 }

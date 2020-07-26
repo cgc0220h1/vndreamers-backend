@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface PostCRUDService extends GenericCRUDService<Post> {
     List<Post> getAllByUserIdAndStatus(Integer id, Integer status);
-    boolean deletePostByIdAndUserId(Integer postId, Integer userId);
+    Post deletePostByIdAndUserId(Integer postId, Integer userId);
 }
