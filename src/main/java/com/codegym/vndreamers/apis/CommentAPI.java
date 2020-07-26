@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,7 @@ public class CommentAPI {
     @GetMapping (value = "/posts/{id}/comments")
     public List<Comment> getAllCommentsPost(@PathVariable ("id") int id) {
         List<Comment> comments = commentService.findAllByPostId(id);
+        Collections.reverse(comments);
         return comments;
     }
 }

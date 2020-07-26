@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -57,6 +58,7 @@ public class PostAPI {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Post> posts = postCRUDService.getAllByUserIdAndStatus(Integer.valueOf(user.getId()), 1);
         if (posts != null) {
+            Collections.reverse(posts);
             return posts;
         } else {
             throw new PostNotFoundException();
@@ -67,6 +69,7 @@ public class PostAPI {
     public List<Post> getAllPostsOtherUser(@PathVariable int id) throws PostNotFoundException {
         List<Post> posts = postCRUDService.getAllByUserIdAndStatus(id, 1);
         if (posts != null) {
+            Collections.reverse(posts);
             return posts;
         } else {
             throw new PostNotFoundException();
