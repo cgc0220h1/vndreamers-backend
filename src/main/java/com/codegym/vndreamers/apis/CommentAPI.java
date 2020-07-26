@@ -34,8 +34,8 @@ public class CommentAPI {
     @Autowired
     private UserCRUDService userCRUDService;
 
-    @PostMapping (value = "/posts/{id}/comments")
-    public Comment createComment(@RequestBody Comment model, @PathVariable("id") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    @PostMapping (value = "/posts/{postId}/comments")
+    public Comment createComment(@RequestBody Comment model, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
         Post post = postCRUDService.findById(id);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.setPost(post);
