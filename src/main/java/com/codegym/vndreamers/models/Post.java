@@ -1,9 +1,6 @@
 package com.codegym.vndreamers.models;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -49,6 +46,6 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-//    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private User user;
 }
