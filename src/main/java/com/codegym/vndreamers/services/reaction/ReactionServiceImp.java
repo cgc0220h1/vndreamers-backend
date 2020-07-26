@@ -1,7 +1,9 @@
 package com.codegym.vndreamers.services.reaction;
 
 import com.codegym.vndreamers.exceptions.EntityExistException;
+import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.PostReaction;
+import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.repositories.ReactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -60,7 +62,7 @@ public class ReactionServiceImp implements ReactionService {
     }
 
     @Override
-    public PostReaction deleteByPostIdAndUserId(Integer postId, Integer userId) {
-        return reactionRepository.deleteByPostIdAndUserId(postId, userId);
+    public PostReaction findByPostAndUser(Post post, User user) {
+        return reactionRepository.findByPostAndUser(post, user).orElse(null);
     }
 }
