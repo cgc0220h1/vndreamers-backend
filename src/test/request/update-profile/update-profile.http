@@ -1,9 +1,9 @@
 PUT http://localhost:8080/api/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1NzgzNzk3LCJleHAiOjE1OTU3ODM4ODR9.mUIsqO6P9H7B1O3_qDuqilij5V9OxDborQDRa79WPycsv2AdC2R97HJJKDhPsx6wDZT0NnrAShnxKnHDdB8Cdw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1Nzg0MTU0LCJleHAiOjE1OTU4NzA1NTR9.xnjnjX5xQ5kDjARtBjK4Sdf-QC5--r3fT2ppk8J8SaRwIZj2S_NrZLrkUxHRfTpF1R9MQV-4-46LUo00FeOndw
 
 {
-  "id": 2,
+  "id": 1,
   "first_name": "van",
   "last_name": "duc",
   "email": "devteam@vndreamers.com",
