@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface CommentRepository extends PagingAndSortingRepository<Comment, Integer> {
     List<Comment> findAllByPost(Post post);
+    List<Comment> findAllByPostId(Integer postId);
 
     Page<Comment> findAllByPost(Post post, Pageable pageable);
 
