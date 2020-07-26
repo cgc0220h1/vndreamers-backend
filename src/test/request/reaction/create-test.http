@@ -1,0 +1,7 @@
+POST  http://localhost:8080/api/posts/1/reactions
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1Nzg5NTQxLCJleHAiOjE1OTU4NzU5NDF9.SRnUE6Qk1MdAOOMuLC33RQ7NiMP5eZUJlX_ggtDurDgVFTBrwSKjVH1olrjs2B_DOCToNBhXKJgTKUVuaWboew
+
+{
+  "status": 1
+}
