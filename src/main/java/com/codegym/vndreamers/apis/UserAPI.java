@@ -35,8 +35,18 @@ public class UserAPI {
     public User updateProfileUser(@RequestBody User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userToken = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (userToken.getId() == user.getId()){
-            System.out.println("dung roi");
-            return null;
+           User myUser =  userCRUDService.findById(userToken.getId());
+            myUser.setFirstName(user.getFirstName());
+            myUser.setLastName(user.getLastName());
+            myUser.setBirthDate(user.getBirthDate());
+            myUser.setConfirmPassword("@dev1234");
+            myUser.setPassword("@dev1234");
+            myUser.setUsername(user.getUsername());
+            myUser.setAddress(user.getAddress());
+            myUser.setPhoneNumber(user.getPhoneNumber());
+            myUser.setAboutMe(user.getAboutMe());
+//            userCRUDService.updateProfileUser(myUser);
+            return userToken;
         }else {
             return null;
         }
