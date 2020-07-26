@@ -110,6 +110,11 @@ public class User implements UserDetails {
     @JsonProperty(value = "avatar")
     private String image;
 
+    @Basic
+    @Column(name = "about_me")
+    @JsonProperty(value = "about_me")
+    private String aboutMe;
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<Comment> comments;
