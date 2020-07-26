@@ -34,4 +34,4 @@ out/
 .vscode/
 
 ###Environment File
-.env
+*.env

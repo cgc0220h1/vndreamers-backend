@@ -1,0 +1,14 @@
+GET http://localhost:8080/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwaGkxIiwiaWF0IjoxNTk1NzYzNjgwLCJleHAiOjE1OTU3NjM3NjZ9.fBmLdIcjd_cS3CE-u2C3_fO3lCT6Dn7amVHy5ebIEByAgJUhJFSw4y8MnzuS1q1Md4tkmNU5jsYTXkMI_ghcPw
+
+###
+POST http://localhost:8080/api/posts
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1Nzg4MTczLCJleHAiOjE1OTU4NzQ1NzN9.z2mJ-wP_eqqlbpPrVimEQqwcrR6JsPeyKWnqUeWLhtZC_dI06htmzSp9GfwhIUsVv75NULMUbOTGzawbL0wuoA
+
+{
+  "status": 1,
+  "content": "Thật là vl",
+  "image": ""
+}

@@ -1,0 +1,13 @@
+POST  http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1NzcwNzMyLCJleHAiOjE1OTU3NzA4MTl9.ieJn7bYgLbklm8CwGrY5Bnl5KQL5GoW-OwU_8CWh6ixJiVaoMtP_503dif0HMre4ktiiqP3iR5hqrCzryUploQ
+
+{
+  "content": "phi2  comment lan 3"
+}
+
+###
+GET http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1NzcwNzMyLCJleHAiOjE1OTU3NzA4MTl9.ieJn7bYgLbklm8CwGrY5Bnl5KQL5GoW-OwU_8CWh6ixJiVaoMtP_503dif0HMre4ktiiqP3iR5hqrCzryUploQ
+

@@ -1,0 +1,46 @@
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "email": "dummy_email@example.com",
+  "first_name": "dummy_first_name",
+  "last_name": "dummy_last_name",
+  "password": "dummy_password",
+  "confirm_password": "dummy_password",
+  "birth_date": "20-04-2020",
+  "status": 1
+}
+
+> {%
+    client.test("Request thực hiện thành công", function() {
+        client.assert(response.status === 200, "Status code trả về 200");
+    });
+%}
+
+
+###
+POST http://localhost:8080/api/posts
+Content-Type: application/json
+
+{
+  "image": "",
+  "content": "dummy_first_name",
+  "status": 1
+}
+
+> {%
+    client.test("Request thực hiện thành công", function() {
+        client.assert(response.status === 200, "Status code trả về 200");
+    });
+%}
+
+
+###
+POST http://localhost:8080/auth/register
+
+### Không trả về danh sách posts
+GET http://localhost:8080/posts
+
+###Gửi trả về danh sách posts với 1 Token
+GET http://localhost:8080/posts
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdW1teV9lbWFpbEBleGFtcGxlLmNvbSIsImlhdCI6MTU5NTQwNDQ2NSwiZXhwIjoxNTk1NDA0NTUxfQ.f1lY5uhr0V1d4n899HaRo04Js1jYoWR6q1a0dwTma5bEAqzeMlYqHe5Kyx5YsSy4-MRgNWpMMqWeJ2Wm5VpXfQ

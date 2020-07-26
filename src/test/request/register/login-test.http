@@ -1,0 +1,49 @@
+###Init Test, Register a user
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "email": "devteam@vndreamers.com",
+  "first_name": "dev",
+  "last_name" : "team",
+  "password": "@dev1234",
+  "confirm_password": "@dev1234",
+  "birth_date": "2020-04-20",
+  "status": 1
+}
+
+###Login to that user
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "devteam@vndreamers.com",
+  "password": "@dev1234"
+}
+
+###Login with invalid password
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "dummy_email@example.com",
+  "password": "dummy_19191"
+}
+
+###Login with non exist user
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "vanduc@example.com",
+  "password": "dummy_19191"
+}
+
+###Login with invalid email
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "vanduc@.com",
+  "password": "dummy_19191"
+}
