@@ -51,4 +51,9 @@ public class ReactionServiceImp implements ReactionService {
     public boolean delete(int id) {
         return false;
     }
+
+    @Override
+    public List<PostReaction> getAllReactionByPostId(Integer id) {
+        return reactionRepository.findAllByPostId(id);
+    }
 }

@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 @RestController
 @RequestMapping(
@@ -36,5 +37,15 @@ public class ReactionAPI {
         postReaction.setUser(user);
         reactionService.save(postReaction);
         return postReaction;
+    }
+
+    @GetMapping("/posts/{postId}/reactions")
+    public List<PostReaction> getReactionsPost(@PathVariable int postId){
+        Post post = postCRUDService.findById(postId);
+        if (post != null){
+            return reactionService.getAllReactionByPostId(postId);
+        }else {
+            return null;
+        }
     }
 }
