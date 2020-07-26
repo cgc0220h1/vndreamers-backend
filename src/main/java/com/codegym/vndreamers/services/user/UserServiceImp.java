@@ -42,8 +42,7 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public User findById(int id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        return optionalUser.orElse(null);
+     return userRepository.findById(id).get();
     }
 
     @Override
@@ -76,5 +75,10 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).get();
+    }
+
+    @Override
+    public User updateProfileUser(User user) {
+        return userRepository.save(user);
     }
 }

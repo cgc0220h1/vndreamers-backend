@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
@@ -34,10 +35,10 @@ public class UserAPI {
     public User updateProfileUser(@RequestBody User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userToken = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (userToken.getId() == user.getId()){
-           return userCRUDService.save(user);
+            System.out.println("dung roi");
+            return null;
         }else {
             return null;
         }
-
     }
 }
