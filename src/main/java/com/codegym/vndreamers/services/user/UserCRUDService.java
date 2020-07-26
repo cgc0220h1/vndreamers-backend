@@ -5,4 +5,5 @@ import com.codegym.vndreamers.services.GenericCRUDService;
 
 public interface UserCRUDService extends GenericCRUDService<User> {
     User findByUsername(String username);
+    User updateProfileUser(User user);
 }
