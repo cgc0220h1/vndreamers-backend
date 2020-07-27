@@ -8,19 +8,12 @@ import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -95,6 +88,19 @@ public class PostAPI {
         } else {
             return null;
         }
+    }
+
+    @PutMapping("/posts/{id}")
+    public Object updatePost(@PathVariable("id") int id, @RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
+        Post currentPost = postCRUDService.findById(id);
+        if (currentPost == null){
+            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+        }
+        currentPost.setContent(post.getContent());
+        currentPost.setImage(post.getImage());
+        currentPost.setId(post.getId());
+        postCRUDService.save(currentPost);
+        return new ResponseEntity<Post>(currentPost, HttpStatus.OK);
     }
 
     @ExceptionHandler(PostNotFoundException.class)

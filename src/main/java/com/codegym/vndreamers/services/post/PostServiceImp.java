@@ -42,6 +42,7 @@ public class PostServiceImp implements PostCRUDService {
         return postRepository.findById(id).get();
     }
 
+
     @Override
     public Post save(Post model){
         return postRepository.save(model);
