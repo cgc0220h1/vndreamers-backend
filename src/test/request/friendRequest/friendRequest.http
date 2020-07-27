@@ -5,4 +5,4 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NTk4N
 ###
 PUT  http://localhost:8080/api/friends/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NTc2MjcsImV4cCI6MTU5NTk0NDAyN30.E8Kcj4f8ir1Po_YAG6-J-Qz5Ay_M_uYlnohCYUgwqh1WfWFl2Zt1J9JRjSyTDxKtEHNuvj68OBWlcUzVc-heLA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NjAxMjUsImV4cCI6MTU5NTk0NjUyNX0.ZP5t_1DCnMCB4F-oJ-Iwzqc8ENWauzHkzUoYm5aw2j6xezCQ10Z2DPkbdu05jXjz0vwiUM5ktRZcc8hW3k6TEw

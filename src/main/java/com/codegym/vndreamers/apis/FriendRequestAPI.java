@@ -53,9 +53,12 @@ public class FriendRequestAPI {
     public FriendRequest ConfirmFriendRequest(@PathVariable int userSendId) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userConfirm = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         FriendRequest friendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSendId, userConfirm.getId());
-        friendRequest.setStatus(FRIEND_STATUS);
-        return friendRequestService.save(friendRequest);
-
+        if (friendRequest != null){
+            friendRequest.setStatus(FRIEND_STATUS);
+            return friendRequestService.save(friendRequest);
+        }else {
+            return null ;
+        }
     }
 
 }
