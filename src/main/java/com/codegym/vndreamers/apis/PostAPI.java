@@ -11,16 +11,7 @@ import com.codegym.vndreamers.services.post.PostCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -95,6 +86,16 @@ public class PostAPI {
         } else {
             return null;
         }
+    }
+
+    @PutMapping("/posts/{postId}")
+    public Post updatePost(@PathVariable("postId") int id, @RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
+        Post currentPost = postCRUDService.findById(id);
+        currentPost.setContent(post.getContent());
+        currentPost.setImage(post.getImage());
+        currentPost.setStatus(post.getStatus());
+        postCRUDService.save(currentPost);
+        return currentPost;
     }
 
     @ExceptionHandler(PostNotFoundException.class)
