@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -81,8 +82,17 @@ public class FriendRequestAPI {
     }
 
     @GetMapping("/friends/{userId}")
-    public List<FriendRequest> getAllFriend(@PathVariable int userId){
-        return friendRequestService.getAllFriendRequestByUserIdAndByStatus(userId, FRIEND_STATUS);
+    public List<User> getAllFriend(@PathVariable int userId){
+        List<FriendRequest> friendRequests =  friendRequestService.getAllFriendRequestByUserIdAndByStatus(userId, FRIEND_STATUS);
+        List<User> userList = new ArrayList<>();
+        for (FriendRequest friendRequest : friendRequests){
+            if (friendRequest.getUserSend().getId() != userId){
+                userList.add(friendRequest.getUserSend());
+            }else {
+                userList.add(friendRequest.getUserReceive());
+            }
+        }
+        return userList;
     }
 
 }
