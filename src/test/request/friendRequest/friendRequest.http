@@ -1,18 +1,24 @@
 ### Create FriendRequest
-POST  http://localhost:8080/api/friends/3
+POST  http://localhost:8080/api/friends/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NTk4NjQsImV4cCI6MTU5NTk0NjI2NH0.HQ6SskGwzYYEyiYNlKksz7LIK1V02kdmuOkI3m20iipLBgUhjSHUFjp1oXi69oJ6cQV7dT2gBPikqmimUC3R2Q
-
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NjU1MjIsImV4cCI6MTU5NTk1MTkyMn0.BpIWH48u1XrkdCDmyMyby0H5QHWDSygV1snjNRgzJWPz5J936bSfcisMlHOYYXDyKNBq7o0qPd9UVQEl2vRZjA
 
 
 ### Confirm FriendRequest
-PUT  http://localhost:8080/api/friends/2
+PUT  http://localhost:8080/api/friends/3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NjAxMjUsImV4cCI6MTU5NTk0NjUyNX0.ZP5t_1DCnMCB4F-oJ-Iwzqc8ENWauzHkzUoYm5aw2j6xezCQ10Z2DPkbdu05jXjz0vwiUM5ktRZcc8hW3k6TEw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODY1NjYzLCJleHAiOjE1OTU5NTIwNjN9.cb7tjOuY-ZPcXFcyNeyJikRhXc0Rl0OXbIeHPw4dfQYS_ZLp1AwEI_BwNwHO2nJVtJdU_VeblfHm3y56sQF61g
+
+
 
 
 ### Delete FriendRelationship or Delete Friend Request
 DELETE http://localhost:8080/api/friends/3
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODYyNTg0LCJleHAiOjE1OTU5NDg5ODR9.MDs-XgduhDPFVz--aPO5o6PrNH7dvd2CguFRg8ohPkmCArxfbCGRoeiVeh3B7rGEqKxNv5RkNq5RZQ2aXyWg6w
+
+
+### Get list Friend of user
+GET http://localhost:8080/api/friends/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODY1NzM2LCJleHAiOjE1OTU5NTIxMzZ9.9Yv93oE5TY3fBiqeXtCAjD3WGkItpQNec-VuMh2Uxn3N6Tqv-nVRrQNo_ypWcEXQUxmwfGC5cufwPzDAM9Bm7A
