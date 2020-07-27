@@ -95,4 +95,16 @@ public class FriendRequestAPI {
         return userList;
     }
 
+    @GetMapping("/friend-requests-to-me")
+    public List<User> getFriendRequestsToMe(){
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<User> userList = new ArrayList<>();
+        List<FriendRequest> friendRequests = friendRequestService.getAllFriendRequestToMeByUserIdAndByStatus(user.getId(), NO_FRIEND_STATUS);
+        for (FriendRequest friendRequest : friendRequests){
+           userList.add(friendRequest.getUserSend());
+        }
+        return userList;
+    }
+
+
 }

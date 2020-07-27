@@ -22,3 +22,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1O
 GET http://localhost:8080/api/friends/1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODY2OTI3LCJleHAiOjE1OTU5NTMzMjd9.5WQUhzM21VCSQgqYcH9xyx50RzOf0BkYjXnMQmNukdMo9aEpwY5k6dsslJ3NMCpll1S_PMi5fSC3yuutVQUlVA
+
+
+### Get list friend request to me
+GET http://localhost:8080/api/friend-requests-to-me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODY5MTgxLCJleHAiOjE1OTU5NTU1ODF9.UqBHFI7tXnzMcg0DzT1I1xFSCbC7zqrTdv2daY2S72vaAzFVAp6gyHpBiKTG7Yhmpbe1mGSGjBoaIHVjIVbLwQ
