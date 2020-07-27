@@ -1,9 +1,8 @@
-POST  http://localhost:8080/api/friends/2
+POST  http://localhost:8080/api/friends/3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODUwMjIxLCJleHAiOjE1OTU5MzY2MjF9.Z6PMJTOWg_57wNQvmvaY2EtpRFFI3eF_D2UqQZ7uxNdsaM5RERlflhxhBjGh9s0pdh358RO1NpFjzlC8iMyr9A
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwaGkiLCJpYXQiOjE1OTU4NTc1NTcsImV4cCI6MTU5NTk0Mzk1N30._2Xui-poaEvfU4WFhHldpu-kU0dn8E6MMTTj3LjcqttmCNuly_o431qLttk30k3kVcQ77pqKCrQCOyxDWdQjJw
 
 ###
-PUT  http://localhost:8080/api/friends/1
+PUT  http://localhost:8080/api/friends/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwaGkiLCJpYXQiOjE1OTU4NTcwMTUsImV4cCI6MTU5NTk0MzQxNX0.9c3HXJX15bF50reIeQfBVw1QYhEjHDePZizQ8vwb_8QwSMs0ctpps11Ixg4woX22ZVZDtvgs4jOVvVmBQ4DUaA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NTc2MjcsImV4cCI6MTU5NTk0NDAyN30.E8Kcj4f8ir1Po_YAG6-J-Qz5Ay_M_uYlnohCYUgwqh1WfWFl2Zt1J9JRjSyTDxKtEHNuvj68OBWlcUzVc-heLA

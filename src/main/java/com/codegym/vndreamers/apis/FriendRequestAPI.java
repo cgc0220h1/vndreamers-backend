@@ -22,19 +22,24 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @CrossOrigin("*")
 public class FriendRequestAPI {
 
+    public static final int NO_FRIEND_STATUS = 0;
+    public static final int FRIEND_STATUS = 1;
+    public static final int BLOCK_STATUS = 2;
+
     @Autowired
     private UserCRUDService userCRUDService;
 
     @Autowired
     private FriendRequestService friendRequestService;
 
-    @PostMapping("/friends/{userId}")
-    public FriendRequest SendFriendRequest(@PathVariable int userId) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    @PostMapping("/friends/{receiveId}")
+    public FriendRequest SendFriendRequest(@PathVariable int receiveId) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userSend = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User userReceive = userCRUDService.findById(userId);
+        User userReceive = userCRUDService.findById(receiveId);
         FriendRequest friendRequest = new FriendRequest();
         friendRequest.setUserSend(userSend);
         friendRequest.setUserReceive(userReceive);
+        friendRequest.setStatus(NO_FRIEND_STATUS);
         return friendRequestService.save(friendRequest);
 
     }
@@ -43,7 +48,7 @@ public class FriendRequestAPI {
     public FriendRequest ConfirmFriendRequest(@PathVariable int userSendId) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userConfirm = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         FriendRequest friendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSendId, userConfirm.getId());
-        friendRequest.setStatus(1);
+        friendRequest.setStatus(FRIEND_STATUS);
         return friendRequestService.save(friendRequest);
 
     }
