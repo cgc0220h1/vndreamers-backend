@@ -1,0 +1,3 @@
+POST  http://localhost:8080/api/friends/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODUwMjIxLCJleHAiOjE1OTU5MzY2MjF9.Z6PMJTOWg_57wNQvmvaY2EtpRFFI3eF_D2UqQZ7uxNdsaM5RERlflhxhBjGh9s0pdh358RO1NpFjzlC8iMyr9A
