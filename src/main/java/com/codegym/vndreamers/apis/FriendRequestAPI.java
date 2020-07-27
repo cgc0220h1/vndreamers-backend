@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,7 +35,16 @@ public class FriendRequestAPI {
         FriendRequest friendRequest = new FriendRequest();
         friendRequest.setUserSend(userSend);
         friendRequest.setUserReceive(userReceive);
-       return friendRequestService.save(friendRequest);
+        return friendRequestService.save(friendRequest);
+
+    }
+
+    @PutMapping("/friends/{userSendId}")
+    public FriendRequest ConfirmFriendRequest(@PathVariable int userSendId) throws SQLIntegrityConstraintViolationException, EntityExistException {
+        User userConfirm = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        FriendRequest friendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSendId, userConfirm.getId());
+        friendRequest.setStatus(1);
+        return friendRequestService.save(friendRequest);
 
     }
 

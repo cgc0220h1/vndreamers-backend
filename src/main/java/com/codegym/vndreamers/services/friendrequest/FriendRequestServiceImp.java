@@ -52,4 +52,9 @@ public class FriendRequestServiceImp implements FriendRequestService {
     public boolean delete(int id) {
         return false;
     }
+
+    @Override
+    public FriendRequest getFriendRequestByUserSensIdAndUserReceiveId(Integer userSendId, Integer userReceiveId) {
+        return friendRequestRepository.findByUserSendIdAndUserReceiveId(userSendId, userReceiveId);
+    }
 }
