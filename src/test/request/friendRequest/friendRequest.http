@@ -1,0 +1,8 @@
+POST  http://localhost:8080/api/friends/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NTk4NjQsImV4cCI6MTU5NTk0NjI2NH0.HQ6SskGwzYYEyiYNlKksz7LIK1V02kdmuOkI3m20iipLBgUhjSHUFjp1oXi69oJ6cQV7dT2gBPikqmimUC3R2Q
+
+###
+PUT  http://localhost:8080/api/friends/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NjAxMjUsImV4cCI6MTU5NTk0NjUyNX0.ZP5t_1DCnMCB4F-oJ-Iwzqc8ENWauzHkzUoYm5aw2j6xezCQ10Z2DPkbdu05jXjz0vwiUM5ktRZcc8hW3k6TEw
