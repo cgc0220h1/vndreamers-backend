@@ -50,6 +50,11 @@ public class FriendRequestServiceImp implements FriendRequestService {
 
     @Override
     public boolean delete(int id) {
+       FriendRequest friendRequest = friendRequestRepository.findById(id).get();
+       if (friendRequest != null){
+           friendRequestRepository.deleteById(id);
+           return true;
+       }
         return false;
     }
 

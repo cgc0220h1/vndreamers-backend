@@ -8,6 +8,7 @@ import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -58,6 +59,22 @@ public class FriendRequestAPI {
             return friendRequestService.save(friendRequest);
         }else {
             return null ;
+        }
+    }
+
+    @DeleteMapping("/friends/{userOtherId}")
+    public FriendRequest deleteFriendRequestOrDeleteFriend(@PathVariable int userOtherId ){
+        User myUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        FriendRequest isNullFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(myUser.getId(), userOtherId);
+        FriendRequest isNullReverseFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userOtherId, myUser.getId());
+        if (isNullFriendRequest != null){
+            friendRequestService.delete(isNullFriendRequest.getId());
+            return isNullFriendRequest;
+        }else if (isNullReverseFriendRequest != null){
+            friendRequestService.delete(isNullReverseFriendRequest.getId());
+            return isNullReverseFriendRequest;
+        }else {
+            return null;
         }
     }
 
