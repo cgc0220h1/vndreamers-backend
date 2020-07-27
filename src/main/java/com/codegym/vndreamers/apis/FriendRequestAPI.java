@@ -36,12 +36,18 @@ public class FriendRequestAPI {
     public FriendRequest SendFriendRequest(@PathVariable int receiveId) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userSend = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User userReceive = userCRUDService.findById(receiveId);
-        FriendRequest friendRequest = new FriendRequest();
-        friendRequest.setUserSend(userSend);
-        friendRequest.setUserReceive(userReceive);
-        friendRequest.setStatus(NO_FRIEND_STATUS);
-        return friendRequestService.save(friendRequest);
-
+        // kiem tra xem da co request chua hoac da la ban be chua
+        FriendRequest isNullFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSend.getId(), receiveId);
+        FriendRequest isNullReverseFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(receiveId, userSend.getId());
+        if (isNullFriendRequest == null && isNullReverseFriendRequest == null){
+            FriendRequest friendRequest = new FriendRequest();
+            friendRequest.setUserSend(userSend);
+            friendRequest.setUserReceive(userReceive);
+            friendRequest.setStatus(NO_FRIEND_STATUS);
+            return friendRequestService.save(friendRequest);
+        }else {
+            return null;
+        }
     }
 
     @PutMapping("/friends/{userSendId}")
