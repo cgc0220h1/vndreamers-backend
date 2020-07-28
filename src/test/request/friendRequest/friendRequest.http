@@ -7,7 +7,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1O
   "id": 7,
   "email": "test@vndreamers.com",
   "first_name": "dev",
-  "last_name" : "team",
+  "last_name": "team",
   "password": "@dev1234",
   "confirm_password": "@dev1234",
   "birth_date": "2020-04-20",
@@ -24,7 +24,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1O
   "id": 2,
   "email": "phi@vndreamers.com",
   "first_name": "dev",
-  "last_name" : "team",
+  "last_name": "team",
   "password": "@dev1234",
   "confirm_password": "@dev1234",
   "birth_date": "2020-04-20",
@@ -43,12 +43,12 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5OTYxLCJleHAiOjE1OTYwMDYzNjF9.tXmQUwVVvWjWX7FxAmpSfFyUfX2Xgs8GrwzjlRSJI3pLPx-w7f3_2LWsVEs9tp2vo2Ikd4gqX1ePFi_3Snm58Q
 
 ### Get list friend request to me
-GET http://localhost:8080/api/receive
+GET http://localhost:8080/api/friends/receive
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw
 
 
 ### Get list friend request from me
-GET http://localhost:8080/api/send
+GET http://localhost:8080/api/friends/send
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw

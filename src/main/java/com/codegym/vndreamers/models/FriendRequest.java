@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -29,9 +30,11 @@ public class FriendRequest {
 
     @ManyToOne
     @JoinColumn(name = "user_send", referencedColumnName = "id", nullable = false)
+    @JsonProperty(value = "user_send")
     private User userSend;
 
     @ManyToOne
     @JoinColumn(name = "user_receive", referencedColumnName = "id", nullable = false)
+    @JsonProperty(value = "user_receive")
     private User userReceive;
 }
