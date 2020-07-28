@@ -10,4 +10,5 @@ public interface UserCRUDService extends GenericCRUDService<User> {
     User findByUsername(String username);
     User updateProfileUser(User user);
     List<User> getAllUserByTimeStamp(Timestamp timestamp);
+
 }
