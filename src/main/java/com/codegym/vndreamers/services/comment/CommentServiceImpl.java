@@ -4,8 +4,8 @@ import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.Comment;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.repositories.CommentRepository;
+import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,20 +18,12 @@ import java.util.Optional;
 @Service
 //@PropertySource("classpath:config/status.properties")
 public class CommentServiceImpl implements CommentService {
-    @Value("${entity.exist}")
-    private int statusExist;
-
-    @Value("${entity.deleted}")
-    private int statusDelete;
-
-
-    private final CommentRepository commentRepository;
 
     @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
-    }
+    private CommentRepository commentRepository;
 
+    @Autowired
+    private UserCRUDService userCRUDService;
 
     @Override
     public Iterable<Comment> findAllByPost(Post post) {
@@ -42,11 +34,6 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> findAllByPostId(Integer postId) {
         return commentRepository.findAllByPostId(postId);
     }
-
-//    @Override
-//    public Page<Comment> findAllExistByPost(Post post, Pageable pageable) {
-//        return commentRepository.findAllByPost(post, pageable);
-//    }
 
     @Override
     public List<Comment> findAll() {
@@ -65,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment findById(int id) {
-        return null;
+        return commentRepository.findById(id).get();
     }
 
     @Override
@@ -80,12 +67,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public boolean delete(int id) {
-        Optional <Comment>optionalComment = Optional.ofNullable(commentRepository.findById(id));
-        if (optionalComment.isPresent()) {
-            Comment comment = optionalComment.get();
-            commentRepository.save(comment);
-            return true;
-        }
         return false;
     }
 }

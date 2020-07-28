@@ -1,0 +1,8 @@
+PUT http://localhost:8080/api/comments/16
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0cm9uZ2RvYW4iLCJpYXQiOjE1OTU4OTk0NDUsImV4cCI6MTU5NTk4NTg0NX0.quFnjOmuqutJSlQY8tP0PlLjFu733vWM6eB5GBsasqckIpMQLYzWzfx_hAg33uMx4rQyOAtwK14vyp2NpQQnGw
+
+{
+  "content": "trong doan sua comment",
+  "id": 16
+}
