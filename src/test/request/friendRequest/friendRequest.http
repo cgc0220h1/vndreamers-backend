@@ -43,12 +43,12 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5OTYxLCJleHAiOjE1OTYwMDYzNjF9.tXmQUwVVvWjWX7FxAmpSfFyUfX2Xgs8GrwzjlRSJI3pLPx-w7f3_2LWsVEs9tp2vo2Ikd4gqX1ePFi_3Snm58Q
 
 ### Get list friend request to me
-GET http://localhost:8080/api/friend-requests-to-me
+GET http://localhost:8080/api/receive
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw
 
 
 ### Get list friend request from me
-GET http://localhost:8080/api/friend-requests-from-me
+GET http://localhost:8080/api/send
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw
