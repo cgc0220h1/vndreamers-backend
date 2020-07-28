@@ -8,8 +8,7 @@ import java.util.List;
 public interface FriendRequestService extends GenericCRUDService<FriendRequest> {
     FriendRequest getFriendRequestByUserSensIdAndUserReceiveId(Integer userSendId, Integer userReceiveId);
     List<FriendRequest> getAllFriendRequestByUserIdAndByStatus( Integer userId, int status);
-    List<FriendRequest> getAllFriendRequestToMeByUserIdAndByStatus( Integer userId, int status);
-    List<FriendRequest> getAllFriendRequestFromMeByUserIdAndByStatus( Integer userId, int status);
-    boolean isFriend(Integer userId1, Integer userId2, int status);
+    List<FriendRequest> getAllFriendRequestUserReceived(Integer userId, int status);
+    List<FriendRequest> getAllFriendRequestSentByUser(Integer userId, int status);
 
 }

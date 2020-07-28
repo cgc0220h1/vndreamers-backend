@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,12 +50,9 @@ public class FriendRequestServiceImp implements FriendRequestService {
 
     @Override
     public boolean delete(int id) {
-        FriendRequest friendRequest = friendRequestRepository.findById(id).get();
-        if (friendRequest != null) {
-            friendRequestRepository.deleteById(id);
-            return true;
-        }
-        return false;
+        friendRequestRepository.deleteById(id);
+        FriendRequest friendRequest = friendRequestRepository.findById(id).orElse(null);
+        return friendRequest == null;
     }
 
     @Override
@@ -71,12 +67,12 @@ public class FriendRequestServiceImp implements FriendRequestService {
     }
 
     @Override
-    public List<FriendRequest> getAllFriendRequestToMeByUserIdAndByStatus(Integer userId, int status) {
+    public List<FriendRequest> getAllFriendRequestUserReceived(Integer userId, int status) {
         return friendRequestRepository.findAllByUserReceiveIdAndStatus(userId, status);
     }
 
     @Override
-    public List<FriendRequest> getAllFriendRequestFromMeByUserIdAndByStatus(Integer userId, int status) {
+    public List<FriendRequest> getAllFriendRequestSentByUser(Integer userId, int status) {
         return friendRequestRepository.findAllByUserSendIdAndStatus(userId, status);
     }
 

@@ -88,24 +88,24 @@ public class FriendRequestAPI {
         return userList;
     }
 
-    @GetMapping("/friends/receive")
-    public List<User> getFriendRequestsToMe() {
+    @GetMapping("/friends/send")
+    public List<User> getListUserMeRequest() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<User> userList = new ArrayList<>();
-        List<FriendRequest> friendRequests = friendRequestService.getAllFriendRequestToMeByUserIdAndByStatus(user.getId(), NO_FRIEND_STATUS);
+        List<FriendRequest> friendRequests = friendRequestService.getAllFriendRequestSentByUser(user.getId(), NO_FRIEND_STATUS);
         for (FriendRequest friendRequest : friendRequests) {
-            userList.add(friendRequest.getUserSend());
+            userList.add(friendRequest.getUserReceive());
         }
         return userList;
     }
 
-    @GetMapping("/friends/send")
-    public List<User> getFriendRequestsFromMe() {
+    @GetMapping("/friends/receive")
+    public List<User> getListUserRequestToMe() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<User> userList = new ArrayList<>();
-        List<FriendRequest> friendRequests = friendRequestService.getAllFriendRequestFromMeByUserIdAndByStatus(user.getId(), NO_FRIEND_STATUS);
+        List<FriendRequest> friendRequests = friendRequestService.getAllFriendRequestUserReceived(user.getId(), NO_FRIEND_STATUS);
         for (FriendRequest friendRequest : friendRequests) {
-            userList.add(friendRequest.getUserReceive());
+            userList.add(friendRequest.getUserSend());
         }
         return userList;
     }
