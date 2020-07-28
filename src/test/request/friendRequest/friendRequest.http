@@ -1,14 +1,35 @@
 ### Create FriendRequest
-POST  http://localhost:8080/api/friends/1
+POST  http://localhost:8080/api/friends
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NjU1MjIsImV4cCI6MTU5NTk1MTkyMn0.BpIWH48u1XrkdCDmyMyby0H5QHWDSygV1snjNRgzJWPz5J936bSfcisMlHOYYXDyKNBq7o0qPd9UVQEl2vRZjA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTI2OTEyLCJleHAiOjE1OTYwMTMzMTJ9.iSV8nQvp64IOXApktw_2qtt7pg46O33q62fgGcina4SuVTjgxOkD0MNUhcHkimnpscTIyz30EzOJqiyetYakxw
 
+{
+  "id": 7,
+  "email": "test@vndreamers.com",
+  "first_name": "dev",
+  "last_name" : "team",
+  "password": "@dev1234",
+  "confirm_password": "@dev1234",
+  "birth_date": "2020-04-20",
+  "status": 1
+}
 
 ### Confirm FriendRequest
-PUT  http://localhost:8080/api/friends/1
+PUT  http://localhost:8080/api/friends
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaWV1IiwiaWF0IjoxNTk1OTE5OTA4LCJleHAiOjE1OTYwMDYzMDh9.a6tC4HZhyOclyqhoxdmdg9uM6vJxefpDOm09iJeUpxiaKYGUuRhuCDAKIFP68zEat9wkgXZn5MQcGLNSNt7hKQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTI3Mzc4LCJleHAiOjE1OTYwMTM3Nzh9.CCSK8NYPqmCZmWfjGzMlE-7pbSDusfGlaj3QPeQIVIPKwIqtU8DB-5d5bHw4gKjKqHRB3esqRmGevPN4k0bFjA
 
+
+{
+  "id": 2,
+  "email": "phi@vndreamers.com",
+  "first_name": "dev",
+  "last_name" : "team",
+  "password": "@dev1234",
+  "confirm_password": "@dev1234",
+  "birth_date": "2020-04-20",
+  "status": 1
+}
 
 ### Delete FriendRelationship or Delete Friend Request
 DELETE http://localhost:8080/api/friends/3
@@ -22,12 +43,12 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5OTYxLCJleHAiOjE1OTYwMDYzNjF9.tXmQUwVVvWjWX7FxAmpSfFyUfX2Xgs8GrwzjlRSJI3pLPx-w7f3_2LWsVEs9tp2vo2Ikd4gqX1ePFi_3Snm58Q
 
 ### Get list friend request to me
-GET http://localhost:8080/api/friend-requests-to-me
+GET http://localhost:8080/api/receive
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw
 
 
 ### Get list friend request from me
-GET http://localhost:8080/api/friend-requests-from-me
+GET http://localhost:8080/api/send
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -23,7 +25,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class FriendRequestAPI {
 
     public static final int NO_FRIEND_STATUS = 0;
@@ -36,13 +38,12 @@ public class FriendRequestAPI {
     @Autowired
     private FriendRequestService friendRequestService;
 
-    @PostMapping("/friends/{receiveId}")
-    public FriendRequest SendFriendRequest(@PathVariable int receiveId) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    @PostMapping("/friends")
+    public FriendRequest SendFriendRequest(@RequestBody User userReceive) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userSend = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User userReceive = userCRUDService.findById(receiveId);
-        FriendRequest isNullFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSend.getId(), receiveId);
-        FriendRequest isNullReverseFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(receiveId, userSend.getId());
-        if (isNullFriendRequest == null && isNullReverseFriendRequest == null && userSend.getId() != receiveId){
+        FriendRequest isNullFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSend.getId(), userReceive.getId());
+        FriendRequest isNullReverseFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userReceive.getId(), userSend.getId());
+        if (isNullFriendRequest == null && isNullReverseFriendRequest == null && userSend.getId() != userReceive.getId()){
             FriendRequest friendRequest = new FriendRequest();
             friendRequest.setUserSend(userSend);
             friendRequest.setUserReceive(userReceive);
@@ -53,10 +54,10 @@ public class FriendRequestAPI {
         }
     }
 
-    @PutMapping("/friends/{userSendId}")
-    public FriendRequest ConfirmFriendRequest(@PathVariable int userSendId) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    @PutMapping("/friends")
+    public FriendRequest ConfirmFriendRequest(@RequestBody User userSend ) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userConfirm = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        FriendRequest friendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSendId, userConfirm.getId());
+        FriendRequest friendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSend.getId(), userConfirm.getId());
         if (friendRequest != null){
             friendRequest.setStatus(FRIEND_STATUS);
             return friendRequestService.save(friendRequest);
@@ -95,7 +96,7 @@ public class FriendRequestAPI {
         return userList;
     }
 
-    @GetMapping("/friend-requests-to-me")
+    @GetMapping("/friends/receive")
     public List<User> getFriendRequestsToMe(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<User> userList = new ArrayList<>();
@@ -106,7 +107,7 @@ public class FriendRequestAPI {
         return userList;
     }
 
-    @GetMapping("/friend-requests-from-me")
+    @GetMapping("/friends/send")
     public List<User> getFriendRequestsFromMe(){
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<User> userList = new ArrayList<>();
