@@ -8,7 +8,9 @@ import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,7 +38,7 @@ public class CommentAPI {
     @Autowired
     private UserCRUDService userCRUDService;
 
-    @PostMapping (value = "/posts/{postId}/comments")
+    @PostMapping(value = "/posts/{postId}/comments")
     public Comment createComment(@RequestBody Comment model, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
         Post post = postCRUDService.findById(id);
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -44,10 +46,25 @@ public class CommentAPI {
         model.setUser(user);
         return commentService.save(model);
     }
-    @GetMapping (value = "/posts/{id}/comments")
-    public List<Comment> getAllCommentsPost(@PathVariable ("id") int id) {
+
+    @GetMapping(value = "/posts/{id}/comments")
+    public List<Comment> getAllCommentsPost(@PathVariable("id") int id) {
         List<Comment> comments = commentService.findAllByPostId(id);
         Collections.reverse(comments);
         return comments;
+    }
+
+    @PutMapping(value = "/comments/{id}")
+    public Object getCommentById(@PathVariable("id") int id, @RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException {
+        Comment comment1 = commentService.findById(id);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user1 = comment1.getUser();
+        if (user.getId() == user1.getId()) {
+            comment1.setContent(comment.getContent());
+            commentService.save(comment1);
+            return comment1;
+        } else {
+            return null;
+        }
     }
 }
