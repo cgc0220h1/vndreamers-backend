@@ -1,10 +1,12 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.exceptions.CanNotCommentException;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.Comment;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.comment.CommentService;
+import com.codegym.vndreamers.services.friendrequest.FriendRequestService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ import java.util.Optional;
 )
 //@PropertySource("classpath:config/status.properties")
 public class CommentAPI {
+
+    public static final int FRIEND_STATUS = 1;
+
     @Autowired
     private PostCRUDService postCRUDService;
 
@@ -38,13 +43,23 @@ public class CommentAPI {
     @Autowired
     private UserCRUDService userCRUDService;
 
+    @Autowired
+    private FriendRequestService friendRequestService;
+
     @PostMapping(value = "/posts/{postId}/comments")
-    public Comment createComment(@RequestBody Comment model, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public Comment createComment(@RequestBody Comment comment, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException, CanNotCommentException {
         Post post = postCRUDService.findById(id);
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.setPost(post);
-        model.setUser(user);
-        return commentService.save(model);
+        User postOwner = post.getUser();
+        User commentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean isFriend = friendRequestService.isFriend(postOwner.getId(), commentUser.getId(), FRIEND_STATUS);
+        if (isFriend || (postOwner.getId() == commentUser.getId())){
+            comment.setPost(post);
+            comment.setUser(commentUser);
+            return commentService.save(comment);
+        }else {
+            throw new CanNotCommentException();
+        }
+
     }
 
     @GetMapping(value = "/posts/{id}/comments")
@@ -66,5 +81,11 @@ public class CommentAPI {
         } else {
             return null;
         }
+    }
+
+    @ExceptionHandler(CanNotCommentException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleExistRequestException() {
+        return "{\"error\":\"Cannot comment because not friend\"}";
     }
 }
