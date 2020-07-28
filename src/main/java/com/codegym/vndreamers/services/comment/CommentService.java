@@ -12,4 +12,6 @@ public interface CommentService extends GenericCRUDService<Comment> {
     Iterable<Comment> findAllByPost(Post post);
     List<Comment> findAllByPostId(Integer postId);
 
+    List<Comment> findAllCommentByUserId (Integer id);
+
 }

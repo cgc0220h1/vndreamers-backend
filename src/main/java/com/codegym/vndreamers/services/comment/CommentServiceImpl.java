@@ -56,6 +56,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> findAllCommentByUserId(Integer id) {
+        return commentRepository.findCommentByUserId(id);
+    }
+
+    @Override
     public Comment save(Comment model) throws SQLIntegrityConstraintViolationException, EntityExistException {
         return commentRepository.save(model);
     }

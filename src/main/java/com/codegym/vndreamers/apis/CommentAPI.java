@@ -8,17 +8,15 @@ import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -66,5 +64,22 @@ public class CommentAPI {
         } else {
             return null;
         }
+    }
+
+    @GetMapping(value = "/notification/comments")
+    public List<Comment> getNewAllCommentsByUserId() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Comment> commentList = commentService.findAllCommentByUserId(user.getId());
+//        List<Comment> tenComment = commentList.subList(commentList.size() - 10, commentList.size());
+        List<Comment> comments = new ArrayList<>();
+        List<Comment> tenComment = new ArrayList<>();
+        if (commentList.size() < 10) {
+            comments = commentList.subList(0, commentList.size());
+            return comments;
+        } else {
+            tenComment = commentList.subList(commentList.size() - 10, commentList.size());
+            return tenComment;
+        }
+//        return commentList;
     }
 }

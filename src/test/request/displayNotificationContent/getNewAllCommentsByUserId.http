@@ -1,0 +1,3 @@
+GET http://localhost:8080/api/notification/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb2FuIiwiaWF0IjoxNTk1OTEwMTE4LCJleHAiOjE1OTU5OTY1MTh9.l-S2bwr4zwpKmqowzdjRft6O618QWvfhC-Z_cp2cQfuKsz_taiHyaJi9TqaTmm0pQ_nWjpnzkAlEyOWrOfMPqg
