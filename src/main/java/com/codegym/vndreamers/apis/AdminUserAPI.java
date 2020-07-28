@@ -46,22 +46,27 @@ public class AdminUserAPI {
         return userCRUDService.findAll();
     }
 
+    @GetMapping("/users/userId/{id}")
+    public User getUserById(@PathVariable int id) {
+        return userCRUDService.findById(id);
+    }
+
     @DeleteMapping("/users/{id}")
-    public boolean deleteUserById(@PathVariable int id) throws UserDeleteException {
+    public User deleteUserById(@PathVariable int id) throws UserDeleteException {
         User user = userCRUDService.findById(id);
         if (user != null) {
             try {
                 boolean isDeleted = userCRUDService.delete(id);
                 if (isDeleted) {
-                    return true;
+                    return user;
                 } else {
-                    return false;
+                    return null;
                 }
             }catch (Exception e){
                 throw new UserDeleteException();
             }
         }
-        return false;
+        return null;
     }
 
     @DeleteMapping("/users/block/{id}")

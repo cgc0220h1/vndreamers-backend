@@ -11,10 +11,15 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1O
 
 
 ###
-DELETE http://localhost:8080/api/users/2
+GET http://localhost:8080/api/users/userId/3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE2MjU5LCJleHAiOjE1OTYwMDI2NTl9.4Pk476pZ1j30hZfq1b8zp8M9RaPpMlr_15TxBtzYxFZWHsMNm4kzXzUNlZGOYi_pSeThwcF8fpAJRawm9Ykl5g
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE4NzAxLCJleHAiOjE1OTYwMDUxMDF9.xwbhigCOjox63SoUzZ24Cvz08VNpkwN0Csk2rSSh-OazkYCGdgBkv9uzO3e9L0ZsQ6ihVHFERemyeYEMgWL2Bg
 
+
+###
+DELETE http://localhost:8080/api/users/4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE4MjM5LCJleHAiOjE1OTYwMDQ2Mzl9.yQ1DvOMhKERKN-Be4JU5BtFKZq2YCpZ-lTtksIYdrDSyVvC0X6RFoQXaXh7-NLrqub3U76E_QGaoyYc4Yy9E-A
 
 ###
 DELETE http://localhost:8080/api/users/block/3
