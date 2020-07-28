@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.exceptions.CanNotCommentException;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.Comment;
 import com.codegym.vndreamers.models.Post;
@@ -46,17 +47,17 @@ public class CommentAPI {
     private FriendRequestService friendRequestService;
 
     @PostMapping(value = "/posts/{postId}/comments")
-    public Comment createComment(@RequestBody Comment comment, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public Comment createComment(@RequestBody Comment comment, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException, CanNotCommentException {
         Post post = postCRUDService.findById(id);
         User postOwner = post.getUser();
         User commentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean isFriend = friendRequestService.isFriend(postOwner.getId(), commentUser.getId(), FRIEND_STATUS);
-        if (isFriend){
+        if (isFriend || (postOwner.getId() == commentUser.getId())){
             comment.setPost(post);
             comment.setUser(commentUser);
             return commentService.save(comment);
         }else {
-            return null;
+            throw new CanNotCommentException();
         }
 
     }
@@ -80,5 +81,11 @@ public class CommentAPI {
         } else {
             return null;
         }
+    }
+
+    @ExceptionHandler(CanNotCommentException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleExistRequestException() {
+        return "{\"error\":\"Cannot comment because not friend\"}";
     }
 }
