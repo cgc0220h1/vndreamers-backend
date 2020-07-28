@@ -1,6 +1,6 @@
-GET http://localhost:8080/api/admin/users/dates/25
+GET http://localhost:8080/api/admin/users/date/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTUzODk1LCJleHAiOjE1OTYwNDAyOTV9.BBzHBxB3CJxp5ChCmC2QRhklwZaSgLAfttlg7yVnvy83559ybozb-h65NA-U7wqtHhUFApX-k-7nm9PhwG-q8A
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTYxMDE5LCJleHAiOjE1OTYwNDc0MTl9.yBnzHqX8rUlpOWwhXy8EKns2_5C2lDiM0Uo7dbmOtYTuod-a27CnpOj2xuDXC99EW1GMMcAqTVd-LswjSJNpDA
 
 
 
