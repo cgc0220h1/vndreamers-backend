@@ -2,12 +2,12 @@ POST http://localhost:8080/auth/register
 Content-Type: application/json
 
 {
-  "email": "dummy_email@example.com",
+  "email": "dummy_email123@example.com",
   "first_name": "dummy_first_name",
   "last_name": "dummy_last_name",
-  "password": "dummy_password",
-  "confirm_password": "dummy_password",
-  "birth_date": "20-04-2020",
+  "password": "dummy_password@1",
+  "confirm_password": "dummy_password@1",
+  "birth_date": "2020-04-20",
   "status": 1
 }
 

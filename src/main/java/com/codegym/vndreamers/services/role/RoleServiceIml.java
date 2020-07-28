@@ -2,7 +2,6 @@ package com.codegym.vndreamers.services.role;
 
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.Role;
-import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -56,9 +54,8 @@ public class RoleServiceIml implements RoleService {
         return false;
     }
 
-
     @Override
-    public Set<Role> getAllByUsers(Set<User> users) {
-        return roleRepository.findAllByUsers(users);
+    public Set<Role> getRolesByUserId(int userId) {
+        return roleRepository.getRolesByUserId(userId);
     }
 }

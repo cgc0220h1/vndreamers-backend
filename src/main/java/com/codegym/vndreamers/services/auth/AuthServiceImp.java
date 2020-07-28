@@ -14,12 +14,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,6 +35,11 @@ public class AuthServiceImp implements AuthService {
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
+    }
+
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @Autowired
@@ -59,11 +62,11 @@ public class AuthServiceImp implements AuthService {
                 )
         );
         if (authentication.isAuthenticated()) {
-            UserDetails userVerified = (UserDetails) authentication.getPrincipal();
+            User userVerified = (User) authentication.getPrincipal();
             String token = jwtIssuer.generateToken(userVerified);
-            Set<User> users = new HashSet<>();
-            users.add((User) userVerified);
-            Set<Role> roles = roleService.getAllByUsers(users);
+//            Set<User> users = new HashSet<>();
+//            users.add((User) userVerified);
+            Set<Role> roles = roleService.getRolesByUserId(userVerified.getId());
             jwtResponse.setRoles(roles);
             jwtResponse.setAccessToken(token);
             jwtResponse.setUser((User) userVerified);

@@ -1,6 +1,8 @@
 package com.codegym.vndreamers.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -31,6 +33,8 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<Permission> permissions;
 
     @ManyToMany
@@ -39,5 +43,7 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private Set<User> users;
 }
