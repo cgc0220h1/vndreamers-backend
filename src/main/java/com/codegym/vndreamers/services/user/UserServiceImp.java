@@ -28,7 +28,7 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public List<User> findAll() {
-        return null;
+        return (List<User>) userRepository.findAll();
     }
 
     @Override
@@ -45,6 +45,8 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
     public User findById(int id) {
      return userRepository.findById(id).get();
     }
+
+
 
     @Override
     public User save(User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
@@ -65,6 +67,11 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public boolean delete(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.get() != null){
+            userRepository.deleteById(id);
+            return true;
+        }
         return false;
     }
 
