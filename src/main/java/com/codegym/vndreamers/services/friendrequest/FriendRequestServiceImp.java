@@ -75,5 +75,10 @@ public class FriendRequestServiceImp implements FriendRequestService {
         return friendRequestRepository.findAllByUserReceiveIdAndStatus(userId, status);
     }
 
+    @Override
+    public List<FriendRequest> getAllFriendRequestFromMeByUserIdAndByStatus(Integer userId, int status) {
+        return friendRequestRepository.findAllByUserSendIdAndStatus(userId, status);
+    }
+
 
 }

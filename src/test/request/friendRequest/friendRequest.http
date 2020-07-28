@@ -5,11 +5,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTU4NjU1M
 
 
 ### Confirm FriendRequest
-PUT  http://localhost:8080/api/friends/3
+PUT  http://localhost:8080/api/friends/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODY1NjYzLCJleHAiOjE1OTU5NTIwNjN9.cb7tjOuY-ZPcXFcyNeyJikRhXc0Rl0OXbIeHPw4dfQYS_ZLp1AwEI_BwNwHO2nJVtJdU_VeblfHm3y56sQF61g
-
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaWV1IiwiaWF0IjoxNTk1OTE5OTA4LCJleHAiOjE1OTYwMDYzMDh9.a6tC4HZhyOclyqhoxdmdg9uM6vJxefpDOm09iJeUpxiaKYGUuRhuCDAKIFP68zEat9wkgXZn5MQcGLNSNt7hKQ
 
 
 ### Delete FriendRelationship or Delete Friend Request
@@ -21,10 +19,15 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1O
 ### Get list Friend of user
 GET http://localhost:8080/api/friends/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODY2OTI3LCJleHAiOjE1OTU5NTMzMjd9.5WQUhzM21VCSQgqYcH9xyx50RzOf0BkYjXnMQmNukdMo9aEpwY5k6dsslJ3NMCpll1S_PMi5fSC3yuutVQUlVA
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5OTYxLCJleHAiOjE1OTYwMDYzNjF9.tXmQUwVVvWjWX7FxAmpSfFyUfX2Xgs8GrwzjlRSJI3pLPx-w7f3_2LWsVEs9tp2vo2Ikd4gqX1ePFi_3Snm58Q
 
 ### Get list friend request to me
 GET http://localhost:8080/api/friend-requests-to-me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODY5MTgxLCJleHAiOjE1OTU5NTU1ODF9.UqBHFI7tXnzMcg0DzT1I1xFSCbC7zqrTdv2daY2S72vaAzFVAp6gyHpBiKTG7Yhmpbe1mGSGjBoaIHVjIVbLwQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw
+
+
+### Get list friend request from me
+GET http://localhost:8080/api/friend-requests-from-me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw
