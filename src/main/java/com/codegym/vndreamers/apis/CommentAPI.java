@@ -70,16 +70,16 @@ public class CommentAPI {
     public List<Comment> getNewAllCommentsByUserId() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Comment> commentList = commentService.findAllCommentByUserId(user.getId());
-//        List<Comment> tenComment = commentList.subList(commentList.size() - 10, commentList.size());
-        List<Comment> comments = new ArrayList<>();
-        List<Comment> tenComment = new ArrayList<>();
+        List<Comment> comments;
+        List<Comment> tenComment;
         if (commentList.size() < 10) {
             comments = commentList.subList(0, commentList.size());
+            Collections.reverse(comments);
             return comments;
         } else {
             tenComment = commentList.subList(commentList.size() - 10, commentList.size());
+            Collections.reverse(tenComment);
             return tenComment;
         }
-//        return commentList;
     }
 }
