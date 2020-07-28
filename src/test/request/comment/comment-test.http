@@ -6,3 +6,14 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0cm9uZ2RvYW4iLCJpYXQiOjE1O
   "content": "trong doan sua comment",
   "id": 16
 }
+
+
+###
+POST http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwaGkiLCJpYXQiOjE1OTU5NDk4MDIsImV4cCI6MTU5NjAzNjIwMn0.2SY81v-fFQi5Pj68RR1qjJ7wdqNOadLQreUcKhHgi3T7zMqowwAQNJPfwSQ2_8x25BJjzsmV9vBckExmYKv5wA
+
+
+{
+  "content": "phi comment if friend"
+}

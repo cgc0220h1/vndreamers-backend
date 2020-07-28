@@ -46,15 +46,15 @@ public class CommentAPI {
     private FriendRequestService friendRequestService;
 
     @PostMapping(value = "/posts/{postId}/comments")
-    public Comment createComment(@RequestBody Comment model, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public Comment createComment(@RequestBody Comment comment, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException {
         Post post = postCRUDService.findById(id);
         User postOwner = post.getUser();
         User commentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean isFriend = friendRequestService.isFriend(postOwner.getId(), commentUser.getId(), FRIEND_STATUS);
         if (isFriend){
-            model.setPost(post);
-            model.setUser(commentUser);
-            return commentService.save(model);
+            comment.setPost(post);
+            comment.setUser(commentUser);
+            return commentService.save(comment);
         }else {
             return null;
         }
