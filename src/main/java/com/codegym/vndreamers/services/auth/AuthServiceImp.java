@@ -8,6 +8,7 @@ import com.codegym.vndreamers.models.Role;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.GenericCRUDService;
 import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
+import com.codegym.vndreamers.services.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,6 +31,8 @@ public class AuthServiceImp implements AuthService {
     private GenericCRUDService<User> userService;
 
     private AuthenticationManager authenticationManager;
+
+    private RoleService roleService;
 
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
@@ -58,6 +61,8 @@ public class AuthServiceImp implements AuthService {
         if (authentication.isAuthenticated()) {
             UserDetails userVerified = (UserDetails) authentication.getPrincipal();
             String token = jwtIssuer.generateToken(userVerified);
+            Set<Role> roles = roleService.getAllByUser( (User) userVerified);
+            jwtResponse.setRoles(roles);
             jwtResponse.setAccessToken(token);
             jwtResponse.setUser((User) userVerified);
             SecurityContextHolder.getContext().setAuthentication(authentication);
