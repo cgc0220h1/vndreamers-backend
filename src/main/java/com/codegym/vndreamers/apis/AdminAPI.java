@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,7 +69,7 @@ public class AdminAPI {
         return null;
     }
 
-    @DeleteMapping("/users/block/{id}")
+    @PutMapping("/users/block/{id}")
     public User blockUserById(@PathVariable int id) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User user = userCRUDService.findById(id);
         user.setStatus(BLOCK_STATUS);
