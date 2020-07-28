@@ -42,14 +42,4 @@ public class UserAPI {
         }
     }
 
-    @GetMapping("/users/date/{quantity}")
-    public List<User> getAllByDate(@PathVariable("quantity") int date) {
-        long currentTime = System.currentTimeMillis();
-        long currentTimeWant = date * 24 * 60 * 60 * 1000;
-        long timeWant = currentTime - currentTimeWant;
-        Timestamp dateWant = new Timestamp(timeWant);
-        System.out.println(dateWant);
-        List<User> users = userCRUDService.getAllUserByTimeStamp(dateWant);
-        return users;
-    }
 }
