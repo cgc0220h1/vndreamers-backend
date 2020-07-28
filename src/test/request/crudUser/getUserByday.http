@@ -11,11 +11,12 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1O
 
 
 ###
-DELETE http://localhost:8080/api/users/4
+DELETE http://localhost:8080/api/users/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE1Mjc2LCJleHAiOjE1OTYwMDE2NzZ9.LjnfIu_VllmEaLuXhevIrxFeHcwANIbSE8HiksPcxCFu4jITQhvTVoET6i58vPFrz7Prm4CzQaH6fmqsl2O62Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE2MjU5LCJleHAiOjE1OTYwMDI2NTl9.4Pk476pZ1j30hZfq1b8zp8M9RaPpMlr_15TxBtzYxFZWHsMNm4kzXzUNlZGOYi_pSeThwcF8fpAJRawm9Ykl5g
+
 
 ###
-DELETE http://localhost:8080/api/users/block/2
+DELETE http://localhost:8080/api/users/block/3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE1NjM5LCJleHAiOjE1OTYwMDIwMzl9.hiFfj3GRPz9FqQ0UtNoFGXm-TfvjLFtEGl75m7oj34GVmtSI9f6wqxqK0sfqAAo51v_0VmiYGPQWjKPmMFLJaw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE2MjU5LCJleHAiOjE1OTYwMDI2NTl9.4Pk476pZ1j30hZfq1b8zp8M9RaPpMlr_15TxBtzYxFZWHsMNm4kzXzUNlZGOYi_pSeThwcF8fpAJRawm9Ykl5g

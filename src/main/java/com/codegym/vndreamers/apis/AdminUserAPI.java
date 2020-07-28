@@ -1,14 +1,19 @@
 package com.codegym.vndreamers.apis;
 
 import com.codegym.vndreamers.exceptions.EntityExistException;
+import com.codegym.vndreamers.exceptions.PostDeleteException;
+import com.codegym.vndreamers.exceptions.UserDeleteException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -20,7 +25,7 @@ import java.util.List;
 @CrossOrigin("*")
 public class AdminUserAPI {
 
-    public static final int BLOCK_STATUS = 2;
+    public static final int BLOCK_STATUS = 0;
 
     @Autowired
     private UserCRUDService userCRUDService;
@@ -42,14 +47,18 @@ public class AdminUserAPI {
     }
 
     @DeleteMapping("/users/{id}")
-    public boolean deleteUserById(@PathVariable int id) {
+    public boolean deleteUserById(@PathVariable int id) throws UserDeleteException {
         User user = userCRUDService.findById(id);
         if (user != null) {
-            boolean isDeleted = userCRUDService.delete(id);
-            if (isDeleted) {
-                return true;
-            } else {
-                return false;
+            try {
+                boolean isDeleted = userCRUDService.delete(id);
+                if (isDeleted) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }catch (Exception e){
+                throw new UserDeleteException();
             }
         }
         return false;
@@ -61,5 +70,11 @@ public class AdminUserAPI {
         user.setStatus(BLOCK_STATUS);
         user.setConfirmPassword(user.getPassword());
         return userCRUDService.updateProfileUser(user);
+    }
+
+    @ExceptionHandler(UserDeleteException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleDeleteException() {
+        return "{\"error\":\"USer delete exception! foreign key constraints\"}";
     }
 }
