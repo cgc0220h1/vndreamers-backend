@@ -64,8 +64,6 @@ public class AuthServiceImp implements AuthService {
         if (authentication.isAuthenticated()) {
             User userVerified = (User) authentication.getPrincipal();
             String token = jwtIssuer.generateToken(userVerified);
-//            Set<User> users = new HashSet<>();
-//            users.add((User) userVerified);
             Set<Role> roles = roleService.getRolesByUserId(userVerified.getId());
             jwtResponse.setRoles(roles);
             jwtResponse.setAccessToken(token);
