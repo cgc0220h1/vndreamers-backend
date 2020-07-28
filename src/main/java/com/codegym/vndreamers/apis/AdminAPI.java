@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,15 +31,27 @@ public class AdminAPI {
     @Autowired
     private UserCRUDService userCRUDService;
 
-    @GetMapping("/users/date/{quantity}")
-    public List<User> getAllByDate(@PathVariable("quantity") int date) {
+//    @GetMapping("/users/date/{quantity}")
+//    public List<User> getAllByDate(@PathVariable("quantity") int date) {
+//        long currentTime = System.currentTimeMillis();
+//        long currentTimeWant = date * 24 * 60 * 60 * 1000;
+//        long timeWant = currentTime - currentTimeWant;
+//        Timestamp dateWant = new Timestamp(timeWant);
+//        System.out.println(dateWant);
+//        List<User> users = userCRUDService.getAllUserByTimeStamp(dateWant);
+//        return users;
+//    }
+
+    @GetMapping("/users/dates/{days}")
+    public List<User> getAllByDate(@PathVariable int days) {
         long currentTime = System.currentTimeMillis();
-        long currentTimeWant = date * 24 * 60 * 60 * 1000;
+        long currentTimeWant = days * 24 * 60 * 60 * 1000;
         long timeWant = currentTime - currentTimeWant;
         Timestamp dateWant = new Timestamp(timeWant);
         System.out.println(dateWant);
-        List<User> users = userCRUDService.getAllUserByTimeStamp(dateWant);
-        return users;
+//        List<User> users = userCRUDService.getAllUserByTimeStamp(dateWant);
+//        return users;
+        return null;
     }
 
     @GetMapping("/users")
