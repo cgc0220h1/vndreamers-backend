@@ -1,8 +1,20 @@
+GET http://localhost:8080/api/comments/11
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb2FuIiwiaWF0IjoxNTk1OTEyNTc0LCJleHAiOjE1OTU5OTg5NzR9.2jaAFNkNW4iGSr1fO01668sOOjgXFXiqLwj9HVBEWsD0QN20yjFX6lD6lqNiuogAvHpRsGxYDVFwDhYs5hsyHw
+
+
+###
 PUT http://localhost:8080/api/comments/16
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0cm9uZ2RvYW4iLCJpYXQiOjE1OTU4OTk0NDUsImV4cCI6MTU5NTk4NTg0NX0.quFnjOmuqutJSlQY8tP0PlLjFu733vWM6eB5GBsasqckIpMQLYzWzfx_hAg33uMx4rQyOAtwK14vyp2NpQQnGw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb2FuIiwiaWF0IjoxNTk1OTExOTk3LCJleHAiOjE1OTU5OTgzOTd9.KDXNXaC1JOzEuPFhCAxoZN-_mlpZ1wIp6I5-SCVJTe9MMjTSBUggp8NiVJHP5PNXkK7m4IJBFL6a3xofLhgBrg
 
 {
   "content": "trong doan sua comment",
   "id": 16
 }
+###
+DELETE http://localhost:8080/api/comments/14
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb2FuIiwiaWF0IjoxNTk1OTIxNTMyLCJleHAiOjE1OTYwMDc5MzJ9.jH_yKin2XItM1yp3aGMsFlwC0ShNToXTevmBZh6JbdHbcaPDc7RVjqNK4fctPQJPiSS7rqTKl1otLy68LeRBXg
+
+

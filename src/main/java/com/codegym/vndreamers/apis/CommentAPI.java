@@ -1,6 +1,8 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.exceptions.CommentNotFound;
 import com.codegym.vndreamers.exceptions.EntityExistException;
+import com.codegym.vndreamers.exceptions.PostNotFoundException;
 import com.codegym.vndreamers.models.Comment;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
@@ -8,7 +10,9 @@ import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -52,6 +56,14 @@ public class CommentAPI {
         return comments;
     }
 
+//    @GetMapping(value = "comments/{id}")
+//    public Comment getCommentsById (@PathVariable ("id")int id){
+////        Comment comment = commentService.findById(id);
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        List<Comment> listComments = commentService.findAllCommentByUserId(user.getId());
+//        return listComments.get(id);
+//    }
+
     @PutMapping(value = "/comments/{id}")
     public Object getCommentById(@PathVariable("id") int id, @RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException {
         Comment comment1 = commentService.findById(id);
@@ -64,6 +76,29 @@ public class CommentAPI {
         } else {
             return null;
         }
+    }
+
+    @DeleteMapping(value = "/comments/{id}")
+    public Comment deleteComments(@PathVariable("id") int id) throws CommentNotFound {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        try{
+            Comment comment = commentService.findById(id);
+            if (comment == null){
+                return null;
+            }else {
+                User user1 = comment.getUser();
+                if (user.getId() == user1.getId()) {
+                    commentService.removeComment(id);
+                    return comment;
+                } else {
+                    return null;
+                }
+            }
+        }catch (Exception e){
+            throw new CommentNotFound();
+        }
+
+
     }
 
     @GetMapping(value = "/notification/comments")
@@ -81,5 +116,11 @@ public class CommentAPI {
             Collections.reverse(tenComment);
             return tenComment;
         }
+    }
+
+    @ExceptionHandler(CommentNotFound.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleCommentNotFoundException() {
+        return "{\"error\":\"Comment not found!\"}";
     }
 }

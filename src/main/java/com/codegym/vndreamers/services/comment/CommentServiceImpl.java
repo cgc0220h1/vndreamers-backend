@@ -74,4 +74,9 @@ public class CommentServiceImpl implements CommentService {
     public boolean delete(int id) {
         return false;
     }
+
+    @Override
+    public void removeComment(Integer id) {
+        commentRepository.deleteById(id);
+    }
 }
