@@ -4,6 +4,7 @@ import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.dtos.LoginRequest;
 import com.codegym.vndreamers.exceptions.DatabaseException;
 import com.codegym.vndreamers.exceptions.EntityExistException;
+import com.codegym.vndreamers.models.Role;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.GenericCRUDService;
 import com.codegym.vndreamers.services.auth.jwt.JWTIssuer;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,6 +68,8 @@ public class AuthServiceImp implements AuthService {
     @Override
     public User register(@Valid User user) throws DatabaseException, EntityExistException {
         User userRegistered;
+
+
         try {
             userRegistered = saveUserToDB(user);
         } catch (SQLIntegrityConstraintViolationException exception) {
