@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTI2OTEyLCJleHAiOjE1OTYwMTMzMTJ9.iSV8nQvp64IOXApktw_2qtt7pg46O33q62fgGcina4SuVTjgxOkD0MNUhcHkimnpscTIyz30EzOJqiyetYakxw
 
 {
-  "id": 7,
+  "id": 3,
   "email": "test@vndreamers.com",
   "first_name": "dev",
   "last_name": "team",
