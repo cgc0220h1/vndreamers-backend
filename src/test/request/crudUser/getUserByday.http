@@ -1,0 +1,3 @@
+GET http://localhost:8080/api/users/date/24
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTA1Njk3LCJleHAiOjE1OTU5OTIwOTd9.qaXo0gvXCGdyUw_eHYxeRDHMIE1VSaGTE5TNzLe0JHJpOFViV1UQaVCU3IShX84kmUrL__wgm14Lh-dl8cIvWg

@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -38,5 +40,16 @@ public class UserAPI {
         } else {
             return null;
         }
+    }
+
+    @GetMapping("/users/date/{quantity}")
+    public List<User> getAllByDate(@PathVariable("quantity") int date) {
+        long currentTime = System.currentTimeMillis();
+        long currentTimeWant = date * 24 * 60 * 60 * 1000;
+        long timeWant = currentTime - currentTimeWant;
+        Timestamp dateWant = new Timestamp(timeWant);
+        System.out.println(dateWant);
+        List<User> users = userCRUDService.getAllUserByTimeStamp(dateWant);
+        return users;
     }
 }

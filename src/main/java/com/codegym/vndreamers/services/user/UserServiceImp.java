@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -81,4 +82,10 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
     public User updateProfileUser(User user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public List<User> getAllUserByTimeStamp(Timestamp timestamp) {
+            return userRepository.findAllByCreatedDateAfter(timestamp);
+    }
+
 }
