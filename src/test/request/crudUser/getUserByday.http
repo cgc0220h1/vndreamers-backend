@@ -1,27 +1,27 @@
-GET http://localhost:8080/api/users/date/20
+GET http://localhost:8080/api/admin/users/date/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTExNjIzLCJleHAiOjE1OTU5OTgwMjN9.y_UvU4gYuwFwlvgrl30RXyFx81Gifw-Ilxaghxze62oVyntoKM9Y23mpOZMtobDRL-USwN1J_KRyr-h2T58-yQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTQ1NTYyLCJleHAiOjE1OTYwMzE5NjJ9.d4VJ5SZSHYZYYWGBQfSSD40zVhsmbOZGFKRj65ku5KaLyr4MJDySvmwCI7pf_BZ0lQKYoA_26beVZxLpD3398A
 
 
 ###
-GET http://localhost:8080/api/users
+GET http://localhost:8080/api/admin/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTExNjIzLCJleHAiOjE1OTU5OTgwMjN9.y_UvU4gYuwFwlvgrl30RXyFx81Gifw-Ilxaghxze62oVyntoKM9Y23mpOZMtobDRL-USwN1J_KRyr-h2T58-yQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTQ1NTYyLCJleHAiOjE1OTYwMzE5NjJ9.d4VJ5SZSHYZYYWGBQfSSD40zVhsmbOZGFKRj65ku5KaLyr4MJDySvmwCI7pf_BZ0lQKYoA_26beVZxLpD3398A
 
 
 
 ###
-GET http://localhost:8080/api/users/userId/3
+GET http://localhost:8080/api/admin/users/3
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE4NzAxLCJleHAiOjE1OTYwMDUxMDF9.xwbhigCOjox63SoUzZ24Cvz08VNpkwN0Csk2rSSh-OazkYCGdgBkv9uzO3e9L0ZsQ6ihVHFERemyeYEMgWL2Bg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTQ1NTYyLCJleHAiOjE1OTYwMzE5NjJ9.d4VJ5SZSHYZYYWGBQfSSD40zVhsmbOZGFKRj65ku5KaLyr4MJDySvmwCI7pf_BZ0lQKYoA_26beVZxLpD3398A
 
 
 ###
-DELETE http://localhost:8080/api/users/4
+DELETE http://localhost:8080/api/admin/users/4
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE4MjM5LCJleHAiOjE1OTYwMDQ2Mzl9.yQ1DvOMhKERKN-Be4JU5BtFKZq2YCpZ-lTtksIYdrDSyVvC0X6RFoQXaXh7-NLrqub3U76E_QGaoyYc4Yy9E-A
 
 ###
-DELETE http://localhost:8080/api/users/block/3
+DELETE http://localhost:8080/api/admin/users/block/6
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE2MjU5LCJleHAiOjE1OTYwMDI2NTl9.4Pk476pZ1j30hZfq1b8zp8M9RaPpMlr_15TxBtzYxFZWHsMNm4kzXzUNlZGOYi_pSeThwcF8fpAJRawm9Ykl5g
