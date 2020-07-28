@@ -56,8 +56,9 @@ public class RoleServiceIml implements RoleService {
         return false;
     }
 
+
     @Override
-    public Set<Role> getAllByUser(User user) {
-        return roleRepository.findAllByUsers(user);
+    public Set<Role> getAllByUsers(Set<User> users) {
+        return roleRepository.findAllByUsers(users);
     }
 }
