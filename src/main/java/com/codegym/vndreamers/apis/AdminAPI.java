@@ -1,7 +1,6 @@
 package com.codegym.vndreamers.apis;
 
 import com.codegym.vndreamers.exceptions.EntityExistException;
-import com.codegym.vndreamers.exceptions.PostDeleteException;
 import com.codegym.vndreamers.exceptions.UserDeleteException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.user.UserCRUDService;
@@ -21,9 +20,9 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin")
 @CrossOrigin("*")
-public class AdminUserAPI {
+public class AdminAPI {
 
     public static final int BLOCK_STATUS = 0;
 
@@ -46,7 +45,7 @@ public class AdminUserAPI {
         return userCRUDService.findAll();
     }
 
-    @GetMapping("/users/userId/{id}")
+    @GetMapping("/users/{id}")
     public User getUserById(@PathVariable int id) {
         return userCRUDService.findById(id);
     }
@@ -83,3 +82,4 @@ public class AdminUserAPI {
         return "{\"error\":\"USer delete exception! foreign key constraints\"}";
     }
 }
+
