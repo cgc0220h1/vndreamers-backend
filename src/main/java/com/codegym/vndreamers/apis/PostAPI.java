@@ -5,9 +5,11 @@ import com.codegym.vndreamers.exceptions.PostDeleteException;
 import com.codegym.vndreamers.exceptions.PostNotFoundException;
 import com.codegym.vndreamers.models.Comment;
 import com.codegym.vndreamers.models.Post;
+import com.codegym.vndreamers.models.PostReaction;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
+import com.codegym.vndreamers.services.reaction.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,9 +31,12 @@ public class PostAPI {
     @Autowired
     private PostCRUDService postCRUDService;
 
+    @Autowired
+    private ReactionService reactionService;
+
 
     @GetMapping("/posts/{id}/comments")
-    public List<Comment> listAllComments (@PathVariable("id") int id) {
+    public List<Comment> listAllComments(@PathVariable("id") int id) {
         Post post = postCRUDService.findById(id);
         Iterable<Comment> comments = commentService.findAllByPost(post);
         return (List<Comment>) comments;
@@ -49,6 +54,11 @@ public class PostAPI {
     public List<Post> getAllPostsUser() throws PostNotFoundException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Post> posts = postCRUDService.getAllByUserIdAndStatus(Integer.valueOf(user.getId()), 1);
+        for (Post post : posts) {
+            List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
+            int likes = postReaction.size();
+            post.setLikeQuantity(likes);
+        }
         if (posts != null) {
             Collections.reverse(posts);
             return posts;
@@ -67,7 +77,6 @@ public class PostAPI {
             throw new PostNotFoundException();
         }
     }
-
 
 
     @DeleteMapping("/posts/{id}")
@@ -92,7 +101,7 @@ public class PostAPI {
     @PutMapping("/posts/{id}")
     public Object updatePost(@PathVariable("id") int id, @RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
         Post currentPost = postCRUDService.findById(id);
-        if (currentPost == null){
+        if (currentPost == null) {
             return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
         }
         currentPost.setContent(post.getContent());
