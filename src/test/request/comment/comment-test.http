@@ -6,6 +6,12 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0cm9uZ2RvYW4iLCJpYXQiOjE1O
   "content": "trong doan sua comment",
   "id": 16
 }
+###
+DELETE http://localhost:8080/api/comments/14
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkb2FuIiwiaWF0IjoxNTk1OTIxNTMyLCJleHAiOjE1OTYwMDc5MzJ9.jH_yKin2XItM1yp3aGMsFlwC0ShNToXTevmBZh6JbdHbcaPDc7RVjqNK4fctPQJPiSS7rqTKl1otLy68LeRBXg
+
+
 
 
 ###

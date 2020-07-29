@@ -56,6 +56,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> findAllCommentByUserId(Integer id) {
+        return commentRepository.findCommentByUserId(id);
+    }
+
+    @Override
     public Comment save(Comment model) throws SQLIntegrityConstraintViolationException, EntityExistException {
         return commentRepository.save(model);
     }
@@ -68,5 +73,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean delete(int id) {
         return false;
+    }
+
+    @Override
+    public void removeComment(Integer id) {
+        commentRepository.deleteById(id);
     }
 }
