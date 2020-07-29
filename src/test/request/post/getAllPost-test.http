@@ -1,7 +1,6 @@
 GET http://localhost:8080/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MDEwNDU0LCJleHAiOjE1OTYwOTY4NTR9.t1KadeJ-K_QjcKPd7D2XjN0P8qjU_xryRzQg-YPbOlSMwrHWDAPiivitYRVy_drKCOcV372GrWcUzgxHX2dc0A
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MDEwNjkzLCJleHAiOjE1OTYwOTcwOTN9.gdIjCJ-i36txAzXAEgSmoGXmBJWWx6bJ4lAhQvP0CPPMU9rPgWnGkzaE9Akytq5EV55wK4H8YKfNGzLwSBj9Sg
 
 ###
 POST http://localhost:8080/api/posts

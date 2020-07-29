@@ -1,6 +1,7 @@
 package com.codegym.vndreamers.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,6 +22,7 @@ public class Role {
 
     @Basic
     @Column(name = "role_name", nullable = false, length = 10)
+    @JsonProperty(value = "role_name")
     private String roleName;
 
     @Basic
