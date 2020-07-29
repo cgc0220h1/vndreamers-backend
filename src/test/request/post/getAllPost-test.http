@@ -1,17 +1,15 @@
 GET http://localhost:8080/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTAzODQxLCJleHAiOjE1OTU5OTAyNDF9.ORdgIC8o90dJv9aqilSiRQ9Bq2BgAPGKuz84JMJtQl8xhAd7fKbk8veDGlF7BwE0IMNiXJuwrRmUdLcCEyEOPQ
-
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MDEwNDU0LCJleHAiOjE1OTYwOTY4NTR9.t1KadeJ-K_QjcKPd7D2XjN0P8qjU_xryRzQg-YPbOlSMwrHWDAPiivitYRVy_drKCOcV372GrWcUzgxHX2dc0A
 
 
 ###
 POST http://localhost:8080/api/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1Nzg4MTczLCJleHAiOjE1OTU4NzQ1NzN9.z2mJ-wP_eqqlbpPrVimEQqwcrR6JsPeyKWnqUeWLhtZC_dI06htmzSp9GfwhIUsVv75NULMUbOTGzawbL0wuoA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MDA5NTMxLCJleHAiOjE1OTYwOTU5MzF9.6wfIvXEv9ZXYkkCLaQVeZIhv8Timy4G0zMiUVfV_hKOf9UVW3J36rBjeICn4Rsl3cF4oDinPAfN3BJ5hHThGJA
 
 {
   "status": 1,
-  "content": "Thật là vl",
+  "content": "Post 2",
   "image": ""
 }
