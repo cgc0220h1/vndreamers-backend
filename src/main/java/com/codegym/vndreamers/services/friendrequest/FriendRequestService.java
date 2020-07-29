@@ -13,6 +13,7 @@ public interface FriendRequestService extends GenericCRUDService<FriendRequest> 
     List<FriendRequest> getAllFriendRequestUserReceived(Integer userId, int status);
 
     List<FriendRequest> getAllFriendRequestSentByUser(Integer userId, int status);
+    List<FriendRequest> getAllFriendByUserId(Integer userSendId, Integer status1, Integer userReceiveId, Integer status2);
 
     boolean isFriend(Integer userSendId1, Integer userReceiveId2, int status);
 

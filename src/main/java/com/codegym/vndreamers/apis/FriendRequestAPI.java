@@ -76,7 +76,7 @@ public class FriendRequestAPI {
 
     @GetMapping("/friends/{userId}")
     public List<User> getAllFriend(@PathVariable int userId) {
-        List<FriendRequest> friendRequests = friendRequestService.getAllFriendRequestByUserIdAndByStatus(userId, FRIEND_STATUS);
+        List<FriendRequest> friendRequests = friendRequestService.getAllFriendByUserId(userId, FRIEND_STATUS, userId, FRIEND_STATUS);
         List<User> userList = new ArrayList<>();
         for (FriendRequest friendRequest : friendRequests) {
             if (friendRequest.getUserSend().getId() != userId) {

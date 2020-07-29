@@ -38,9 +38,12 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1O
 
 
 ### Get list Friend of user
-GET http://localhost:8080/api/friends/1
+GET http://localhost:8080/api/friends/4
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5OTYxLCJleHAiOjE1OTYwMDYzNjF9.tXmQUwVVvWjWX7FxAmpSfFyUfX2Xgs8GrwzjlRSJI3pLPx-w7f3_2LWsVEs9tp2vo2Ikd4gqX1ePFi_3Snm58Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTkwMTI0LCJleHAiOjE1OTYwNzY1MjR9.kg7h3F22DEB-UOyt-HFfX6iXmGgxQP-PYnqD42U3tW1Ra2NAmG9KlNFpo1sspoWsvPiQ1purpukbwzwE0lw0hg
+
+
+
 
 ### Get list friend request to me
 GET http://localhost:8080/api/friends/receive

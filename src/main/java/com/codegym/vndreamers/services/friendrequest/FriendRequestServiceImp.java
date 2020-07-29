@@ -77,6 +77,12 @@ public class FriendRequestServiceImp implements FriendRequestService {
     }
 
     @Override
+    public List<FriendRequest> getAllFriendByUserId(Integer userSendId, Integer status1, Integer userReceiveId, Integer status2) {
+        return friendRequestRepository.findAllByUserSendIdAndStatusOrUserReceiveIdAndStatus(userSendId, status1, userReceiveId, status2);
+    }
+
+
+    @Override
     public boolean isFriend(Integer userSendId1, Integer userReceiveId2, int status) {
         FriendRequest friendRequest = friendRequestRepository.findByUserSendIdAndUserReceiveIdAndStatus(userSendId1, userReceiveId2, status);
         FriendRequest friendRequestReverse = friendRequestRepository.findByUserSendIdAndUserReceiveIdAndStatus(userReceiveId2, userSendId1, status);
