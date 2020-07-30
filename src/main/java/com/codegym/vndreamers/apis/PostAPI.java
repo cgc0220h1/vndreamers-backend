@@ -66,10 +66,10 @@ public class PostAPI {
         return post1;
     }
 
-    @GetMapping("/posts")
+    @GetMapping("/admin/posts")
     public List<Post> getAllPostsUser() throws PostNotFoundException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Post> posts = postCRUDService.getAllByUserIdAndStatusGreaterThanEqual(user.getId(), PUBLIC_POST);
+        List<Post> posts = postCRUDService.findAll();
         for (Post post : posts) {
             List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
             int likes = postReaction.size();
@@ -85,11 +85,20 @@ public class PostAPI {
 
     @GetMapping("/posts/{id}")
     public List<Post> getAllPostsOtherUser(@PathVariable int id) throws PostNotFoundException {
-        User commentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User postOwner = userCRUDService.findById(id);
-        boolean isFriend = friendRequestService.isFriend(postOwner.getId(), commentUser.getId(), FRIEND_STATUS);
+        if (user.getId() == postOwner.getId()){
+            List<Post> posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PRIVATE_POST, postOwner.getId(), PROTECT_POST, postOwner.getId(), PUBLIC_POST);
+            if (posts != null){
+                Collections.reverse(posts);
+                return posts;
+            }else {
+                throw new PostNotFoundException();
+            }
+        }
+        boolean isFriend = friendRequestService.isFriend(postOwner.getId(), user.getId(), FRIEND_STATUS);
         if (isFriend){
-            List<Post> posts = postCRUDService.getAllByUserIdAndStatusGreaterThanEqual(postOwner.getId(), PROTECT_POST);
+            List<Post> posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PUBLIC_POST, postOwner.getId(), PROTECT_POST, postOwner.getId(), PUBLIC_POST);
             if (posts != null){
                 Collections.reverse(posts);
                 return posts;
@@ -97,7 +106,7 @@ public class PostAPI {
                 throw new PostNotFoundException();
             }
         }else {
-            List<Post> posts = postCRUDService.getAllByUserIdAndStatusGreaterThanEqual(postOwner.getId(), PUBLIC_POST);
+            List<Post> posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PUBLIC_POST, postOwner.getId(), PUBLIC_POST, postOwner.getId(), PUBLIC_POST);
             if (posts != null){
                 Collections.reverse(posts);
                 return posts;

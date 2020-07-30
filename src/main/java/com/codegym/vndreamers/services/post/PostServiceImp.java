@@ -77,7 +77,9 @@ public class PostServiceImp implements PostCRUDService {
     }
 
     @Override
-    public List<Post> getAllByUserIdAndStatusGreaterThanEqual(Integer userId, Integer status) {
-        return postRepository.findAllByUserIdAndStatusGreaterThanEqual(userId, status);
+    public List<Post> getAllByUSerIdAndRelationShip(Integer id1, Integer status1, Integer id2, Integer status2, Integer id3, Integer status3) {
+        return postRepository.findAllByUserIdAndStatusOrUserIdAndStatusOrUserIdAndStatus(id1,status1, id2, status2, id3, status3);
     }
+
+
 }
