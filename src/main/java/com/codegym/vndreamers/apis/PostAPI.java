@@ -84,54 +84,54 @@ public class PostAPI {
         }
     }
 
-    @GetMapping("/posts/{id}")
-    public List<Post> getAllPostsOtherUser(@PathVariable int id) throws PostNotFoundException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User postOwner = userCRUDService.findById(id);
-        List<Post> posts;
-        if (user.getId() == postOwner.getId()) {
-            posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PRIVATE_POST, postOwner.getId(), PROTECT_POST, postOwner.getId(), PUBLIC_POST);
-            if (posts != null) {
-                for (Post post : posts) {
-                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
-                    int likes = postReaction.size();
-                    post.setLikeQuantity(likes);
-                }
-                Collections.reverse(posts);
-                return posts;
-            } else {
-                throw new PostNotFoundException();
-            }
-        }
-        boolean isFriend = friendRequestService.isFriend(postOwner.getId(), user.getId(), FRIEND_STATUS);
-        if (isFriend) {
-            posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PUBLIC_POST, postOwner.getId(), PROTECT_POST, postOwner.getId(), PUBLIC_POST);
-            if (posts != null) {
-                for (Post post : posts) {
-                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
-                    int likes = postReaction.size();
-                    post.setLikeQuantity(likes);
-                }
-                Collections.reverse(posts);
-                return posts;
-            } else {
-                throw new PostNotFoundException();
-            }
-        } else {
-            posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PUBLIC_POST, postOwner.getId(), PUBLIC_POST, postOwner.getId(), PUBLIC_POST);
-            if (posts != null) {
-                for (Post post : posts) {
-                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
-                    int likes = postReaction.size();
-                    post.setLikeQuantity(likes);
-                }
-                Collections.reverse(posts);
-                return posts;
-            } else {
-                throw new PostNotFoundException();
-            }
-        }
-    }
+//    @GetMapping("/posts/{id}")
+//    public List<Post> getAllPostsOtherUser(@PathVariable int id) throws PostNotFoundException {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        User postOwner = userCRUDService.findById(id);
+//        List<Post> posts;
+//        if (user.getId() == postOwner.getId()) {
+//            posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PRIVATE_POST, postOwner.getId(), PROTECT_POST, postOwner.getId(), PUBLIC_POST);
+//            if (posts != null) {
+//                for (Post post : posts) {
+//                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
+//                    int likes = postReaction.size();
+//                    post.setLikeQuantity(likes);
+//                }
+//                Collections.reverse(posts);
+//                return posts;
+//            } else {
+//                throw new PostNotFoundException();
+//            }
+//        }
+//        boolean isFriend = friendRequestService.isFriend(postOwner.getId(), user.getId(), FRIEND_STATUS);
+//        if (isFriend) {
+//            posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PUBLIC_POST, postOwner.getId(), PROTECT_POST, postOwner.getId(), PUBLIC_POST);
+//            if (posts != null) {
+//                for (Post post : posts) {
+//                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
+//                    int likes = postReaction.size();
+//                    post.setLikeQuantity(likes);
+//                }
+//                Collections.reverse(posts);
+//                return posts;
+//            } else {
+//                throw new PostNotFoundException();
+//            }
+//        } else {
+//            posts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PUBLIC_POST, postOwner.getId(), PUBLIC_POST, postOwner.getId(), PUBLIC_POST);
+//            if (posts != null) {
+//                for (Post post : posts) {
+//                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
+//                    int likes = postReaction.size();
+//                    post.setLikeQuantity(likes);
+//                }
+//                Collections.reverse(posts);
+//                return posts;
+//            } else {
+//                throw new PostNotFoundException();
+//            }
+//        }
+//    }
 
 
     @DeleteMapping("/posts/{id}")
@@ -166,10 +166,10 @@ public class PostAPI {
 //        return new ResponseEntity<>(currentPost, HttpStatus.OK);
 //    }
 
-    @PutMapping("/posts/{id}")
-    public Post updatePost(@PathVariable("id") int id, @RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException, PostNotFoundException {
+    @PutMapping("/posts")
+    public Post updatePost(@RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException, PostNotFoundException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Post currentPost = postCRUDService.findById(id);
+        Post currentPost = postCRUDService.findById(user.getId());
         if (currentPost == null) {
             throw new PostNotFoundException();
         }
