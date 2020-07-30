@@ -50,7 +50,7 @@ public class AdminAPI {
         return adminStatisticService.getUsersRegisterToday();
     }
 
-    @GetMapping("/users/statistics/range")
+    @PostMapping("/users/statistics/range")
     public List<User> getUserByRange(@RequestBody RangeRequest rangeRequest) {
         return adminStatisticService.getUserRegisterByRange(rangeRequest);
     }
