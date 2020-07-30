@@ -89,23 +89,18 @@ public class CommentAPI {
     @DeleteMapping(value = "/comments/{id}")
     public Comment deleteComments(@PathVariable("id") int id) throws CommentNotFound {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        try{
             Comment comment = commentService.findById(id);
             if (comment == null){
                 return null;
             }else {
                 User user1 = comment.getUser();
                 if (user.getId() == user1.getId()) {
-                    commentService.removeComment(id);
+                    commentService.delete(id);
                     return comment;
                 } else {
                     return null;
                 }
             }
-        }catch (Exception e){
-            throw new CommentNotFound();
-        }
-
     }
 
     @GetMapping(value = "/notification/comments")
