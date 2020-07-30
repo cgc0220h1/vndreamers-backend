@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -72,19 +72,12 @@ public class AdminAPI {
         return null;
     }
 
-    @PutMapping("/users/block/{id}")
-    public User blockUserById(@PathVariable int id) throws SQLIntegrityConstraintViolationException, EntityExistException {
-        User user = userCRUDService.findById(id);
-        user.setStatus(BLOCK_STATUS);
-        user.setConfirmPassword(user.getPassword());
-        return userCRUDService.updateProfileUser(user);
-    }
-    @PutMapping("/users/active/{id}")
-    public User activeUserById(@PathVariable int id) throws SQLIntegrityConstraintViolationException, EntityExistException {
-        User user = userCRUDService.findById(id);
-        user.setStatus(ACTIVE_STATUS);
-        user.setConfirmPassword(user.getPassword());
-        return userCRUDService.updateProfileUser(user);
+    @PutMapping("/users/status")
+    public User activeUserById(@RequestBody User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
+        User userFound = userCRUDService.findById(user.getId());
+        userFound.setStatus(user.getStatus());
+        userFound.setConfirmPassword(userFound.getPassword());
+        return userCRUDService.updateProfileUser(userFound);
     }
 
     @ExceptionHandler(UserDeleteException.class)
