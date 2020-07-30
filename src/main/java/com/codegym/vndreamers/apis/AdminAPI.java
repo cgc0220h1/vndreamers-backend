@@ -71,7 +71,7 @@ public class AdminAPI {
         return null;
     }
 
-    @PutMapping("/users/block/{id}")
+    @DeleteMapping("/users/block/{id}")
     public User blockUserById(@PathVariable int id) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User user = userCRUDService.findById(id);
         user.setStatus(BLOCK_STATUS);
