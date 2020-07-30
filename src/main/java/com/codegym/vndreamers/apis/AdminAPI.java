@@ -33,13 +33,14 @@ public class AdminAPI {
     private UserCRUDService userCRUDService;
 
     @GetMapping("/users/date/{quantity}")
-    public List<User> getAllByDate(@PathVariable("quantity") long date) {
+    public int getAllByDate(@PathVariable("quantity") long date) {
         long currentTime = System.currentTimeMillis();
         long currentTimeWant = date * 24 * 60 * 60 * 1000;
         long timeWant = currentTime - currentTimeWant;
         Timestamp dateWant = new Timestamp(timeWant);
         List<User> users = userCRUDService.getAllUserByTimeStamp(dateWant);
-        return users;
+        int quantity = users.size();
+        return quantity;
     }
 
 
