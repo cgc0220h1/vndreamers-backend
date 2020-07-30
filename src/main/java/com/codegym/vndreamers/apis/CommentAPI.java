@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.exceptions.CanNotUpdateCommentException;
 import com.codegym.vndreamers.exceptions.CommentNotFound;
 import com.codegym.vndreamers.exceptions.CanNotCommentException;
 import com.codegym.vndreamers.exceptions.EntityExistException;
@@ -73,16 +74,17 @@ public class CommentAPI {
     }
 
     @PutMapping(value = "/posts/{id}/comments")
-    public Object getCommentById(@PathVariable int id, @RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public Comment getCommentById(@PathVariable int id, @RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException, CanNotUpdateCommentException {
         User userComment = comment.getUser();
+        Post post = postCRUDService.findById(id);
+        User postOwner = post.getUser();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (user.getId() == userComment.getId()) {
-            Post post = postCRUDService.findById(id);
+        if (user.getId() == userComment.getId() || user.getId() == postOwner.getId()) {
             comment.setPost(post);
             commentService.save(comment);
             return comment;
         } else {
-            return null;
+            throw new CanNotUpdateCommentException();
         }
     }
 
@@ -90,17 +92,18 @@ public class CommentAPI {
     public Comment deleteComments(@PathVariable("id") int id) throws CommentNotFound {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Comment comment = commentService.findById(id);
+        User ownerComment = comment.getUser();
         if (comment == null) {
-            return null;
+            throw new CommentNotFound();
         } else {
-            User user1 = comment.getUser();
-            if (user.getId() == user1.getId()) {
+            if (user.getId() == ownerComment.getId()) {
                 commentService.delete(id);
                 return comment;
             } else {
-                return null;
+                throw new CommentNotFound();
             }
         }
+
     }
 
 
@@ -125,6 +128,12 @@ public class CommentAPI {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleCommentNotFoundException() {
         return "{\"error\":\"Comment not found!\"}";
+    }
+
+    @ExceptionHandler(CanNotUpdateCommentException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleCommentNotUpdateException() {
+        return "{\"error\":\"Comment can not update!\"}";
     }
 
     @ExceptionHandler(CanNotCommentException.class)
