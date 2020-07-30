@@ -9,7 +9,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0cm9uZ2RvYW4iLCJpYXQiOjE1O
 ###
 DELETE http://localhost:8080/api/comments/4
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwaGkiLCJpYXQiOjE1OTYxMTcwOTUsImV4cCI6MTU5NjIwMzQ5NX0.yYYlgbq9P5WBkSEXDZH5h4eSisVhKLk7LWeeCQ86L63avuUB7e_NjeNM4XUUGRNKRKSNaDyMiPvPohrEnYNgKg
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MTI2NDQ0LCJleHAiOjE1OTYyMTI4NDR9.aNy4FRL2Vn5UYs6QMjlf9DYqSoZy08nK4mmLm-WstbFwPUNxZSKVai8fBk-MuQ112NnPXMvAyFmXiU7e4EOQmw
 
 ###
 POST http://localhost:8080/api/posts/1/comments

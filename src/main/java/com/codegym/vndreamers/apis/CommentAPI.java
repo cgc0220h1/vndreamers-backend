@@ -106,7 +106,6 @@ public class CommentAPI {
             throw new CommentNotFound();
         }
 
-
     }
 
     @GetMapping(value = "/notification/comments")
