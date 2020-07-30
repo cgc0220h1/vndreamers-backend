@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.exceptions.CanNotCommentException;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.exceptions.PostDeleteException;
 import com.codegym.vndreamers.exceptions.PostNotFoundException;
@@ -8,8 +9,10 @@ import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.PostReaction;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.comment.CommentService;
+import com.codegym.vndreamers.services.friendrequest.FriendRequestService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.reaction.ReactionService;
+import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,13 @@ import java.util.List;
 @RequestMapping("/api")
 @CrossOrigin("*")
 public class PostAPI {
+
+    public static final int PUBLIC_POST = 1;
+    public static final int PROTECT_POST = 2;
+    public static final int PRIVATE_POST = 3;
+    public static final int FRIEND_STATUS = 1;
+
+
     @Autowired
     private CommentService commentService;
 
@@ -33,6 +43,12 @@ public class PostAPI {
 
     @Autowired
     private ReactionService reactionService;
+
+    @Autowired
+    private FriendRequestService friendRequestService;
+
+    @Autowired
+    private UserCRUDService userCRUDService;
 
 
     @GetMapping("/posts/{id}/comments")
@@ -53,7 +69,7 @@ public class PostAPI {
     @GetMapping("/posts")
     public List<Post> getAllPostsUser() throws PostNotFoundException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Post> posts = postCRUDService.getAllByUserIdAndStatus(Integer.valueOf(user.getId()), 1);
+        List<Post> posts = postCRUDService.getAllByUserIdAndStatusGreaterThanEqual(user.getId(), PUBLIC_POST);
         for (Post post : posts) {
             List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
             int likes = postReaction.size();
@@ -69,12 +85,25 @@ public class PostAPI {
 
     @GetMapping("/posts/{id}")
     public List<Post> getAllPostsOtherUser(@PathVariable int id) throws PostNotFoundException {
-        List<Post> posts = postCRUDService.getAllByUserIdAndStatus(id, 1);
-        if (posts != null) {
-            Collections.reverse(posts);
-            return posts;
-        } else {
-            throw new PostNotFoundException();
+        User commentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User postOwner = userCRUDService.findById(id);
+        boolean isFriend = friendRequestService.isFriend(postOwner.getId(), commentUser.getId(), FRIEND_STATUS);
+        if (isFriend){
+            List<Post> posts = postCRUDService.getAllByUserIdAndStatusGreaterThanEqual(postOwner.getId(), PROTECT_POST);
+            if (posts != null){
+                Collections.reverse(posts);
+                return posts;
+            }else {
+                throw new PostNotFoundException();
+            }
+        }else {
+            List<Post> posts = postCRUDService.getAllByUserIdAndStatusGreaterThanEqual(postOwner.getId(), PUBLIC_POST);
+            if (posts != null){
+                Collections.reverse(posts);
+                return posts;
+            }else {
+                throw new PostNotFoundException();
+            }
         }
     }
 
