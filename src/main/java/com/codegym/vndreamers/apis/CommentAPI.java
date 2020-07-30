@@ -88,16 +88,17 @@ public class CommentAPI {
         }
     }
 
-    @DeleteMapping(value = "/comments/{id}")
-    public Comment deleteComments(@PathVariable("id") int id) throws CommentNotFound {
+    @DeleteMapping(value = "/posts/{postId}/comments/{commentId}")
+    public Comment deleteComments(@PathVariable("postId") int postId, @PathVariable("commentId") int commentId) throws CommentNotFound {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Comment comment = commentService.findById(id);
+        Comment comment = commentService.findById(commentId);
         User ownerComment = comment.getUser();
+        User ownerPost = postCRUDService.findById(postId).getUser();
         if (comment == null) {
             throw new CommentNotFound();
         } else {
-            if (user.getId() == ownerComment.getId()) {
-                commentService.delete(id);
+            if (user.getId() == ownerComment.getId() || user.getId() == ownerPost.getId()) {
+                commentService.delete(commentId);
                 return comment;
             } else {
                 throw new CommentNotFound();
