@@ -1,0 +1,2 @@
+GET http://localhost:8080/api/admin/users/statistics/today
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MTQ2ODkwLCJleHAiOjE1OTYyMzMyOTB9.L7DN7jwWSB7rXXlceO3oIAXBcHeEah0vgZFooACt4qIsPjCqiQ1rjan9d5EjOQIVeIh0t5iV4L4C3Szs7vQttQ

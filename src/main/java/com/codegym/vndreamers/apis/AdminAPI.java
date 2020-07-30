@@ -3,19 +3,11 @@ package com.codegym.vndreamers.apis;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.exceptions.UserDeleteException;
 import com.codegym.vndreamers.models.User;
+import com.codegym.vndreamers.services.AdminStatisticService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
@@ -25,12 +17,21 @@ import java.util.List;
 @RequestMapping("/api/admin")
 @CrossOrigin("*")
 public class AdminAPI {
+    private AdminStatisticService adminStatisticService;
+    private UserCRUDService userCRUDService;
 
     public static final int BLOCK_STATUS = 0;
     public static final int ACTIVE_STATUS = 1;
 
     @Autowired
-    private UserCRUDService userCRUDService;
+    public void setUserCRUDService(UserCRUDService userCRUDService) {
+        this.userCRUDService = userCRUDService;
+    }
+
+    @Autowired
+    public void setAdminStatisticService(AdminStatisticService adminStatisticService) {
+        this.adminStatisticService = adminStatisticService;
+    }
 
     @GetMapping("/users/date/{quantity}")
     public int getAllByDate(@PathVariable("quantity") long date) {
@@ -43,9 +44,14 @@ public class AdminAPI {
         return quantity;
     }
 
+    @GetMapping("/users/statistics/today")
+    public List<User> getUserRegisterToday() {
+        return adminStatisticService.getUsersRegisterToday();
+    }
 
 
     @GetMapping("/users")
+
     public List<User> getAllUser() {
         return userCRUDService.findAll();
     }
@@ -66,7 +72,7 @@ public class AdminAPI {
                 } else {
                     return null;
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new UserDeleteException();
             }
         }

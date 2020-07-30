@@ -11,6 +11,10 @@ import java.util.Optional;
 
 public interface UserRepository extends PagingAndSortingRepository<User, Integer> {
     Optional<User> findByUsername(String username);
+
     List<User> findAllByCreatedDateAfter(Timestamp timestamp);
+
     Optional<User> findByEmail(@Email @NotNull String email);
+
+    Iterable<User> findAllByCreatedDateBetween(Timestamp createdDateBegin, Timestamp createdDateEnd);
 }
