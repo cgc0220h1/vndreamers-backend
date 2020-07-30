@@ -136,17 +136,29 @@ public class PostAPI {
         }
     }
 
+//    @PutMapping("/posts/{id}")
+//    public Object updatePost(@PathVariable("id") int id, @RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
+//        Post currentPost = postCRUDService.findById(id);
+//        if (currentPost == null) {
+//            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+//        }
+//        currentPost.setContent(post.getContent());
+//        currentPost.setImage(post.getImage());
+//        currentPost.setId(post.getId());
+//        postCRUDService.save(currentPost);
+//        return new ResponseEntity<>(currentPost, HttpStatus.OK);
+//    }
+
     @PutMapping("/posts/{id}")
-    public Object updatePost(@PathVariable("id") int id, @RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public Post updatePost(@PathVariable("id") int id, @RequestBody Post post) throws SQLIntegrityConstraintViolationException, EntityExistException, PostNotFoundException {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Post currentPost = postCRUDService.findById(id);
         if (currentPost == null) {
-            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+            throw new PostNotFoundException();
         }
-        currentPost.setContent(post.getContent());
-        currentPost.setImage(post.getImage());
-        currentPost.setId(post.getId());
-        postCRUDService.save(currentPost);
-        return new ResponseEntity<Post>(currentPost, HttpStatus.OK);
+        post.setUser(user);
+        postCRUDService.save(post);
+        return post;
     }
 
     @ExceptionHandler(PostNotFoundException.class)
