@@ -72,14 +72,14 @@ public class AdminAPI {
         return null;
     }
 
-    @DeleteMapping("/users/block/{id}")
+    @PutMapping("/users/block/{id}")
     public User blockUserById(@PathVariable int id) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User user = userCRUDService.findById(id);
         user.setStatus(BLOCK_STATUS);
         user.setConfirmPassword(user.getPassword());
         return userCRUDService.updateProfileUser(user);
     }
-    @DeleteMapping("/users/active/{id}")
+    @PutMapping("/users/active/{id}")
     public User activeUserById(@PathVariable int id) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User user = userCRUDService.findById(id);
         user.setStatus(ACTIVE_STATUS);
