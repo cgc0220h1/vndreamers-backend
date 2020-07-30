@@ -55,11 +55,11 @@ public class CommentAPI {
         User postOwner = post.getUser();
         User commentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         boolean isFriend = friendRequestService.isFriend(postOwner.getId(), commentUser.getId(), FRIEND_STATUS);
-        if (isFriend || (postOwner.getId() == commentUser.getId())){
+        if (isFriend || (postOwner.getId() == commentUser.getId())) {
             comment.setPost(post);
             comment.setUser(commentUser);
             return commentService.save(comment);
-        }else {
+        } else {
             throw new CanNotCommentException();
         }
 
@@ -72,11 +72,13 @@ public class CommentAPI {
         return comments;
     }
 
-    @PutMapping(value = "/comments")
-    public Object getCommentById(@RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    @PutMapping(value = "/posts/{id}/comments")
+    public Object getCommentById(@PathVariable int id, @RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User userComment = comment.getUser();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (user.getId() == userComment.getId()) {
+            Post post = postCRUDService.findById(id);
+            comment.setPost(post);
             commentService.save(comment);
             return comment;
         } else {
@@ -87,18 +89,18 @@ public class CommentAPI {
     @DeleteMapping(value = "/comments/{id}")
     public Comment deleteComments(@PathVariable("id") int id) throws CommentNotFound {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Comment comment = commentService.findById(id);
-            if (comment == null){
+        Comment comment = commentService.findById(id);
+        if (comment == null) {
+            return null;
+        } else {
+            User user1 = comment.getUser();
+            if (user.getId() == user1.getId()) {
+                commentService.delete(id);
+                return comment;
+            } else {
                 return null;
-            }else {
-                User user1 = comment.getUser();
-                if (user.getId() == user1.getId()) {
-                    commentService.delete(id);
-                    return comment;
-                } else {
-                    return null;
-                }
             }
+        }
     }
 
 
