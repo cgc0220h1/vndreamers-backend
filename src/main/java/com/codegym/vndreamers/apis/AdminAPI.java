@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.dtos.RangeRequest;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.exceptions.UserDeleteException;
 import com.codegym.vndreamers.models.User;
@@ -47,6 +48,11 @@ public class AdminAPI {
     @GetMapping("/users/statistics/today")
     public List<User> getUserRegisterToday() {
         return adminStatisticService.getUsersRegisterToday();
+    }
+
+    @GetMapping("/users/statistics/range")
+    public List<User> getUserByRange(@RequestBody RangeRequest rangeRequest) {
+        return adminStatisticService.getUserRegisterByRange(rangeRequest);
     }
 
 
