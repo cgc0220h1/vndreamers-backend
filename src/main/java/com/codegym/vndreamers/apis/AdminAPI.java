@@ -27,6 +27,7 @@ import java.util.List;
 public class AdminAPI {
 
     public static final int BLOCK_STATUS = 0;
+    public static final int ACTIVE_STATUS = 1;
 
     @Autowired
     private UserCRUDService userCRUDService;
@@ -75,6 +76,13 @@ public class AdminAPI {
     public User blockUserById(@PathVariable int id) throws SQLIntegrityConstraintViolationException, EntityExistException {
         User user = userCRUDService.findById(id);
         user.setStatus(BLOCK_STATUS);
+        user.setConfirmPassword(user.getPassword());
+        return userCRUDService.updateProfileUser(user);
+    }
+    @DeleteMapping("/users/active/{id}")
+    public User activeUserById(@PathVariable int id) throws SQLIntegrityConstraintViolationException, EntityExistException {
+        User user = userCRUDService.findById(id);
+        user.setStatus(ACTIVE_STATUS);
         user.setConfirmPassword(user.getPassword());
         return userCRUDService.updateProfileUser(user);
     }
