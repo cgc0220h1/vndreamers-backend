@@ -72,15 +72,13 @@ public class CommentAPI {
         return comments;
     }
 
-    @PutMapping(value = "/comments/{id}")
-    public Object getCommentById(@PathVariable("id") int id, @RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException {
-        Comment comment1 = commentService.findById(id);
+    @PutMapping(value = "/comments")
+    public Object getCommentById(@RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException {
+        User userComment = comment.getUser();
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user1 = comment1.getUser();
-        if (user.getId() == user1.getId()) {
-            comment1.setContent(comment.getContent());
-            commentService.save(comment1);
-            return comment1;
+        if (user.getId() == userComment.getId()) {
+            commentService.save(comment);
+            return comment;
         } else {
             return null;
         }
@@ -102,6 +100,7 @@ public class CommentAPI {
                 }
             }
     }
+
 
     @GetMapping(value = "/notification/comments")
     public List<Comment> getNewAllCommentsByUserId() {
