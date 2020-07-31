@@ -128,10 +128,7 @@ public class CommentAPI {
     @GetMapping(value = "/users/{id}/comments")
     public List<Comment> getAllCommentsByUserId(@PathVariable int id) {
         List<Comment> commentList = commentService.findAllCommentByUserId(id);
-        List<Comment> comments;
-        comments = commentList.subList(0, commentList.size());
-        Collections.reverse(comments);
-        return comments;
+        return commentList;
     }
 
 
