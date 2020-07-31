@@ -1,0 +1,57 @@
+### Create FriendRequest
+POST  http://localhost:8080/api/friends
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTI2OTEyLCJleHAiOjE1OTYwMTMzMTJ9.iSV8nQvp64IOXApktw_2qtt7pg46O33q62fgGcina4SuVTjgxOkD0MNUhcHkimnpscTIyz30EzOJqiyetYakxw
+
+{
+  "id": 3,
+  "email": "test@vndreamers.com",
+  "first_name": "dev",
+  "last_name": "team",
+  "password": "@dev1234",
+  "confirm_password": "@dev1234",
+  "birth_date": "2020-04-20",
+  "status": 1
+}
+
+### Confirm FriendRequest
+PUT  http://localhost:8080/api/friends
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTI3Mzc4LCJleHAiOjE1OTYwMTM3Nzh9.CCSK8NYPqmCZmWfjGzMlE-7pbSDusfGlaj3QPeQIVIPKwIqtU8DB-5d5bHw4gKjKqHRB3esqRmGevPN4k0bFjA
+
+
+{
+  "id": 2,
+  "email": "phi@vndreamers.com",
+  "first_name": "dev",
+  "last_name": "team",
+  "password": "@dev1234",
+  "confirm_password": "@dev1234",
+  "birth_date": "2020-04-20",
+  "status": 1
+}
+
+### Delete FriendRelationship or Delete Friend Request
+DELETE http://localhost:8080/api/friends/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1ODYyNTg0LCJleHAiOjE1OTU5NDg5ODR9.MDs-XgduhDPFVz--aPO5o6PrNH7dvd2CguFRg8ohPkmCArxfbCGRoeiVeh3B7rGEqKxNv5RkNq5RZQ2aXyWg6w
+
+
+### Get list Friend of user
+GET http://localhost:8080/api/friends/4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTkwMTI0LCJleHAiOjE1OTYwNzY1MjR9.kg7h3F22DEB-UOyt-HFfX6iXmGgxQP-PYnqD42U3tW1Ra2NAmG9KlNFpo1sspoWsvPiQ1purpukbwzwE0lw0hg
+
+
+
+
+### Get list friend request to me
+GET http://localhost:8080/api/friends/receive
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw
+
+
+### Get list friend request from me
+GET http://localhost:8080/api/friends/send
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1OTE5Nzc3LCJleHAiOjE1OTYwMDYxNzd9.hQ7xbFbjXdax07LRTfuQUMkola6Jt3QRuEessIc8lPxCdicB_OnA03BINSqB_V5--0hqjuzCIiEPGRXNixStdw

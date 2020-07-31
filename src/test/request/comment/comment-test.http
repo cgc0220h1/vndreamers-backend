@@ -1,0 +1,46 @@
+PUT http://localhost:8080/api/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MTM0MjQzLCJleHAiOjE1OTYyMjA2NDN9.rHwH-3PwYQ2hr2tUNT7bpLxWf5psRLWPVuWWPPoti-QmiUKGgehe4iPjR-qpcc56WzEKX_PIEi0dWA8on1KYAw
+{
+  "content": "phi sua comment",
+  "createdDate": "2020-07-30T17:42:36.093+00:00",
+  "id": 1,
+  "modifyDate": "2020-07-30T17:42:36.093+00:00",
+  "user": {
+    "about_me": "Chưa tốt nghiệp Đại học Thất Bại",
+    "accountNonExpired": true,
+    "accountNonLocked": true,
+    "address": "Hải Phòng",
+    "authorities": null,
+    "avatar": "https://images.unsplash.com/photo-1514794749374-fb67509dbb7f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80",
+    "birth_date": "2020-07-13",
+    "createdDate": "2020-07-24T08:22:27.813+00:00",
+    "credentialsNonExpired": true,
+    "email": "phi@gmail.com",
+    "enabled": true,
+    "first_name": "Đào",
+    "gender": 1,
+    "id": 1,
+    "last_name": "Phi",
+    "modified_date": "2020-07-24T08:22:27.813+00:00",
+    "phone": "0988888113",
+    "status": 0,
+    "username": "phi"
+  }
+
+}
+###
+DELETE http://localhost:8080/api/comments/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MTI4MjE5LCJleHAiOjE1OTYyMTQ2MTl9.V_7KxZ4iBHIIntibOkCcmbHtCMhvfzcK2vYK9MpZ9XBHt_K-Uv6vNVc-I72tloYVJa-QbNMSeUijHvHBTqus-A
+
+
+###
+POST http://localhost:8080/api/posts/1/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaWV1IiwiaWF0IjoxNTk1OTUwNTQwLCJleHAiOjE1OTYwMzY5NDB9.jdEvcDb6SuIJB2uQoNhV-ALwYp2RGUFi7TBEZP8VwxPjf7sJiUY5koI4OOutiLilQhvecdHu_PQJk_2knxCoZA
+
+
+{
+  "content": "toi  comment"
+}

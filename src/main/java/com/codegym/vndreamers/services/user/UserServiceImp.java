@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public List<User> findAll() {
-        return null;
+        return (List<User>) userRepository.findAll();
     }
 
     @Override
@@ -44,6 +45,8 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
     public User findById(int id) {
      return userRepository.findById(id).get();
     }
+
+
 
     @Override
     public User save(User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
@@ -64,6 +67,11 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
 
     @Override
     public boolean delete(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.get() != null){
+            userRepository.deleteById(id);
+            return true;
+        }
         return false;
     }
 
@@ -81,4 +89,10 @@ public class UserServiceImp implements UserCRUDService, UserDetailsService {
     public User updateProfileUser(User user) {
         return userRepository.save(user);
     }
+
+    @Override
+    public List<User> getAllUserByTimeStamp(Timestamp timestamp) {
+            return userRepository.findAllByCreatedDateAfter(timestamp);
+    }
+
 }

@@ -1,7 +1,6 @@
-GET http://localhost:8080/api/posts
+GET http://localhost:8080/api/admin/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwaGkxIiwiaWF0IjoxNTk1NzYzNjgwLCJleHAiOjE1OTU3NjM3NjZ9.fBmLdIcjd_cS3CE-u2C3_fO3lCT6Dn7amVHy5ebIEByAgJUhJFSw4y8MnzuS1q1Md4tkmNU5jsYTXkMI_ghcPw
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJoaWV1IiwiaWF0IjoxNTk2MDgzNzA5LCJleHAiOjE1OTYxNzAxMDl9.v4INsONum0GIQe5sFfYnufOEgB0a2K4cDCXs-BX4Rx-qSo5lAw1Ca6SePA7wTAqE_jKukBg4bNL9J_mqQ0bY9g
 ###
 POST http://localhost:8080/api/posts
 Content-Type: application/json
@@ -12,3 +11,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1N
   "content": "Thật là vl",
   "image": ""
 }
+
+
+### all post cua nguoi khac
+GET http://localhost:8080/api/posts/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MTIwNjMwLCJleHAiOjE1OTYyMDcwMzB9.7M4AlfJOhp7c2-ZPY639X0L6MntoixoYtTWsYfgOZ4lwLjcjLLz4qqgNhirifnmrSaiTBegisjJSTS3VBU-Msw

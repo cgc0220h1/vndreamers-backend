@@ -3,16 +3,16 @@ package com.codegym.vndreamers.services.comment;
 import com.codegym.vndreamers.models.Comment;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.services.GenericCRUDService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CommentService extends GenericCRUDService<Comment> {
-//    List<Comment> findAllExistByPost(Post post);
+
     Iterable<Comment> findAllByPost(Post post);
     List<Comment> findAllByPostId(Integer postId);
+    void removeComment(Integer id);
 
+    List<Comment> findAllCommentByUserId (Integer id);
 
-//    Page<Comment> findAllExistByPost(Post post, Pageable pageable);
 }

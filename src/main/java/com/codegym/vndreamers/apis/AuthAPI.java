@@ -4,8 +4,10 @@ import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.dtos.LoginRequest;
 import com.codegym.vndreamers.exceptions.DatabaseException;
 import com.codegym.vndreamers.exceptions.EntityExistException;
+import com.codegym.vndreamers.models.Role;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.auth.AuthService;
+import com.codegym.vndreamers.services.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
+import java.util.HashSet;
+import java.util.Set;
 
 @CrossOrigin("*")
 @RestController
@@ -28,6 +32,11 @@ import javax.xml.bind.ValidationException;
         consumes = MediaType.APPLICATION_JSON_VALUE
 )
 public class AuthAPI {
+
+    public static final int ROLE_USER = 1;
+
+    @Autowired
+    private RoleService roleService;
 
     private AuthService authService;
 
@@ -41,6 +50,10 @@ public class AuthAPI {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             throw new ValidationException("password not match");
         }
+        Set<Role> roles = new HashSet<>();
+        Role role = roleService.findById(ROLE_USER);
+        roles.add(role);
+        user.setRoles(roles);
         return authService.register(user);
     }
 
@@ -49,6 +62,10 @@ public class AuthAPI {
         JWTResponse jwtResponse;
         try {
             jwtResponse = authService.authenticate(loginRequest);
+            int status = jwtResponse.getUser().getStatus();
+            if (status == 0){
+                throw new UsernameNotFoundException(loginRequest.getEmail());
+            }
         } catch (InternalAuthenticationServiceException e) {
             throw new UsernameNotFoundException(loginRequest.getEmail());
         }

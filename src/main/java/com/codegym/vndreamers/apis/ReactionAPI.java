@@ -18,9 +18,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping(
-        value = "/api",
-        produces = MediaType.APPLICATION_JSON_VALUE,
-        consumes = MediaType.APPLICATION_JSON_VALUE
+        value = "/api"
+//        produces = MediaType.APPLICATION_JSON_VALUE,
+//        consumes = MediaType.APPLICATION_JSON_VALUE
 )
 @CrossOrigin("*")
 public class ReactionAPI {

@@ -42,6 +42,7 @@ public class PostServiceImp implements PostCRUDService {
         return postRepository.findById(id).get();
     }
 
+
     @Override
     public Post save(Post model){
         return postRepository.save(model);
@@ -74,4 +75,11 @@ public class PostServiceImp implements PostCRUDService {
             return null;
         }
     }
+
+    @Override
+    public List<Post> getAllByUSerIdAndRelationShip(Integer id1, Integer status1, Integer id2, Integer status2, Integer id3, Integer status3) {
+        return postRepository.findAllByUserIdAndStatusOrUserIdAndStatusOrUserIdAndStatus(id1,status1, id2, status2, id3, status3);
+    }
+
+
 }

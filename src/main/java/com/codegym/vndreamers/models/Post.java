@@ -40,6 +40,9 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     private Set<Comment> comments;
 
+    @Transient
+    private int likeQuantity = 0;
+
     @OneToMany(mappedBy = "post")
     @JsonIgnore
     private Set<PostReaction> likes;

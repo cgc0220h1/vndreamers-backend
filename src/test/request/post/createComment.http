@@ -1,9 +1,9 @@
-POST  http://localhost:8080/api/posts/1/comments
+POST  http://localhost:8080/api/posts/8/comments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1NzcwNzMyLCJleHAiOjE1OTU3NzA4MTl9.ieJn7bYgLbklm8CwGrY5Bnl5KQL5GoW-OwU_8CWh6ixJiVaoMtP_503dif0HMre4ktiiqP3iR5hqrCzryUploQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0cm9uZ2RvYW4iLCJpYXQiOjE1OTU5MDUzMzcsImV4cCI6MTU5NTk5MTczN30.ruBvbZTQgZgajvDKEghBnERsJZNdVmgtDFVGsPzj7WflRLbU_PlfCt9-J7Q4GGmzhTROsej2W8JIlarB6pRQYw
 
 {
-  "content": "phi2  comment lan 3"
+  "content": "Hom nay ngay 28/7, moi nguoi dang chay dua phot cut."
 }
 
 ###
