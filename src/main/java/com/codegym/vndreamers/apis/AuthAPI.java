@@ -62,6 +62,10 @@ public class AuthAPI {
         JWTResponse jwtResponse;
         try {
             jwtResponse = authService.authenticate(loginRequest);
+            int status = jwtResponse.getUser().getStatus();
+            if (status == 0){
+                throw new UsernameNotFoundException(loginRequest.getEmail());
+            }
         } catch (InternalAuthenticationServiceException e) {
             throw new UsernameNotFoundException(loginRequest.getEmail());
         }

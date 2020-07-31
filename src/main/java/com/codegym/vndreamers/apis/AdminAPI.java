@@ -35,7 +35,7 @@ public class AdminAPI {
     }
 
     @GetMapping("/users/date/{quantity}")
-    public int getAllByDate(@PathVariable("quantity") long date) {
+    public Object getAllByDate(@PathVariable("quantity") long date) {
         long currentTime = System.currentTimeMillis();
         long currentTimeWant = date * 24 * 60 * 60 * 1000;
         long timeWant = currentTime - currentTimeWant;
