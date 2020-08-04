@@ -70,7 +70,6 @@ public class ReactionAPI {
         PostReaction postReaction = reactionService.findByPostAndUser(post, user);
         if (post != null) {
             reactionService.delete(postReaction.getId());
-//            reactionService.deleteByPostAndUser(post, user);
             return postReaction ;
         } else {
             return null;

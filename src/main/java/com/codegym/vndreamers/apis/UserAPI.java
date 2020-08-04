@@ -5,7 +5,6 @@ import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.friendrequest.FriendRequestService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
-import com.codegym.vndreamers.services.reaction.ReactionService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +31,6 @@ public class UserAPI {
     private final UserCRUDService userCRUDService;
 
     private final PostCRUDService postCRUDService;
-
 
     private FriendRequestService friendRequestService;
 
@@ -71,52 +69,17 @@ public class UserAPI {
     public List<Post> getAllPostsOtherUser(@PathVariable int id) throws PostNotFoundException {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User postOwner = userCRUDService.findById(id);
-
         if (user.getId() == postOwner.getId()) {
-
             List<Post> allPosts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PRIVATE_POST, postOwner.getId(), PROTECT_POST, postOwner.getId(), PUBLIC_POST);
             return allPosts;
-//            if (allPosts != null) {
-//                for (Post post : allPosts) {
-//                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
-//                    int likes = postReaction.size();
-//                    post.setLikeQuantity(likes);
-//                }
-//                Collections.reverse(allPosts);
-//                return allPosts;
-//            } else {
-//                throw new PostNotFoundException();
-//            }
         }
         boolean isFriend = friendRequestService.isFriend(postOwner.getId(), user.getId(), FRIEND_STATUS);
         if (isFriend) {
             List<Post> friendPosts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PUBLIC_POST, postOwner.getId(), PROTECT_POST, postOwner.getId(), PUBLIC_POST);
             return friendPosts;
-//            if (friendPosts != null) {
-//                for (Post post : friendPosts) {
-//                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
-//                    int likes = postReaction.size();
-//                    post.setLikeQuantity(likes);
-//                }
-//                Collections.reverse(friendPosts);
-//                return friendPosts;
-//            } else {
-//                throw new PostNotFoundException();
-//            }
         } else {
             List<Post> publicPosts = postCRUDService.getAllByUSerIdAndRelationShip(postOwner.getId(), PUBLIC_POST, postOwner.getId(), PUBLIC_POST, postOwner.getId(), PUBLIC_POST);
             return publicPosts;
-//            if (publicPosts != null) {
-//                for (Post post : publicPosts) {
-//                    List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
-//                    int likes = postReaction.size();
-//                    post.setLikeQuantity(likes);
-//                }
-//                Collections.reverse(publicPosts);
-//                return publicPosts;
-//            } else {
-//                throw new PostNotFoundException();
-//            }
         }
     }
 }
