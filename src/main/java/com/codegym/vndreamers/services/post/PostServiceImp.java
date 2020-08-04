@@ -20,14 +20,19 @@ import java.util.Optional;
 @Service
 public class PostServiceImp implements PostCRUDService {
 
-    @Autowired
-    private PostRepository postRepository;
+
+    private final PostRepository postRepository;
+
+    private final UserRepository userRepository;
+
+    private final ReactionService reactionService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private ReactionService reactionService;
+    public PostServiceImp(PostRepository postRepository, UserRepository userRepository, ReactionService reactionService) {
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
+        this.reactionService = reactionService;
+    }
 
     @Override
     public List<Post> findAll() {
