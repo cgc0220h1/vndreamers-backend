@@ -65,7 +65,6 @@ public class PostAPI {
 
     @GetMapping("/admin/posts")
     public List<Post> getAllPostsUser() throws PostNotFoundException {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Post> posts = postCRUDService.findAll();
         for (Post post : posts) {
             List<PostReaction> postReaction = reactionService.getAllReactionByPostId(post.getId());
@@ -82,20 +81,16 @@ public class PostAPI {
 
     @DeleteMapping("/posts/{id}")
     public Post deletePostsUser(@PathVariable("id") int id) throws PostDeleteException {
-        try {
-            Post post = postCRUDService.findById(id);
-            if (post.getStatus() == 0) {
-                throw new PostDeleteException();
-            }
-        } catch (Exception e) {
+        Post post = postCRUDService.findById(id);
+        if (post == null || post.getStatus() == 0) {
             throw new PostDeleteException();
         }
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Post post = postCRUDService.deletePostByIdAndUserId(Integer.valueOf(id), Integer.valueOf(user.getId()));
-        if (post != null) {
-            return post;
+        Post deletedPost = postCRUDService.deletePostByIdAndUserId(Integer.valueOf(id), Integer.valueOf(user.getId()));
+        if (deletedPost != null) {
+            return deletedPost;
         } else {
-            return null;
+            throw new PostDeleteException();
         }
     }
 
