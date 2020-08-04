@@ -16,7 +16,13 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.Valid;
@@ -35,13 +41,12 @@ public class AuthAPI {
 
     public static final int ROLE_USER = 1;
 
-    @Autowired
-    private RoleService roleService;
-
-    private AuthService authService;
+    private final RoleService roleService;
+    private final AuthService authService;
 
     @Autowired
-    public void setAuthService(AuthService authService) {
+    public AuthAPI(RoleService roleService, AuthService authService) {
+        this.roleService = roleService;
         this.authService = authService;
     }
 

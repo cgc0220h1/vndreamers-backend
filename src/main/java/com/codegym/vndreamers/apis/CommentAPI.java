@@ -4,27 +4,32 @@ import com.codegym.vndreamers.exceptions.CanNotUpdateCommentException;
 import com.codegym.vndreamers.exceptions.CommentNotFound;
 import com.codegym.vndreamers.exceptions.CanNotCommentException;
 import com.codegym.vndreamers.exceptions.EntityExistException;
-import com.codegym.vndreamers.exceptions.PostNotFoundException;
 import com.codegym.vndreamers.models.Comment;
 import com.codegym.vndreamers.models.Post;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.comment.CommentService;
 import com.codegym.vndreamers.services.friendrequest.FriendRequestService;
 import com.codegym.vndreamers.services.post.PostCRUDService;
-import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -33,22 +38,22 @@ import java.util.Optional;
         produces = MediaType.APPLICATION_JSON_VALUE,
         consumes = MediaType.APPLICATION_JSON_VALUE
 )
-//@PropertySource("classpath:config/status.properties")
 public class CommentAPI {
 
     public static final int FRIEND_STATUS = 1;
 
-    @Autowired
-    private PostCRUDService postCRUDService;
+    private final PostCRUDService postCRUDService;
+
+    private final CommentService commentService;
+
+    private final FriendRequestService friendRequestService;
 
     @Autowired
-    private CommentService commentService;
-
-    @Autowired
-    private UserCRUDService userCRUDService;
-
-    @Autowired
-    private FriendRequestService friendRequestService;
+    public CommentAPI(PostCRUDService postCRUDService, CommentService commentService, FriendRequestService friendRequestService) {
+        this.postCRUDService = postCRUDService;
+        this.commentService = commentService;
+        this.friendRequestService = friendRequestService;
+    }
 
     @PostMapping(value = "/posts/{postId}/comments")
     public Comment createComment(@RequestBody Comment comment, @PathVariable("postId") int id, UriComponentsBuilder ucBuilder) throws SQLIntegrityConstraintViolationException, EntityExistException, CanNotCommentException {
@@ -63,7 +68,6 @@ public class CommentAPI {
         } else {
             throw new CanNotCommentException();
         }
-
     }
 
     @GetMapping(value = "/posts/{id}/comments")
@@ -104,9 +108,7 @@ public class CommentAPI {
                 throw new CommentNotFound();
             }
         }
-
     }
-
 
     @GetMapping(value = "/notification/comments")
     public List<Comment> getNewAllCommentsByUserId() {
@@ -130,7 +132,6 @@ public class CommentAPI {
         List<Comment> commentList = commentService.findAllCommentByUserId(id);
         return commentList;
     }
-
 
     @ExceptionHandler(CommentNotFound.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
