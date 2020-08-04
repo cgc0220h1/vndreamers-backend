@@ -32,6 +32,7 @@ public class ReactionAPI {
     private PostCRUDService postCRUDService;
 
     private ReactionService reactionService;
+
     @Autowired
     public ReactionAPI(PostCRUDService postCRUDService, ReactionService reactionService) {
         this.postCRUDService = postCRUDService;

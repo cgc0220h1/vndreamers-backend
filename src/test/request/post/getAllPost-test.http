@@ -14,6 +14,6 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk1N
 
 
 ### all post cua nguoi khac
-GET http://localhost:8080/api/posts/1
+GET http://localhost:8080/api/users/1/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkZXZ0ZWFtIiwiaWF0IjoxNTk2MTIwNjMwLCJleHAiOjE1OTYyMDcwMzB9.7M4AlfJOhp7c2-ZPY639X0L6MntoixoYtTWsYfgOZ4lwLjcjLLz4qqgNhirifnmrSaiTBegisjJSTS3VBU-Msw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkdWMiLCJpYXQiOjE1OTY1MzExOTQsImV4cCI6MTU5NjYxNzU5NH0.J7Wsc7LNHUSENQUR_A01DIcUStioybPLxV_C2VMeUweObWlplYZ1mtMLlv9EvVuSmCe1eT4AcdLXo2PRJpxT-Q

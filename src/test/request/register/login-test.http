@@ -17,7 +17,7 @@ POST http://localhost:8080/auth/login
 Content-Type: application/json
 
 {
-  "email": "devteam@vndreamers.com",
+  "email": "duc@vndreamers.com",
   "password": "@dev1234"
 }
 
