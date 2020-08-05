@@ -4,6 +4,7 @@ import com.codegym.vndreamers.dtos.RangeRequest;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.repositories.UserRepository;
 import com.codegym.vndreamers.services.AdminStatisticService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -14,8 +15,9 @@ import java.util.List;
 
 @Service
 public class AdminStatisticServiceImp implements AdminStatisticService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
+    @Autowired
     public AdminStatisticServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

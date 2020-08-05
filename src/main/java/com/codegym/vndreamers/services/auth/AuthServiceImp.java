@@ -24,32 +24,20 @@ import java.util.regex.Pattern;
 
 @Service
 public class AuthServiceImp implements AuthService {
-    private JWTIssuer jwtIssuer;
+    private final JWTIssuer jwtIssuer;
 
-    private GenericCRUDService<User> userService;
+    private final GenericCRUDService<User> userService;
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    private RoleService roleService;
-
-    @Autowired
-    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+    private final RoleService roleService;
 
     @Autowired
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
-
-    @Autowired
-    public void setJwtIssuer(JWTIssuer jwtIssuer) {
+    public AuthServiceImp(JWTIssuer jwtIssuer, GenericCRUDService<User> userService, AuthenticationManager authenticationManager, RoleService roleService) {
         this.jwtIssuer = jwtIssuer;
-    }
-
-    @Autowired
-    public void setUserService(GenericCRUDService<User> userService) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.roleService = roleService;
     }
 
     @Override

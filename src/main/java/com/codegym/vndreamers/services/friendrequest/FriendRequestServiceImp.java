@@ -15,8 +15,12 @@ import java.util.List;
 @Service
 public class FriendRequestServiceImp implements FriendRequestService {
 
+    private final FriendRequestRepository friendRequestRepository;
+
     @Autowired
-    private FriendRequestRepository friendRequestRepository;
+    public FriendRequestServiceImp(FriendRequestRepository friendRequestRepository) {
+        this.friendRequestRepository = friendRequestRepository;
+    }
 
     @Override
     public List<FriendRequest> findAll() {

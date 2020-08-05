@@ -16,8 +16,12 @@ import java.util.Set;
 @Service
 public class RoleServiceIml implements RoleService {
 
+    private final RoleRepository roleRepository;
+
     @Autowired
-    private RoleRepository roleRepository;
+    public RoleServiceIml(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public List<Role> findAll() {
