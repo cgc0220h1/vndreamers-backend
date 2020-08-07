@@ -53,11 +53,11 @@ public class PostAPI {
         this.reactionService = reactionService;
     }
 
-    @GetMapping("/posts/{id}/comments")
-    public List<Comment> listAllComments(@PathVariable("id") int id) {
-        Post post = postCRUDService.findById(id);
-        Iterable<Comment> comments = commentService.findAllByPost(post);
-        return (List<Comment>) comments;
+    @GetMapping(value = "/posts/{id}/comments")
+    public List<Comment> getAllCommentsPost(@PathVariable("id") int id) {
+        List<Comment> comments = commentService.findAllByPostId(id);
+        Collections.reverse(comments);
+        return comments;
     }
 
     @PostMapping("/posts")
