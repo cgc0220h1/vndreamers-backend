@@ -70,12 +70,6 @@ public class CommentAPI {
         }
     }
 
-    @GetMapping(value = "/posts/{id}/comments")
-    public List<Comment> getAllCommentsPost(@PathVariable("id") int id) {
-        List<Comment> comments = commentService.findAllByPostId(id);
-        Collections.reverse(comments);
-        return comments;
-    }
 
     @PutMapping(value = "/posts/{id}/comments")
     public Comment getCommentById(@PathVariable int id, @RequestBody Comment comment) throws SQLIntegrityConstraintViolationException, EntityExistException, CanNotUpdateCommentException {
