@@ -9,6 +9,7 @@ import com.codegym.vndreamers.services.post.PostCRUDService;
 import com.codegym.vndreamers.services.reaction.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,9 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
-@RestController
-@RequestMapping(value = "/api")
 @CrossOrigin("*")
+@RestController
+@RequestMapping(
+        value = "/api",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class ReactionAPI {
 
     private PostCRUDService postCRUDService;

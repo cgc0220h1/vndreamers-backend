@@ -7,6 +7,7 @@ import com.codegym.vndreamers.services.AdminStatisticService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,9 +24,13 @@ import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/admin")
 @CrossOrigin("*")
+@RestController
+@RequestMapping(
+        value = "/api/admin",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class AdminAPI {
 
     private final AdminStatisticService adminStatisticService;

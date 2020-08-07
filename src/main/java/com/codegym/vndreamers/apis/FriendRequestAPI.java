@@ -8,6 +8,7 @@ import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.friendrequest.FriendRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,9 +26,13 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api")
 @CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(
+        value = "/api",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class FriendRequestAPI {
 
     public static final int NO_FRIEND_STATUS = 0;
