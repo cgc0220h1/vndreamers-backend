@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -118,29 +118,35 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<Comment> comments;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<Post> posts;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<PostReaction> postLikes;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<CommentReaction> commentLikes;
 
     @OneToMany(mappedBy = "userSend")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<FriendRequest> requestsThisUserSent;
 
     @OneToMany(mappedBy = "userReceive")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<FriendRequest> requestsThisUserReceived;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "role_user",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -158,7 +164,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override

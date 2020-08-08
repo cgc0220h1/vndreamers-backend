@@ -4,17 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "role", schema = "vndreamers")
 @Data
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,4 +48,9 @@ public class Role {
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private Set<User> users;
+
+    @Override
+    public String getAuthority() {
+        return roleName;
+    }
 }
