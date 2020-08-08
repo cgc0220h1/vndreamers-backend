@@ -1,6 +1,6 @@
 package com.codegym.vndreamers.enums;
 
-public enum EnumRole {
+public enum RoleName {
     USER,
     ADMIN;
 

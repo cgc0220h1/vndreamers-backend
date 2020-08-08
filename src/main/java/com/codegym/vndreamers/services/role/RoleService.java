@@ -1,6 +1,6 @@
 package com.codegym.vndreamers.services.role;
 
-import com.codegym.vndreamers.enums.EnumRole;
+import com.codegym.vndreamers.enums.RoleName;
 import com.codegym.vndreamers.models.Role;
 import com.codegym.vndreamers.services.GenericCRUDService;
 
@@ -10,5 +10,5 @@ import java.util.Set;
 public interface RoleService extends GenericCRUDService<Role> {
     Set<Role> getRolesByUserId(int userId);
 
-    Role findRoleByEnum(EnumRole enumRole) throws EntityNotFoundException;
+    Role findRoleByEnum(RoleName roleName) throws EntityNotFoundException;
 }

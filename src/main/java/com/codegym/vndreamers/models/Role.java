@@ -1,6 +1,6 @@
 package com.codegym.vndreamers.models;
 
-import com.codegym.vndreamers.enums.EnumRole;
+import com.codegym.vndreamers.enums.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -26,7 +26,7 @@ public class Role implements GrantedAuthority {
     @JsonProperty(value = "role_name")
     @Enumerated(EnumType.STRING)
     @NonNull
-    private final EnumRole enumRole;
+    private final RoleName roleName;
 
     @ManyToMany
     @JoinTable(
@@ -51,7 +51,7 @@ public class Role implements GrantedAuthority {
     @Override
     @JsonIgnore
     public String getAuthority() {
-        assert enumRole != null;
-        return enumRole.toString();
+        assert roleName != null;
+        return roleName.toString();
     }
 }

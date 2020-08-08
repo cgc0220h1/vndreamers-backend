@@ -1,6 +1,6 @@
 package com.codegym.vndreamers.repositories;
 
-import com.codegym.vndreamers.enums.EnumRole;
+import com.codegym.vndreamers.enums.RoleName;
 import com.codegym.vndreamers.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +16,5 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query("select r from Role r join r.users user where user.id = :id")
     Set<Role> getRolesByUserId(@Param("id") int id);
 
-    Optional<Role> findByEnumRole(EnumRole enumRole) throws EntityNotFoundException;
+    Optional<Role> findByEnumRole(RoleName roleName) throws EntityNotFoundException;
 }

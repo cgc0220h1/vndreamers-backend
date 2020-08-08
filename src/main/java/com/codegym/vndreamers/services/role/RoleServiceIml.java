@@ -1,6 +1,6 @@
 package com.codegym.vndreamers.services.role;
 
-import com.codegym.vndreamers.enums.EnumRole;
+import com.codegym.vndreamers.enums.RoleName;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.Role;
 import com.codegym.vndreamers.repositories.RoleRepository;
@@ -67,7 +67,7 @@ public class RoleServiceIml implements RoleService {
     }
 
     @Override
-    public Role findRoleByEnum(EnumRole enumRole) {
-        return roleRepository.findByEnumRole(enumRole).orElseThrow(EntityNotFoundException::new);
+    public Role findRoleByEnum(RoleName roleName) {
+        return roleRepository.findByEnumRole(roleName).orElseThrow(EntityNotFoundException::new);
     }
 }

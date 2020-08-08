@@ -1,6 +1,6 @@
 package com.codegym.vndreamers;
 
-import com.codegym.vndreamers.enums.EnumRole;
+import com.codegym.vndreamers.enums.RoleName;
 import com.codegym.vndreamers.models.Role;
 import com.codegym.vndreamers.repositories.RoleRepository;
 import lombok.SneakyThrows;
@@ -27,8 +27,8 @@ public class DreamersBackendApplication {
             @SneakyThrows
             @Override
             public void run(ApplicationArguments args) throws Exception {
-                Set<EnumRole> roleSet = EnumSet.of(EnumRole.ADMIN, EnumRole.USER);
-                for (EnumRole role : roleSet) {
+                Set<RoleName> roleSet = EnumSet.of(RoleName.ADMIN, RoleName.USER);
+                for (RoleName role : roleSet) {
                     try {
                         roleRepository.findByEnumRole(role);
                     } catch (EntityNotFoundException e) {
