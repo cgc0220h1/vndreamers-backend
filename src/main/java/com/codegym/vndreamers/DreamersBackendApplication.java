@@ -27,7 +27,7 @@ public class DreamersBackendApplication {
             @SneakyThrows
             @Override
             public void run(ApplicationArguments args) throws Exception {
-                Set<EnumRole> roleSet = EnumSet.of(EnumRole.ANONYMOUS, EnumRole.ADMIN, EnumRole.USER);
+                Set<EnumRole> roleSet = EnumSet.of(EnumRole.ADMIN, EnumRole.USER);
                 for (EnumRole role : roleSet) {
                     try {
                         roleRepository.findByEnumRole(role);

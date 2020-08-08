@@ -18,6 +18,7 @@ public class Role implements GrantedAuthority {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int id;
 
     @Basic
@@ -48,8 +49,9 @@ public class Role implements GrantedAuthority {
     private Set<User> users;
 
     @Override
+    @JsonIgnore
     public String getAuthority() {
         assert enumRole != null;
-        return "ROLE_" + enumRole.toString();
+        return enumRole.toString();
     }
 }

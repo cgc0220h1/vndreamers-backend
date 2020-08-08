@@ -1,7 +1,11 @@
 package com.codegym.vndreamers.enums;
 
 public enum EnumRole {
-    ANONYMOUS,
     USER,
-    ADMIN
+    ADMIN;
+
+    @Override
+    public String toString() {
+        return "ROLE_" + super.toString();
+    }
 }
