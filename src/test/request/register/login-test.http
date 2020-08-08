@@ -3,7 +3,7 @@ POST http://localhost:8080/auth/register
 Content-Type: application/json
 
 {
-  "email": "devteam5@vndreamers.com",
+  "email": "devteam6@vndreamers.com",
   "first_name": "dev",
   "last_name" : "team",
   "password": "@dev1234",

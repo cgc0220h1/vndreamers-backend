@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.services.role;
 
+import com.codegym.vndreamers.enums.EnumRole;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.Role;
 import com.codegym.vndreamers.repositories.RoleRepository;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Set;
@@ -39,8 +41,8 @@ public class RoleServiceIml implements RoleService {
     }
 
     @Override
-    public Role findById(int id) {
-        return roleRepository.findById(id).get();
+    public Role findById(int id) throws EntityNotFoundException {
+        return null;
     }
 
     @Override
@@ -55,11 +57,17 @@ public class RoleServiceIml implements RoleService {
 
     @Override
     public boolean delete(int id) {
+        roleRepository.deleteById(id);
         return false;
     }
 
     @Override
     public Set<Role> getRolesByUserId(int userId) {
         return roleRepository.getRolesByUserId(userId);
+    }
+
+    @Override
+    public Role findRoleByEnum(EnumRole enumRole) {
+        return roleRepository.findByEnumRole(enumRole).orElseThrow(EntityNotFoundException::new);
     }
 }

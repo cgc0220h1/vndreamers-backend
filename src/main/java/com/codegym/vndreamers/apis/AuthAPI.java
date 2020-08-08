@@ -2,6 +2,7 @@ package com.codegym.vndreamers.apis;
 
 import com.codegym.vndreamers.dtos.JWTResponse;
 import com.codegym.vndreamers.dtos.LoginRequest;
+import com.codegym.vndreamers.enums.EnumRole;
 import com.codegym.vndreamers.exceptions.DatabaseException;
 import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.models.Role;
@@ -55,8 +56,8 @@ public class AuthAPI {
         if (!user.getPassword().equals(user.getConfirmPassword())) {
             throw new ValidationException("password not match");
         }
-        Set<Role> roles = new HashSet<>();
-        Role role = roleService.findById(ROLE_USER);
+        Set<Role> roles = new HashSet<>() ;
+        Role role = roleService.findRoleByEnum(EnumRole.USER);
         roles.add(role);
         user.setRoles(roles);
         return authService.register(user);
@@ -68,7 +69,7 @@ public class AuthAPI {
         try {
             jwtResponse = authService.authenticate(loginRequest);
             int status = jwtResponse.getUser().getStatus();
-            if (status == 0){
+            if (status == 0) {
                 throw new UsernameNotFoundException(loginRequest.getEmail());
             }
         } catch (InternalAuthenticationServiceException e) {

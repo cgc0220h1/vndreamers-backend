@@ -1,5 +1,6 @@
 package com.codegym.vndreamers.security;
 
+import com.codegym.vndreamers.enums.EnumRole;
 import com.codegym.vndreamers.services.auth.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
-        http.authorizeRequests().antMatchers("/api/admin/**").access("hasRole('ADMIN')");
+        http.authorizeRequests().antMatchers("/api/admin/**").hasRole(EnumRole.ADMIN.name());
         http.authorizeRequests().antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
