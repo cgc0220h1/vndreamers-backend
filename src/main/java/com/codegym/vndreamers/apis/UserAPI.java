@@ -37,7 +37,7 @@ public class UserAPI {
 
     private final PostCRUDService postCRUDService;
 
-    private FriendRequestService friendRequestService;
+    private final FriendRequestService friendRequestService;
 
     @Autowired
     public UserAPI(UserCRUDService userCRUDService, PostCRUDService postCRUDService, FriendRequestService friendRequestService) {

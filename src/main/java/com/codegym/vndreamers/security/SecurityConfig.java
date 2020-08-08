@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll();
+        http.authorizeRequests().antMatchers("/api/admin/**").access("hasRole('ADMIN')");
         http.authorizeRequests().antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

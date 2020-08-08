@@ -53,12 +53,12 @@ public class PostAPI {
         this.reactionService = reactionService;
     }
 
-    @GetMapping("/posts/{id}/comments")
-    public List<Comment> listAllComments(@PathVariable("id") int id) {
-        Post post = postCRUDService.findById(id);
-        Iterable<Comment> comments = commentService.findAllByPost(post);
-        return (List<Comment>) comments;
-    }
+//    @GetMapping("/posts/{id}/comments")
+//    public List<Comment> listAllComments(@PathVariable("id") int id) {
+//        Post post = postCRUDService.findById(id);
+//        Iterable<Comment> comments = commentService.findAllByPost(post);
+//        return (List<Comment>) comments;
+//    }
 
     @PostMapping("/posts")
     public Post savePost(@RequestBody @Valid Post post) throws SQLIntegrityConstraintViolationException, EntityExistException {
