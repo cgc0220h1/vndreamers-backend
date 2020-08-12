@@ -39,9 +39,6 @@ import java.util.Set;
         consumes = MediaType.APPLICATION_JSON_VALUE
 )
 public class AuthAPI {
-
-    public static final int ROLE_USER = 1;
-
     private final RoleService roleService;
     private final AuthService authService;
 

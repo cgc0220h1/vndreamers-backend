@@ -32,7 +32,6 @@ import java.util.List;
         produces = MediaType.APPLICATION_JSON_VALUE
 )
 public class AdminAPI {
-
     private final AdminStatisticService adminStatisticService;
     private final UserCRUDService userCRUDService;
 
