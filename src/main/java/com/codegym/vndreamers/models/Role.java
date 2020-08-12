@@ -1,33 +1,32 @@
 package com.codegym.vndreamers.models;
 
+import com.codegym.vndreamers.enums.RoleName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "role", schema = "vndreamers")
 @Data
-public class Role {
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
+public class Role implements GrantedAuthority {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private int id;
 
     @Basic
     @Column(name = "role_name", nullable = false, length = 10)
     @JsonProperty(value = "role_name")
-    private String roleName;
-
-    @Basic
-    @Column(name = "created_date", nullable = false)
-    private Timestamp createdDate = Timestamp.valueOf(LocalDateTime.now());
+    @Enumerated(EnumType.STRING)
+    @NonNull
+    private final RoleName roleName;
 
     @ManyToMany
     @JoinTable(
@@ -48,4 +47,11 @@ public class Role {
     @EqualsAndHashCode.Exclude
     @JsonIgnore
     private Set<User> users;
+
+    @Override
+    @JsonIgnore
+    public String getAuthority() {
+        assert roleName != null;
+        return roleName.toString();
+    }
 }

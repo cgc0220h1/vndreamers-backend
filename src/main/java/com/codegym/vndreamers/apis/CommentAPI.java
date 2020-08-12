@@ -39,7 +39,6 @@ import java.util.List;
         consumes = MediaType.APPLICATION_JSON_VALUE
 )
 public class CommentAPI {
-
     public static final int FRIEND_STATUS = 1;
 
     private final PostCRUDService postCRUDService;

@@ -1,7 +1,9 @@
 package com.codegym.vndreamers.models;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -38,6 +40,8 @@ public class Post {
     private int status;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<Comment> comments;
 
     @Transient
@@ -45,6 +49,7 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Set<PostReaction> likes;
 
     @ManyToOne
