@@ -19,11 +19,16 @@ import java.util.Optional;
 //@PropertySource("classpath:config/status.properties")
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
-    private CommentRepository commentRepository;
+
+    private final CommentRepository commentRepository;
+
+    private final UserCRUDService userCRUDService;
 
     @Autowired
-    private UserCRUDService userCRUDService;
+    public CommentServiceImpl(CommentRepository commentRepository, UserCRUDService userCRUDService) {
+        this.commentRepository = commentRepository;
+        this.userCRUDService = userCRUDService;
+    }
 
     @Override
     public Iterable<Comment> findAllByPost(Post post) {

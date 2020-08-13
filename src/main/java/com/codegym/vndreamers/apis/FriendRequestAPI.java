@@ -1,34 +1,49 @@
 package com.codegym.vndreamers.apis;
 
+import com.codegym.vndreamers.exceptions.CannotDeleteFriendRequest;
 import com.codegym.vndreamers.exceptions.EntityExistException;
+import com.codegym.vndreamers.exceptions.FriendRequestNotFound;
 import com.codegym.vndreamers.models.FriendRequest;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.friendrequest.FriendRequestService;
-import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@RestController
-@RequestMapping("/api")
 @CrossOrigin(origins = "*")
+@RestController
+@RequestMapping(
+        value = "/api",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class FriendRequestAPI {
 
     public static final int NO_FRIEND_STATUS = 0;
     public static final int FRIEND_STATUS = 1;
-    public static final int BLOCK_STATUS = 2;
+
+    private final FriendRequestService friendRequestService;
 
     @Autowired
-    private UserCRUDService userCRUDService;
-
-    @Autowired
-    private FriendRequestService friendRequestService;
+    public FriendRequestAPI(FriendRequestService friendRequestService) {
+        this.friendRequestService = friendRequestService;
+    }
 
     @PostMapping("/friends")
     public FriendRequest SendFriendRequest(@RequestBody User userReceive) throws SQLIntegrityConstraintViolationException, EntityExistException {
@@ -47,19 +62,19 @@ public class FriendRequestAPI {
     }
 
     @PutMapping("/friends")
-    public FriendRequest ConfirmFriendRequest(@RequestBody User userSend) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public FriendRequest ConfirmFriendRequest(@RequestBody User userSend) throws SQLIntegrityConstraintViolationException, EntityExistException, FriendRequestNotFound {
         User userConfirm = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         FriendRequest friendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userSend.getId(), userConfirm.getId());
         if (friendRequest != null) {
             friendRequest.setStatus(FRIEND_STATUS);
             return friendRequestService.save(friendRequest);
         } else {
-            return null;
+            throw new FriendRequestNotFound();
         }
     }
 
     @DeleteMapping("/friends/{userOtherId}")
-    public FriendRequest deleteFriendRequestOrDeleteFriend(@PathVariable int userOtherId) {
+    public FriendRequest deleteFriendRequestOrDeleteFriend(@PathVariable int userOtherId) throws CannotDeleteFriendRequest {
         User myUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         FriendRequest isNullFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(myUser.getId(), userOtherId);
         FriendRequest isNullReverseFriendRequest = friendRequestService.getFriendRequestByUserSensIdAndUserReceiveId(userOtherId, myUser.getId());
@@ -70,7 +85,7 @@ public class FriendRequestAPI {
             friendRequestService.delete(isNullReverseFriendRequest.getId());
             return isNullReverseFriendRequest;
         } else {
-            return null;
+            throw new CannotDeleteFriendRequest();
         }
     }
 
@@ -114,5 +129,17 @@ public class FriendRequestAPI {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleExistRequestException() {
         return "{\"error\":\"Friend Request Exist\"}";
+    }
+
+    @ExceptionHandler(FriendRequestNotFound.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleFriendRequestNotFoundException() {
+        return "{\"error\":\"Friend Request Not Found\"}";
+    }
+
+    @ExceptionHandler(CannotDeleteFriendRequest.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleCannotDeleteFriendRequestException() {
+        return "{\"error\":\"Cannot Friend Request\"}";
     }
 }

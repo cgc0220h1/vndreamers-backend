@@ -1,37 +1,44 @@
 package com.codegym.vndreamers.apis;
 
 import com.codegym.vndreamers.dtos.RangeRequest;
-import com.codegym.vndreamers.exceptions.EntityExistException;
 import com.codegym.vndreamers.exceptions.UserDeleteException;
 import com.codegym.vndreamers.models.User;
 import com.codegym.vndreamers.services.AdminStatisticService;
 import com.codegym.vndreamers.services.user.UserCRUDService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.SQLIntegrityConstraintViolationException;
+import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/admin")
 @CrossOrigin("*")
+@RestController
+@RequestMapping(
+        value = "/api/admin",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+)
 public class AdminAPI {
-    private AdminStatisticService adminStatisticService;
-    private UserCRUDService userCRUDService;
-
-    public static final int BLOCK_STATUS = 0;
-    public static final int ACTIVE_STATUS = 1;
+    private final AdminStatisticService adminStatisticService;
+    private final UserCRUDService userCRUDService;
 
     @Autowired
-    public void setUserCRUDService(UserCRUDService userCRUDService) {
-        this.userCRUDService = userCRUDService;
-    }
-
-    @Autowired
-    public void setAdminStatisticService(AdminStatisticService adminStatisticService) {
+    public AdminAPI(AdminStatisticService adminStatisticService, UserCRUDService userCRUDService) {
         this.adminStatisticService = adminStatisticService;
+        this.userCRUDService = userCRUDService;
     }
 
     @GetMapping("/users/date/{quantity}")
@@ -55,9 +62,7 @@ public class AdminAPI {
         return adminStatisticService.getUserRegisterByRange(rangeRequest);
     }
 
-
     @GetMapping("/users")
-
     public List<User> getAllUser() {
         return userCRUDService.findAll();
     }
@@ -70,23 +75,18 @@ public class AdminAPI {
     @DeleteMapping("/users/{id}")
     public User deleteUserById(@PathVariable int id) throws UserDeleteException {
         User user = userCRUDService.findById(id);
-        if (user != null) {
-            try {
-                boolean isDeleted = userCRUDService.delete(id);
-                if (isDeleted) {
-                    return user;
-                } else {
-                    return null;
-                }
-            } catch (Exception e) {
-                throw new UserDeleteException();
-            }
+        if (user == null) {
+            throw new EntityNotFoundException();
         }
-        return null;
+        boolean isDeleted = userCRUDService.delete(id);
+        if (!isDeleted) {
+            throw new UserDeleteException();
+        }
+        return user;
     }
 
     @PutMapping("/users/status")
-    public User activeUserById(@RequestBody User user) throws SQLIntegrityConstraintViolationException, EntityExistException {
+    public User activeUserById(@RequestBody User user) {
         User userFound = userCRUDService.findById(user.getId());
         userFound.setStatus(user.getStatus());
         userFound.setConfirmPassword(userFound.getPassword());

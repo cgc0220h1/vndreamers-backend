@@ -17,8 +17,12 @@ import java.util.List;
 @Service
 public class ReactionServiceImp implements ReactionService {
 
+    private final ReactionRepository reactionRepository;
+
     @Autowired
-    private ReactionRepository reactionRepository;
+    public ReactionServiceImp(ReactionRepository reactionRepository) {
+        this.reactionRepository = reactionRepository;
+    }
 
     @Override
     public List<PostReaction> findAll() {
