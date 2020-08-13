@@ -68,6 +68,6 @@ public class RoleServiceIml implements RoleService {
 
     @Override
     public Role findRoleByEnum(RoleName roleName) {
-        return roleRepository.findByEnumRole(roleName).orElseThrow(EntityNotFoundException::new);
+        return roleRepository.findByRoleName(roleName).orElseThrow(EntityNotFoundException::new);
     }
 }

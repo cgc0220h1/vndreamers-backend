@@ -30,7 +30,7 @@ public class DreamersBackendApplication {
                 Set<RoleName> roleSet = EnumSet.of(RoleName.ADMIN, RoleName.USER);
                 for (RoleName role : roleSet) {
                     try {
-                        roleRepository.findByEnumRole(role);
+                        roleRepository.findByRoleName(role);
                     } catch (EntityNotFoundException e) {
                         Role roleAdd = new Role(role);
                         roleRepository.save(roleAdd);

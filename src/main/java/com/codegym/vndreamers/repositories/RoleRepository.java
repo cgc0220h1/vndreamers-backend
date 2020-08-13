@@ -16,5 +16,5 @@ public interface RoleRepository extends JpaRepository<Role, Integer> {
     @Query("select r from Role r join r.users user where user.id = :id")
     Set<Role> getRolesByUserId(@Param("id") int id);
 
-    Optional<Role> findByEnumRole(RoleName roleName) throws EntityNotFoundException;
+    Optional<Role> findByRoleName(RoleName roleName) throws EntityNotFoundException;
 }
