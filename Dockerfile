@@ -10,3 +10,4 @@ COPY ./src /app/src
 COPY ./pom.xml /app
 RUN apt-get update && apt-get install maven -y
 RUN mvn clean install -DskipTests && cd target
+CMD cd target && java -jar vndreamers-backend-1.0-SNAPSHOT.jar
